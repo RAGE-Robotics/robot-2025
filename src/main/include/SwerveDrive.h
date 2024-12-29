@@ -21,10 +21,8 @@ public:
 
 private:
   hardware::Pigeon2 m_gyro;
-  hardware::TalonFX m_flDriveMotor, m_frDriveMotor, m_blDriveMotor,
-      m_brDriveMotor;
-  hardware::TalonFX m_flSteeringMotor, m_frSteeringMotor, m_blSteeringMotor,
-      m_brSteeringMotor;
+  hardware::TalonFX m_steeringMotors[4];
+  hardware::TalonFX m_driveMotors[4];
 
   // The kinematics class is what we use to convert between global velocities
   // and wheel velocities.

@@ -17,9 +17,8 @@ SwerveDrive::SwerveDrive()
                                       Constants::kWheelBaseWidth / 2},
                    frc::Translation2d{-Constants::kWheelBaseWidth / 2,
                                       -Constants::kWheelBaseWidth / 2}},
-      m_flDriveMotor{0}, m_frDriveMotor{1}, m_blDriveMotor{2},
-      m_brDriveMotor{3}, m_flSteeringMotor{4}, m_frSteeringMotor{5},
-      m_blSteeringMotor{6}, m_brSteeringMotor{7} {
+      m_steeringMotors{{0}, {1}, {2}, {4}}, m_driveMotors{{5}, {6}, {7}, {8}} {
+  // Configure the PID values for the position mode on the steering motors
   auto [kS, kV, kP, kI, kD] = Constants::kSteeringMotorGains;
   configs::Slot0Configs config;
   config.kS = kS;
@@ -27,11 +26,9 @@ SwerveDrive::SwerveDrive()
   config.kP = kP;
   config.kI = kI;
   config.kD = kD;
-
-  m_flSteeringMotor.GetConfigurator().Apply(config);
-  m_frSteeringMotor.GetConfigurator().Apply(config);
-  m_blSteeringMotor.GetConfigurator().Apply(config);
-  m_brSteeringMotor.GetConfigurator().Apply(config);
+  for (int i = 0; i < 4; i++) {
+    m_steeringMotors[i].GetConfigurator().Apply(config);
+  }
 }
 
 // This function needs to be called by the looper to update the drive motors
@@ -46,19 +43,19 @@ void SwerveDrive::Update(Robot::Mode mode) {
             units::meters_per_second_t{x}, units::meters_per_second_t{y},
             units::radians_per_second_t{rotation}});
 
-    m_flSteeringMotor.SetControl(controls::VelocityVoltage{
+    m_steeringMotors[0].SetControl(controls::VelocityVoltage{
         units::angular_velocity::turns_per_second_t{
             fl.angle.Radians().value() / 2 /
             M_PI}}.WithSlot(0));
-    m_frSteeringMotor.SetControl(controls::VelocityVoltage{
+    m_steeringMotors[1].SetControl(controls::VelocityVoltage{
         units::angular_velocity::turns_per_second_t{
             fr.angle.Radians().value() / 2 /
             M_PI}}.WithSlot(0));
-    m_blSteeringMotor.SetControl(controls::VelocityVoltage{
+    m_steeringMotors[2].SetControl(controls::VelocityVoltage{
         units::angular_velocity::turns_per_second_t{
             bl.angle.Radians().value() / 2 /
             M_PI}}.WithSlot(0));
-    m_brSteeringMotor.SetControl(controls::VelocityVoltage{
+    m_steeringMotors[3].SetControl(controls::VelocityVoltage{
         units::angular_velocity::turns_per_second_t{
             br.angle.Radians().value() / 2 /
             M_PI}}.WithSlot(0));
