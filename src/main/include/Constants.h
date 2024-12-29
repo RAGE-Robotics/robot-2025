@@ -28,4 +28,7 @@ public:
       kSteeringMotorGains{0.1, 0.1, 0.05, 0.0, 0.0};
 
   static constexpr double kWheelRadius = 0.7 / 2; // meters
+
+  static constexpr double kDriveCurrentLimit = 60; // Amps
+  static constexpr double kDriveRampRate = 0.25;   // Seconds
 };

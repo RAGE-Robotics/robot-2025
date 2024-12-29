@@ -28,7 +28,35 @@ SwerveDrive::SwerveDrive()
       m_encoders{{Constants::kFlEncoderId},
                  {Constants::kFrEncoderId},
                  {Constants::kBlEncoderId},
-                 {Constants::kBrEncoderId}} {
+                 {Constants::kBrEncoderId}},
+      m_poseEstimator{
+          m_kinematics,
+          GetGyroRotation2d(),
+          {frc::SwerveModulePosition{
+               units::meter_t{
+                   m_driveMotors[0].GetPosition().GetValue().value() * M_PI *
+                   Constants::kWheelRadius},
+               frc::Rotation2d{m_encoders[0].GetPosition().GetValue() * 2 *
+                               M_PI}},
+           frc::SwerveModulePosition{
+               units::meter_t{
+                   m_driveMotors[1].GetPosition().GetValue().value() * M_PI *
+                   Constants::kWheelRadius},
+               frc::Rotation2d{m_encoders[1].GetPosition().GetValue() * 2 *
+                               M_PI}},
+           frc::SwerveModulePosition{
+               units::meter_t{
+                   m_driveMotors[2].GetPosition().GetValue().value() * M_PI *
+                   Constants::kWheelRadius},
+               frc::Rotation2d{m_encoders[2].GetPosition().GetValue() * 2 *
+                               M_PI}},
+           frc::SwerveModulePosition{
+               units::meter_t{
+                   m_driveMotors[3].GetPosition().GetValue().value() * M_PI *
+                   Constants::kWheelRadius},
+               frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
+                               M_PI}}},
+          frc::Pose2d{}} {
   // Configure the PID values for the position mode on the steering motors
   auto [kS, kV, kP, kI, kD] = Constants::kSteeringMotorGains;
   configs::Slot0Configs config;
@@ -37,13 +65,58 @@ SwerveDrive::SwerveDrive()
   config.kP = kP;
   config.kI = kI;
   config.kD = kD;
+
+  // At the same time, go ahead and configur the remote sensor to be the
+  // CANCoder.
+  configs::TalonFXConfiguration talonConfig;
+  talonConfig.Feedback.FeedbackSensorSource =
+      signals::FeedbackSensorSourceValue::RemoteCANcoder;
+
+  // Create a current limit config to apply to the drive motors
+  auto currentLimitConfig = configs::CurrentLimitsConfigs{}
+                                .WithStatorCurrentLimitEnable(true)
+                                .WithStatorCurrentLimit(units::ampere_t{
+                                    Constants::kDriveCurrentLimit});
+
+  // Apply an open loop ramp rate to the drive motors only
+  auto rampRateConfig =
+      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
+          units::second_t{Constants::kDriveRampRate});
+
   for (int i = 0; i < 4; i++) {
     m_steeringMotors[i].GetConfigurator().Apply(config);
+
+    talonConfig.Feedback.FeedbackRemoteSensorID = m_encoders[i].GetDeviceID();
+    m_steeringMotors[i].GetConfigurator().Apply(talonConfig);
+
+    m_driveMotors[i].GetConfigurator().Apply(currentLimitConfig);
+    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
   }
 }
 
 // This function needs to be called by the looper to update the drive motors
 void SwerveDrive::Update(Robot::Mode mode) {
+  // Update the estimation of where the robot thinks it is on the field
+  m_poseEstimator.Update(
+      GetGyroRotation2d(),
+      {frc::SwerveModulePosition{
+           units::meter_t{m_driveMotors[0].GetPosition().GetValue().value() *
+                          M_PI * Constants::kWheelRadius},
+           frc::Rotation2d{m_encoders[0].GetPosition().GetValue() * 2 * M_PI}},
+       frc::SwerveModulePosition{
+           units::meter_t{m_driveMotors[1].GetPosition().GetValue().value() *
+                          M_PI * Constants::kWheelRadius},
+           frc::Rotation2d{m_encoders[1].GetPosition().GetValue() * 2 * M_PI}},
+       frc::SwerveModulePosition{
+           units::meter_t{m_driveMotors[2].GetPosition().GetValue().value() *
+                          M_PI * Constants::kWheelRadius},
+           frc::Rotation2d{m_encoders[2].GetPosition().GetValue() * 2 * M_PI}},
+       frc::SwerveModulePosition{
+           units::meter_t{m_driveMotors[3].GetPosition().GetValue().value() *
+                          M_PI * Constants::kWheelRadius},
+           frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
+                           M_PI}}});
+
   if (mode == Robot::kTeleop) {
     // Get the inputs from the controller. Note this uses the split setup where
     // the left joystick controls velocity, and the right joystick controls the
@@ -104,4 +177,8 @@ void SwerveDrive::Update(Robot::Mode mode) {
 
 frc::Rotation2d SwerveDrive::GetGyroRotation2d() const {
   return m_gyro.GetRotation2d();
+}
+
+frc::Pose2d SwerveDrive::GetPose2d() const {
+  return m_poseEstimator.GetEstimatedPosition();
 }
