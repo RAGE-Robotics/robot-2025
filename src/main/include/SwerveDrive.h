@@ -8,7 +8,6 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 
 #include "Robot.h"
-#include "frc/geometry/Pose2d.h"
 
 using namespace ctre::phoenix6;
 

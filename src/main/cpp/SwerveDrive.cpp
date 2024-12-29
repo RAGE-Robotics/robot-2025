@@ -124,7 +124,7 @@ void SwerveDrive::Update(Robot::Mode mode) {
     double x = -Controllers::GetInstance().GetDriverController().GetLeftY();
     double y = -Controllers::GetInstance().GetDriverController().GetLeftX();
     double rotation =
-        Controllers::GetInstance().GetDriverController().GetRightX();
+        -Controllers::GetInstance().GetDriverController().GetRightX();
 
     // Use the WPILib kinematics class to determine the individual wheel angles
     // and velocities.
