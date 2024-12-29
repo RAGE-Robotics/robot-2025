@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ctre/phoenix6/CANcoder.hpp>
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <frc/geometry/Rotation2d.h>
@@ -23,6 +24,7 @@ private:
   hardware::Pigeon2 m_gyro;
   hardware::TalonFX m_steeringMotors[4];
   hardware::TalonFX m_driveMotors[4];
+  hardware::CANcoder m_encoders[4];
 
   // The kinematics class is what we use to convert between global velocities
   // and wheel velocities.
