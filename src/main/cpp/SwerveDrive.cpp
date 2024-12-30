@@ -156,22 +156,28 @@ void SwerveDrive::Update(Robot::Mode mode) {
                     .Cos();
 
     // Set the positions for the wheel angles
-    m_steeringMotors[0].SetControl(controls::VelocityVoltage{
-        units::angular_velocity::turns_per_second_t{
-            fl.angle.Radians().value() / 2 /
-            M_PI}}.WithSlot(0));
-    m_steeringMotors[1].SetControl(controls::VelocityVoltage{
-        units::angular_velocity::turns_per_second_t{
-            fr.angle.Radians().value() / 2 /
-            M_PI}}.WithSlot(0));
-    m_steeringMotors[2].SetControl(controls::VelocityVoltage{
-        units::angular_velocity::turns_per_second_t{
-            bl.angle.Radians().value() / 2 /
-            M_PI}}.WithSlot(0));
-    m_steeringMotors[3].SetControl(controls::VelocityVoltage{
-        units::angular_velocity::turns_per_second_t{
-            br.angle.Radians().value() / 2 /
-            M_PI}}.WithSlot(0));
+    m_steeringMotors[0].SetControl(controls::PositionVoltage{
+        units::turn_t{fl.angle.Radians().value() / 2 /
+                      M_PI}}.WithSlot(0));
+    m_steeringMotors[1].SetControl(controls::PositionVoltage{
+        units::turn_t{fr.angle.Radians().value() / 2 /
+                      M_PI}}.WithSlot(0));
+    m_steeringMotors[2].SetControl(controls::PositionVoltage{
+        units::turn_t{bl.angle.Radians().value() / 2 /
+                      M_PI}}.WithSlot(0));
+    m_steeringMotors[3].SetControl(controls::PositionVoltage{
+        units::turn_t{br.angle.Radians().value() / 2 /
+                      M_PI}}.WithSlot(0));
+
+    // Use open loop control on the drive motors to get close enough
+    m_driveMotors[0].SetControl(controls::DutyCycleOut{
+        fl.speed.value() * Constants::kDriveVelocityMultiplier});
+    m_driveMotors[1].SetControl(controls::DutyCycleOut{
+        fr.speed.value() * Constants::kDriveVelocityMultiplier});
+    m_driveMotors[2].SetControl(controls::DutyCycleOut{
+        bl.speed.value() * Constants::kDriveVelocityMultiplier});
+    m_driveMotors[3].SetControl(controls::DutyCycleOut{
+        br.speed.value() * Constants::kDriveVelocityMultiplier});
   }
 }
 

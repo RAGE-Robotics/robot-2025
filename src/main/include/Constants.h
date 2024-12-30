@@ -31,4 +31,5 @@ public:
 
   static constexpr double kDriveCurrentLimit = 60; // Amps
   static constexpr double kDriveRampRate = 0.25;   // Seconds
+  static constexpr double kDriveVelocityMultiplier = 0.25;
 };
