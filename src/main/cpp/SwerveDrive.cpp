@@ -34,26 +34,26 @@ SwerveDrive::SwerveDrive()
           GetGyroRotation2d(),
           {frc::SwerveModulePosition{
                units::meter_t{
-                   m_driveMotors[0].GetPosition().GetValue().value() * M_PI *
-                   Constants::kWheelRadius},
+                   m_driveMotors[0].GetPosition().GetValue().value() * 2 *
+                   M_PI * Constants::kWheelRadius * Constants::kDriveGearRatio},
                frc::Rotation2d{m_encoders[0].GetPosition().GetValue() * 2 *
                                M_PI}},
            frc::SwerveModulePosition{
                units::meter_t{
-                   m_driveMotors[1].GetPosition().GetValue().value() * M_PI *
-                   Constants::kWheelRadius},
+                   m_driveMotors[1].GetPosition().GetValue().value() * 2 *
+                   M_PI * Constants::kWheelRadius * Constants::kDriveGearRatio},
                frc::Rotation2d{m_encoders[1].GetPosition().GetValue() * 2 *
                                M_PI}},
            frc::SwerveModulePosition{
                units::meter_t{
-                   m_driveMotors[2].GetPosition().GetValue().value() * M_PI *
-                   Constants::kWheelRadius},
+                   m_driveMotors[2].GetPosition().GetValue().value() * 2 *
+                   M_PI * Constants::kWheelRadius * Constants::kDriveGearRatio},
                frc::Rotation2d{m_encoders[2].GetPosition().GetValue() * 2 *
                                M_PI}},
            frc::SwerveModulePosition{
                units::meter_t{
-                   m_driveMotors[3].GetPosition().GetValue().value() * M_PI *
-                   Constants::kWheelRadius},
+                   m_driveMotors[3].GetPosition().GetValue().value() * 2 *
+                   M_PI * Constants::kWheelRadius * Constants::kDriveGearRatio},
                frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
                                M_PI}}},
           frc::Pose2d{}} {
@@ -101,19 +101,23 @@ void SwerveDrive::Update(Robot::Mode mode) {
       GetGyroRotation2d(),
       {frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[0].GetPosition().GetValue().value() *
-                          M_PI * Constants::kWheelRadius},
+                          2 * M_PI * Constants::kWheelRadius *
+                          Constants::kDriveGearRatio},
            frc::Rotation2d{m_encoders[0].GetPosition().GetValue() * 2 * M_PI}},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[1].GetPosition().GetValue().value() *
-                          M_PI * Constants::kWheelRadius},
+                          2 * M_PI * Constants::kWheelRadius *
+                          Constants::kDriveGearRatio},
            frc::Rotation2d{m_encoders[1].GetPosition().GetValue() * 2 * M_PI}},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[2].GetPosition().GetValue().value() *
-                          M_PI * Constants::kWheelRadius},
+                          2 * M_PI * Constants::kWheelRadius *
+                          Constants::kDriveGearRatio},
            frc::Rotation2d{m_encoders[2].GetPosition().GetValue() * 2 * M_PI}},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[3].GetPosition().GetValue().value() *
-                          M_PI * Constants::kWheelRadius},
+                          2 * M_PI * Constants::kWheelRadius *
+                          Constants::kDriveGearRatio},
            frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
                            M_PI}}});
 
