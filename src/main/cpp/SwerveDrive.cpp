@@ -174,6 +174,8 @@ void SwerveDrive::Update(Robot::Mode mode) {
                       M_PI}}.WithSlot(0));
 
     // Use open loop control on the drive motors to get close enough
+    // Using closed-loop velocity control with CTRE devices at lower speeds can
+    // cause jitter.
     m_driveMotors[0].SetControl(controls::DutyCycleOut{
         fl.speed.value() * Constants::kDriveVelocityMultiplier});
     m_driveMotors[1].SetControl(controls::DutyCycleOut{
