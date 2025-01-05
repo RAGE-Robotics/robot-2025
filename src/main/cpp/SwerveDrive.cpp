@@ -3,7 +3,6 @@
 #include "Constants.h"
 #include "Controllers.h"
 #include "Robot.h"
-#include "ctre/phoenix6/signals/SpnEnums.hpp"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is

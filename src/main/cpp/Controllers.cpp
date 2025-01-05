@@ -1,6 +1,10 @@
 #include "Controllers.h"
 
-Controllers::Controllers() : m_driverController{0}, m_operatorController{1} {}
+#include "Constants.h"
+
+Controllers::Controllers()
+    : m_driverController{Constants::kDriverControllerId},
+      m_operatorController{Constants::kOperatorControllerId} {}
 
 frc::XboxController &Controllers::GetDriverController() {
   return m_driverController;

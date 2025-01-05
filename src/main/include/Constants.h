@@ -4,6 +4,10 @@
 
 class Constants {
 public:
+  // Driverstation constants
+  static constexpr int kDriverControllerId = 0;
+  static constexpr int kOperatorControllerId = 1;
+
   // Constants for the drivetrain
   static constexpr int kPigeonCanId = 10;
 
