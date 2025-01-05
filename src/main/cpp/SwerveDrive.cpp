@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Controllers.h"
 #include "Robot.h"
+#include "ctre/phoenix6/signals/SpnEnums.hpp"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is
@@ -91,7 +92,14 @@ SwerveDrive::SwerveDrive()
 
     m_driveMotors[i].GetConfigurator().Apply(currentLimitConfig);
     m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
+
+    // Steering motors should always be in coast mode because we are using
+    // closed-loop control
+    m_steeringMotors[i].SetNeutralMode(signals::NeutralModeValue::Coast);
   }
+
+  // Default to coast mode
+  Coast();
 }
 
 // This function needs to be called by the looper to update the drive motors
@@ -193,4 +201,16 @@ frc::Rotation2d SwerveDrive::GetGyroRotation2d() const {
 
 frc::Pose2d SwerveDrive::GetPose2d() const {
   return m_poseEstimator.GetEstimatedPosition();
+}
+
+void SwerveDrive::Coast() {
+  for (int i = 0; i < 4; i++) {
+    m_driveMotors[i].SetNeutralMode(signals::NeutralModeValue::Coast);
+  }
+}
+
+void SwerveDrive::Brake() {
+  for (int i = 0; i < 4; i++) {
+    m_driveMotors[i].SetNeutralMode(signals::NeutralModeValue::Brake);
+  }
 }

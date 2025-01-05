@@ -21,6 +21,8 @@ public:
   void Update(Robot::Mode mode);
   frc::Rotation2d GetGyroRotation2d() const;
   frc::Pose2d GetPose2d() const;
+  void Coast();
+  void Brake();
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.
