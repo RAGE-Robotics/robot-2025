@@ -4,9 +4,14 @@
 
 class Task {
 public:
-  virtual void Start(double t);
-  virtual void Update(double t);
-  virtual void Stop(double t);
+  // Intitializes the task with a starting time
+  virtual void Start(double t){};
 
-  virtual bool IsDone() const;
+  // Update the task witht the timestamp
+  virtual void Update(double t){};
+
+  // Only call this to stop the task early
+  virtual void Stop(){};
+
+  virtual bool IsDone() const { return false; };
 };

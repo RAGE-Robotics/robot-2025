@@ -1,5 +1,7 @@
 #include "Robot.h"
 
+#include <frc/Timer.h>
+
 #include "SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
@@ -19,7 +21,8 @@ Robot::Robot() {
       mode = kDisabled;
     }
 
-    SwerveDrive::GetInstance().Update(mode);
+    SwerveDrive::GetInstance().Update(mode,
+                                      frc::Timer::GetFPGATimestamp().value());
   }};
 }
 
