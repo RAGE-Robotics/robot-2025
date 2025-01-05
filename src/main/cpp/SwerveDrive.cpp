@@ -102,7 +102,7 @@ SwerveDrive::SwerveDrive()
 }
 
 // This function needs to be called by the looper to update the drive motors
-void SwerveDrive::Update(Robot::Mode mode) {
+void SwerveDrive::Update(Robot::Mode mode, double t) {
   // Update the estimation of where the robot thinks it is on the field
   m_poseEstimator.Update(
       GetGyroRotation2d(),

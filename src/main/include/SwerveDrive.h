@@ -18,7 +18,7 @@ public:
     return instance;
   }
 
-  void Update(Robot::Mode mode);
+  void Update(Robot::Mode mode, double t);
   frc::Rotation2d GetGyroRotation2d() const;
   frc::Pose2d GetPose2d() const;
   void Coast();
