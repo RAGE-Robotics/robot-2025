@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Controllers.h"
 #include "Robot.h"
+#include "Util.h"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is
@@ -132,10 +133,12 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
     // Get the inputs from the controller. Note this uses the split setup where
     // the left joystick controls velocity, and the right joystick controls the
     // rotation.
-    double x = -Controllers::GetInstance().GetDriverController().GetLeftY();
-    double y = -Controllers::GetInstance().GetDriverController().GetLeftX();
-    double rotation =
-        -Controllers::GetInstance().GetDriverController().GetRightX();
+    double x =
+        Util::exp(-Controllers::GetInstance().GetDriverController().GetLeftY());
+    double y =
+        Util::exp(-Controllers::GetInstance().GetDriverController().GetLeftX());
+    double rotation = Util::exp(
+        -Controllers::GetInstance().GetDriverController().GetRightX());
 
     // Use the WPILib kinematics class to determine the individual wheel angles
     // and velocities.
