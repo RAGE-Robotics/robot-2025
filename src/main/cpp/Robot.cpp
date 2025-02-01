@@ -28,11 +28,11 @@ Robot::Robot() {
       // the split setup where the left joystick controls velocity, and the
       // right joystick controls the rotation. The Util::exp() function squares
       // the input while keeping the sign.
-      double vx = Util::exp(
+      double vx = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetLeftY());
-      double vy = Util::exp(
+      double vy = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetLeftX());
-      double w = Util::exp(
+      double w = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetRightX());
 
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
