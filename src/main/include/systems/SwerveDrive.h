@@ -26,6 +26,7 @@ public:
   void Brake();
   void DriveVelocity(double vx = 0, double vy = 0, double w = 0);
   void ResetPose(frc::Pose2d pose);
+  void VisionUpdate(frc::Pose2d pose, units::second_t timestamp);
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.

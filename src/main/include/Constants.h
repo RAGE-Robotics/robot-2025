@@ -1,5 +1,6 @@
 #pragma once
 
+#include <frc/geometry/Transform3d.h>
 #include <units/length.h>
 
 class Constants {
@@ -48,4 +49,10 @@ public:
   static constexpr double kPathFollowingAngleKp = 0.1;
   static constexpr double kPathFollowingAngleKi = 0;
   static constexpr double kPathFollowingAngleKd = 0;
+
+  // Vision
+  static constexpr frc::Transform3d kFrontCameraTransform{
+      frc::Translation3d{0_m, 0_m, 0_m}, frc::Rotation3d{0_rad, 0_rad, 0_rad}};
+  static constexpr frc::Transform3d kBackCameraTransform{
+      frc::Translation3d{0_m, 0_m, 0_m}, frc::Rotation3d{0_rad, 0_rad, 0_rad}};
 };

@@ -216,3 +216,7 @@ void SwerveDrive::DriveVelocity(double vx, double vy, double w) {
 void SwerveDrive::ResetPose(frc::Pose2d pose) {
   m_poseEstimator.ResetPose(pose);
 }
+
+void SwerveDrive::VisionUpdate(frc::Pose2d pose, units::second_t timestamp) {
+  m_poseEstimator.AddVisionMeasurement(pose, timestamp);
+}

@@ -4,6 +4,7 @@
 
 #include "Controllers.h"
 #include "Util.h"
+#include "systems/Cameras.h"
 #include "systems/SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
@@ -39,6 +40,7 @@ Robot::Robot() {
     }
 
     double t = frc::Timer::GetFPGATimestamp().value();
+    Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
   }};
 }
