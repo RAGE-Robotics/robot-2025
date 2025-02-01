@@ -8,18 +8,19 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 
 #include "Robot.h"
+#include "System.h"
 #include "frc/geometry/Pose2d.h"
 
 using namespace ctre::phoenix6;
 
-class SwerveDrive {
+class SwerveDrive : public System {
 public:
   static SwerveDrive &GetInstance() {
     static SwerveDrive instance;
     return instance;
   }
 
-  void Update(Robot::Mode mode, double t);
+  void Update(Robot::Mode mode, double t) override;
   frc::Rotation2d GetGyroRotation2d() const;
   frc::Pose2d GetPose2d() const;
   void Coast();
