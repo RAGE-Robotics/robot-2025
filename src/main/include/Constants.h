@@ -42,4 +42,10 @@ public:
   static constexpr double kDefaultMaxW = 1.0;              // radians per second
   static constexpr double kDefaultPositionTolerance = 0.1; // meters
   static constexpr double kDefaultAngleTolerance = 0.1;    // radians
+  static constexpr double kPathFollowingKp = 0.1;
+  static constexpr double kPathFollowingKi = 0;
+  static constexpr double kPathFollowingKd = 0;
+  static constexpr double kPathFollowingAngleKp = 0.1;
+  static constexpr double kPathFollowingAngleKi = 0;
+  static constexpr double kPathFollowingAngleKd = 0;
 };

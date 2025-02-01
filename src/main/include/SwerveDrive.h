@@ -8,6 +8,7 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 
 #include "Robot.h"
+#include "frc/geometry/Pose2d.h"
 
 using namespace ctre::phoenix6;
 
@@ -24,6 +25,7 @@ public:
   void Coast();
   void Brake();
   void DriveVelocity(double vx = 0, double vy = 0, double w = 0);
+  void ResetPose(frc::Pose2d pose);
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.

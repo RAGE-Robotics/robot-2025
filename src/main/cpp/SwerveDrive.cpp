@@ -205,8 +205,14 @@ void SwerveDrive::Brake() {
   }
 }
 
+// Sets the drive velocity in meters per second and radians per second
+// Call this function with no arguments to stop the robot
 void SwerveDrive::DriveVelocity(double vx, double vy, double w) {
   m_vx = vx;
   m_vy = vy;
   m_w = w;
+}
+
+void SwerveDrive::ResetPose(frc::Pose2d pose) {
+  m_poseEstimator.ResetPose(pose);
 }
