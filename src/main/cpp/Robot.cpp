@@ -2,7 +2,9 @@
 
 #include <frc/Timer.h>
 
+#include "Controllers.h"
 #include "SwerveDrive.h"
+#include "Util.h"
 
 // This gets called first. So, initialize everything here.
 Robot::Robot() {
@@ -19,6 +21,20 @@ Robot::Robot() {
       mode = kTeleop;
     } else {
       mode = kDisabled;
+    }
+
+    if (mode == kTeleop) {
+      // Get the inputs from the controller during teleop mode. Note this uses
+      // the split setup where the left joystick controls velocity, and the
+      // right joystick controls the rotation.
+      double vx = Util::exp(
+          -Controllers::GetInstance().GetDriverController().GetLeftY());
+      double vy = Util::exp(
+          -Controllers::GetInstance().GetDriverController().GetLeftX());
+      double w = Util::exp(
+          -Controllers::GetInstance().GetDriverController().GetRightX());
+
+      SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
     }
 
     SwerveDrive::GetInstance().Update(mode,

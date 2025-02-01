@@ -1,9 +1,7 @@
 #include "SwerveDrive.h"
 
 #include "Constants.h"
-#include "Controllers.h"
 #include "Robot.h"
-#include "Util.h"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is
@@ -129,22 +127,12 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
            frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
                            M_PI}}});
 
-  if (mode == Robot::kTeleop) {
-    // Get the inputs from the controller. Note this uses the split setup where
-    // the left joystick controls velocity, and the right joystick controls the
-    // rotation.
-    double x =
-        Util::exp(-Controllers::GetInstance().GetDriverController().GetLeftY());
-    double y =
-        Util::exp(-Controllers::GetInstance().GetDriverController().GetLeftX());
-    double rotation = Util::exp(
-        -Controllers::GetInstance().GetDriverController().GetRightX());
-
+  if (mode == Robot::kAutonomous || mode == Robot::kTeleop) {
     // Use the WPILib kinematics class to determine the individual wheel angles
     // and velocities.
     auto speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-        units::meters_per_second_t{x}, units::meters_per_second_t{y},
-        units::radians_per_second_t{rotation}, GetGyroRotation2d());
+        units::meters_per_second_t{m_vx}, units::meters_per_second_t{m_vy},
+        units::radians_per_second_t{m_w}, GetGyroRotation2d());
     auto [fl, fr, bl, br] = m_kinematics.ToSwerveModuleStates(speeds);
 
     // Optimize the angle setpoints to make the wheels reach the correct angle
@@ -215,4 +203,10 @@ void SwerveDrive::Brake() {
   for (int i = 0; i < 4; i++) {
     m_driveMotors[i].SetNeutralMode(signals::NeutralModeValue::Brake);
   }
+}
+
+void SwerveDrive::DriveVelocity(double vx, double vy, double w) {
+  m_vx = vx;
+  m_vy = vy;
+  m_w = w;
 }

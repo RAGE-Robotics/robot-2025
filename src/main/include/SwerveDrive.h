@@ -23,6 +23,7 @@ public:
   frc::Pose2d GetPose2d() const;
   void Coast();
   void Brake();
+  void DriveVelocity(double vx, double vy, double w);
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.
@@ -41,6 +42,11 @@ private:
 
   // The pose estimator keeps track of the robot's position on the field.
   frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
+
+  // These are the target velocities that are set using DriveVelocity()
+  // Vx is forward, Vy is left, and W is the rotational velocity in radians per
+  // second
+  double m_vx, m_vy, m_w;
 
   // Make the constructor private so that the GetInstance() function must be
   // used.
