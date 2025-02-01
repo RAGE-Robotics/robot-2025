@@ -16,7 +16,7 @@ Robot::Robot() {
   m_looper = Looper{[this] {
     Mode mode;
     if (IsAutonomous()) {
-      mode = kAutonomous;
+      mode = kAuto;
     } else if (IsTeleop()) {
       mode = kTeleop;
     } else {
@@ -26,7 +26,8 @@ Robot::Robot() {
     if (mode == kTeleop) {
       // Get the inputs from the controller during teleop mode. Note this uses
       // the split setup where the left joystick controls velocity, and the
-      // right joystick controls the rotation.
+      // right joystick controls the rotation. The Util::exp() function squares
+      // the input while keeping the sign.
       double vx = Util::exp(
           -Controllers::GetInstance().GetDriverController().GetLeftY());
       double vy = Util::exp(
@@ -37,8 +38,8 @@ Robot::Robot() {
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
     }
 
-    SwerveDrive::GetInstance().Update(mode,
-                                      frc::Timer::GetFPGATimestamp().value());
+    double t = frc::Timer::GetFPGATimestamp().value();
+    SwerveDrive::GetInstance().Update(mode, t);
   }};
 }
 

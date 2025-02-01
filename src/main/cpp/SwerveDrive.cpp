@@ -127,7 +127,7 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
            frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
                            M_PI}}});
 
-  if (mode == Robot::kAutonomous || mode == Robot::kTeleop) {
+  if (mode == Robot::kAuto || mode == Robot::kTeleop) {
     // Use the WPILib kinematics class to determine the individual wheel angles
     // and velocities.
     auto speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(

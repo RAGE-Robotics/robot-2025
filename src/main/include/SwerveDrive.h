@@ -23,7 +23,7 @@ public:
   frc::Pose2d GetPose2d() const;
   void Coast();
   void Brake();
-  void DriveVelocity(double vx, double vy, double w);
+  void DriveVelocity(double vx = 0, double vy = 0, double w = 0);
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.

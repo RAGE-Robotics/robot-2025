@@ -7,7 +7,7 @@
 class Robot : public frc::TimedRobot {
 public:
   // Enum to specify the robot's mode to the sub-systems
-  enum Mode { kDisabled, kAutonomous, kTeleop };
+  enum Mode { kDisabled, kAuto, kTeleop };
 
   Robot();
   ~Robot();
