@@ -9,7 +9,6 @@
 
 #include "Robot.h"
 #include "System.h"
-#include "frc/geometry/Pose2d.h"
 
 using namespace ctre::phoenix6;
 
