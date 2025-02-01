@@ -6,8 +6,8 @@
 #include "systems/SwerveDrive.h"
 
 DriveLine::DriveLine(frc::Pose2d start, frc::Pose2d stop, bool resetPose,
-                     double maxV, double maxW, double positionTolerance,
-                     double angleTolerance)
+                     bool stopDistance, double maxV, double maxW,
+                     double positionTolerance, double angleTolerance)
     : m_start{start}, m_stop{stop},
       m_pidX{Constants::kPathFollowingKp, Constants::kPathFollowingKi,
              Constants::kPathFollowingKd},
@@ -17,6 +17,7 @@ DriveLine::DriveLine(frc::Pose2d start, frc::Pose2d stop, bool resetPose,
                  Constants::kPathFollowingAngleKi,
                  Constants::kPathFollowingAngleKd} {
   m_resetPose = resetPose;
+  m_stopDistance = stopDistance;
   m_maxV = maxV;
   m_maxW = maxW;
   m_positionTolerance = positionTolerance;
@@ -58,6 +59,17 @@ void DriveLine::Update(double t) {
 void DriveLine::Stop() { SwerveDrive::GetInstance().DriveVelocity(); }
 
 bool DriveLine::IsDone() const {
+  if (m_stopDistance &&
+      SwerveDrive::GetInstance()
+              .GetPose2d()
+              .Translation()
+              .Distance(m_start.Translation())
+              .value() >=
+          m_start.Translation().Distance(m_stop.Translation()).value() -
+              m_positionTolerance) {
+    return true;
+  }
+
   return SwerveDrive::GetInstance()
                  .GetPose2d()
                  .Translation()
