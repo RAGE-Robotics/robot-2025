@@ -1,13 +1,13 @@
-#include "AutoDriveLine.h"
+#include "auto/DriveLine.h"
 
 #include <algorithm>
 
-#include "SwerveDrive.h"
 #include "Util.h"
+#include "systems/SwerveDrive.h"
 
-AutoDriveLine::AutoDriveLine(frc::Pose2d start, frc::Pose2d stop,
-                             bool resetPose, double maxV, double maxW,
-                             double positionTolerance, double angleTolerance)
+DriveLine::DriveLine(frc::Pose2d start, frc::Pose2d stop, bool resetPose,
+                     double maxV, double maxW, double positionTolerance,
+                     double angleTolerance)
     : m_start{start}, m_stop{stop},
       m_pidX{Constants::kPathFollowingKp, Constants::kPathFollowingKi,
              Constants::kPathFollowingKd},
@@ -23,13 +23,13 @@ AutoDriveLine::AutoDriveLine(frc::Pose2d start, frc::Pose2d stop,
   m_angleTolerance = angleTolerance;
 }
 
-void AutoDriveLine::Start(double t) {
+void DriveLine::Start(double t) {
   if (m_resetPose) {
     SwerveDrive::GetInstance().ResetPose(m_start);
   }
 }
 
-void AutoDriveLine::Update(double t) {
+void DriveLine::Update(double t) {
   double vx = m_pidX.Update(
       SwerveDrive::GetInstance().GetPose2d().Translation().X().value(),
       m_stop.Translation().X().value());
@@ -55,9 +55,9 @@ void AutoDriveLine::Update(double t) {
   SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
 }
 
-void AutoDriveLine::Stop() { SwerveDrive::GetInstance().DriveVelocity(); }
+void DriveLine::Stop() { SwerveDrive::GetInstance().DriveVelocity(); }
 
-bool AutoDriveLine::IsDone() const {
+bool DriveLine::IsDone() const {
   return SwerveDrive::GetInstance()
                  .GetPose2d()
                  .Translation()

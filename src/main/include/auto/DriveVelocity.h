@@ -2,9 +2,9 @@
 
 #include "Task.h"
 
-class AutoDriveVelocity : public Task {
+class DriveVelocity : public Task {
 public:
-  AutoDriveVelocity(double vx = 0, double vy = 0, double w = 0);
+  DriveVelocity(double vx = 0, double vy = 0, double w = 0);
 
   void Start(double t) override;
   void Update(double t) override;

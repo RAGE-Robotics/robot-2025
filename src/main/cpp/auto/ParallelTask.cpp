@@ -1,4 +1,4 @@
-#include "ParallelTask.h"
+#include "auto/ParallelTask.h"
 
 ParallelTask::ParallelTask(std::vector<Task> tasks) : m_tasks{tasks} {}
 

@@ -1,4 +1,4 @@
-#include "TaskList.h"
+#include "auto/TaskList.h"
 
 TaskList::TaskList(std::vector<Task> tasks) : m_tasks{tasks} {}
 
