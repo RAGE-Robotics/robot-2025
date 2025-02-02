@@ -87,7 +87,7 @@ public:
   static constexpr double kElevatorStartingPositionRotations =
       kElevatorStartingPositionMeters / kElevatorMetersPerRotationE;
   // Ending machine bounds in meters
-  static constexpr float kElevatorEndingPositionMeters = 0.5;
-  static constexpr double kElevatorEndingPositionRotations =
-      kElevatorEndingPositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorFeedPositionMeters = 0.5;
+  static constexpr double kElevatorFeedPositionRotations =
+      kElevatorFeedPositionMeters / kElevatorMetersPerRotationE;
 };

@@ -34,11 +34,11 @@ void Elevator::Update(Robot::Mode mode, double t) {
     switch (m_position) {
     case kFeed:
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorEndingPositionMeters}));
+          units::turn_t{Constants::kElevatorFeedPositionRotations}));
       break;
     default:
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorStartingPositionMeters}));
+          units::turn_t{Constants::kElevatorStartingPositionRotations}));
     }
   }
 }
