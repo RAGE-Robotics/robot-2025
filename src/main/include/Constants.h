@@ -55,4 +55,39 @@ public:
       frc::Translation3d{0_m, 0_m, 0_m}, frc::Rotation3d{0_rad, 0_rad, 0_rad}};
   static constexpr frc::Transform3d kBackCameraTransform{
       frc::Translation3d{0_m, 0_m, 0_m}, frc::Rotation3d{0_rad, 0_rad, 0_rad}};
+
+  // TalonFX ids for elevator motors.
+  static constexpr int kElevatorMainMotorId = 37;
+  static constexpr int kElevatorSecondMotorId = 28;
+  static constexpr double kElevatorMetersPerRotationE = 0.1715 / 254;
+
+  // Value is in meters per second
+  static constexpr double kElevatorMaxVelocity =
+      0.1 / kElevatorMetersPerRotationE;
+  // Value is in meters per second per second
+  static constexpr double kElevatorAcceleration =
+      0.1 / kElevatorMetersPerRotationE;
+  // Value in meters per second per second per second
+  static constexpr double kElevatorJerk = 0.1 / kElevatorMetersPerRotationE;
+  // P I D CruiseVelocity Velocity S(overcome static friction) A(output per unit
+  // of target acceleration)       Accel Jerk
+  static constexpr std::tuple<double, double, double, double, double, double,
+                              double, double, double>
+      kElevatorMotorGains{0.1,
+                          0,
+                          0,
+                          10,
+                          kElevatorMaxVelocity,
+                          0.01,
+                          0.24,
+                          kElevatorAcceleration,
+                          kElevatorJerk};
+  // Starting offset in meters
+  static constexpr float kElevatorStartingPositionMeters = 0.01;
+  static constexpr double kElevatorStartingPositionRotations =
+      kElevatorStartingPositionMeters / kElevatorMetersPerRotationE;
+  // Ending machine bounds in meters
+  static constexpr float kElevatorEndingPositionMeters = 0.5;
+  static constexpr double kElevatorEndingPositionRotations =
+      kElevatorEndingPositionMeters / kElevatorMetersPerRotationE;
 };

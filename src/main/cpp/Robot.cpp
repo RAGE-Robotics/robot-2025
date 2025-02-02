@@ -5,6 +5,7 @@
 #include "Controllers.h"
 #include "Util.h"
 #include "systems/Cameras.h"
+#include "systems/Elevator.h"
 #include "systems/SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
@@ -35,13 +36,13 @@ Robot::Robot() {
           -Controllers::GetInstance().GetDriverController().GetLeftX());
       double w = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetRightX());
-
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
     }
 
     double t = frc::Timer::GetFPGATimestamp().value();
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
+    Elevator::GetInstance().Update(mode, t);
   }};
 }
 
