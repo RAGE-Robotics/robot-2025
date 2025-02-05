@@ -83,11 +83,19 @@ public:
                           kElevatorAcceleration,
                           kElevatorJerk};
   // Starting offset in meters
-  static constexpr float kElevatorStartingPositionMeters = 0.01;
-  static constexpr double kElevatorStartingPositionRotations =
-      kElevatorStartingPositionMeters / kElevatorMetersPerRotationE;
-  // Ending machine bounds in meters
-  static constexpr float kElevatorFeedPositionMeters = 0.5;
-  static constexpr double kElevatorFeedPositionRotations =
-      kElevatorFeedPositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorHomePositionMeters = 0.0;
+  static constexpr double kElevatorHomePositionRotations =
+      kElevatorHomePositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorL1PositionMeters = 0.5;
+  static constexpr double kElevatorL1PositionRotations =
+      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorL2PositionMeters = 0.5;
+  static constexpr double kElevatorL2PositionRotations =
+      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorL3PositionMeters = 0.5;
+  static constexpr double kElevatorL3PositionRotations =
+      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+  static constexpr float kElevatorL4PositionMeters = 0.5;
+  static constexpr double kElevatorL4PositionRotations =
+      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
 };

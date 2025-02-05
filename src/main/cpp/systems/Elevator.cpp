@@ -32,13 +32,25 @@ void Elevator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
     controls::MotionMagicVoltage m_mainOutput{0_tr};
     switch (m_position) {
-    case kFeed:
+    case kL1:
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorFeedPositionRotations}));
+          units::turn_t{Constants::kElevatorL1PositionRotations}));
+      break;
+    case kL2:
+      m_mainMotor.SetControl(m_mainOutput.WithPosition(
+          units::turn_t{Constants::kElevatorL2PositionRotations}));
+      break;
+    case kL3:
+      m_mainMotor.SetControl(m_mainOutput.WithPosition(
+          units::turn_t{Constants::kElevatorL3PositionRotations}));
+      break;
+    case kL4:
+      m_mainMotor.SetControl(m_mainOutput.WithPosition(
+          units::turn_t{Constants::kElevatorL4PositionRotations}));
       break;
     default:
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorStartingPositionRotations}));
+          units::turn_t{Constants::kElevatorHomePositionRotations}));
     }
   }
 }
