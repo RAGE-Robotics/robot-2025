@@ -98,4 +98,8 @@ public:
   static constexpr float kElevatorL4PositionMeters = 0.5;
   static constexpr double kElevatorL4PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+
+  // Feeder
+  static constexpr int kFeederSolenoidIdForward = 0;
+  static constexpr int kFeederSolenoidIdBackward = 1;
 };

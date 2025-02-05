@@ -6,6 +6,7 @@
 #include "Util.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
+#include "systems/Feeder.h"
 #include "systems/SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
@@ -43,6 +44,7 @@ Robot::Robot() {
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
     Elevator::GetInstance().Update(mode, t);
+    Feeder::GetInstance().Update(mode, t);
   }};
 }
 
