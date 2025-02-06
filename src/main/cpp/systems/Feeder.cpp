@@ -15,4 +15,4 @@ void Feeder::Update(Robot::Mode mode, double t) {
 Feeder::Feeder()
     : m_solenoid(0, frc::PneumaticsModuleType::REVPH,
                  Constants::kFeederSolenoidIdForward,
-                 Constants::kFeederSolenoidIdBackward) {}
+                 Constants::kFeederSolenoidIdReverse) {}

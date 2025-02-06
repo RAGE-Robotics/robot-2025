@@ -101,5 +101,20 @@ public:
 
   // Feeder
   static constexpr int kFeederSolenoidIdForward = 0;
-  static constexpr int kFeederSolenoidIdBackward = 1;
+  static constexpr int kFeederSolenoidIdReverse = 1;
+
+  // Intake
+  static constexpr int kIntakeCoralSolenoidIdForward = 2;
+  static constexpr int kIntakeCoralSolenoidIdReverse = 3;
+  static constexpr int kIntakeAlgaeSolenoidIdForward = 4;
+  static constexpr int kIntakeAlgaeSolenoidIdReverse = 5;
+  static constexpr int kIntakeFirstSensorId = 0;
+  static constexpr int kIntakeSecondSensorId = 1;
+  static constexpr int kIntakeCoralMotorId = 9;
+  static constexpr int kIntakeAlgaeMotorId = 10;
+  static constexpr double kIntakeCoralSpeedFast = 1.0;
+  static constexpr double kIntakeCoralSpeedSlow = 0.1;
+  static constexpr double kIntakeCoralSpeedReverse = -0.1;
+  static constexpr double kIntakeAlgaeIntakeSpeed = 1.0;
+  static constexpr double kIntakeAlgaeOuttakeSpeed = -1.0;
 };
