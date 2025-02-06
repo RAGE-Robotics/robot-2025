@@ -15,8 +15,6 @@ public:
     return instance;
   }
 
-  enum Position { kIn, kOut };
-
   enum CoralState { kIdle, kIntaking, kIntakingSlow, kHold, kPlacing };
 
   enum AlgaeState { kIdleIn, kIdleOut, kGrabbing, kThrowing };
@@ -26,6 +24,8 @@ public:
   void Update(Robot::Mode mode, double t);
 
 private:
+  enum Position { kIn, kOut };
+
   Intake();
 
   Position m_coralPosition = kIn;
