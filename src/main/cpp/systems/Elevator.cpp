@@ -4,6 +4,10 @@
 
 using namespace ctre::phoenix6;
 
+void Elevator::SetPosition(Elevator::Position position) {
+  m_position = position;
+};
+
 Elevator::Elevator() {
   auto [kP, kI, kD, kCV, kV, kA, kS, kAccel, kJ] =
       Constants::kElevatorMotorGains;
@@ -55,6 +59,29 @@ void Elevator::Update(Robot::Mode mode, double t) {
   }
 }
 
-void Elevator::SetPosition(Elevator::Position position) {
-  m_position = position;
-};
+double Elevator::GetPosition() {
+  return m_mainMotor.GetPosition().GetValueAsDouble() *
+         Constants::kElevatorMetersPerRotation;
+}
+
+double Elevator::GetError() {
+  double setpoint;
+  switch (m_position) {
+  case kL1:
+    setpoint = Constants::kElevatorL1PositionMeters;
+    break;
+  case kL2:
+    setpoint = Constants::kElevatorL2PositionMeters;
+    break;
+  case kL3:
+    setpoint = Constants::kElevatorL3PositionMeters;
+    break;
+  case kL4:
+    setpoint = Constants::kElevatorL4PositionMeters;
+    break;
+  default:
+    setpoint = Constants::kElevatorHomePositionMeters;
+  }
+
+  return std::abs(GetPosition() - setpoint);
+}

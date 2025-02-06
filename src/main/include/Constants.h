@@ -59,16 +59,16 @@ public:
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 37;
   static constexpr int kElevatorSecondMotorId = 28;
-  static constexpr double kElevatorMetersPerRotationE = 0.1715 / 254;
+  static constexpr double kElevatorMetersPerRotation = 0.1715 / 254;
 
   // Value is in meters per second
   static constexpr double kElevatorMaxVelocity =
-      0.1 / kElevatorMetersPerRotationE;
+      0.1 / kElevatorMetersPerRotation;
   // Value is in meters per second per second
   static constexpr double kElevatorAcceleration =
-      0.1 / kElevatorMetersPerRotationE;
+      0.1 / kElevatorMetersPerRotation;
   // Value in meters per second per second per second
-  static constexpr double kElevatorJerk = 0.1 / kElevatorMetersPerRotationE;
+  static constexpr double kElevatorJerk = 0.1 / kElevatorMetersPerRotation;
   // P I D CruiseVelocity Velocity S(overcome static friction) A(output per unit
   // of target acceleration)       Accel Jerk
   static constexpr std::tuple<double, double, double, double, double, double,
@@ -85,19 +85,20 @@ public:
   // Starting offset in meters
   static constexpr float kElevatorHomePositionMeters = 0.0;
   static constexpr double kElevatorHomePositionRotations =
-      kElevatorHomePositionMeters / kElevatorMetersPerRotationE;
+      kElevatorHomePositionMeters / kElevatorMetersPerRotation;
   static constexpr float kElevatorL1PositionMeters = 0.5;
   static constexpr double kElevatorL1PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
   static constexpr float kElevatorL2PositionMeters = 0.5;
   static constexpr double kElevatorL2PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
   static constexpr float kElevatorL3PositionMeters = 0.5;
   static constexpr double kElevatorL3PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
   static constexpr float kElevatorL4PositionMeters = 0.5;
   static constexpr double kElevatorL4PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotationE;
+      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
+  static constexpr double kElevatorDefaultTolerance = 0.05; // meters
 
   // Feeder
   static constexpr int kFeederSolenoidIdForward = 0;
