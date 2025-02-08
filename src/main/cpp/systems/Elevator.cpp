@@ -52,6 +52,14 @@ void Elevator::Update(Robot::Mode mode, double t) {
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
           units::turn_t{Constants::kElevatorL4PositionRotations}));
       break;
+    case kAlgae1:
+      m_mainMotor.SetControl(m_mainOutput.WithPosition(
+          units::turn_t{Constants::kElevatorAlgae1PositionRotations}));
+      break;
+    case kAlgae2:
+      m_mainMotor.SetControl(m_mainOutput.WithPosition(
+          units::turn_t{Constants::kElevatorAlgae2PositionRotations}));
+      break;
     default:
       m_mainMotor.SetControl(m_mainOutput.WithPosition(
           units::turn_t{Constants::kElevatorHomePositionRotations}));
@@ -76,7 +84,10 @@ double Elevator::GetError() {
   case kL3:
     setpoint = Constants::kElevatorL3PositionMeters;
     break;
-  case kL4:
+  case kAlgae1:
+    setpoint = Constants::kElevatorL4PositionMeters;
+    break;
+  case kAlgae2:
     setpoint = Constants::kElevatorL4PositionMeters;
     break;
   default:

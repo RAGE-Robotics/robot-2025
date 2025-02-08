@@ -10,7 +10,7 @@ using namespace ctre::phoenix6;
 
 class Elevator {
 public:
-  enum Position { kHome, kL1, kL2, kL3, kL4 };
+  enum Position { kHome, kL1, kL2, kL3, kL4, kAlgae1, kAlgae2 };
 
   static Elevator &GetInstance() {
     static Elevator instance;

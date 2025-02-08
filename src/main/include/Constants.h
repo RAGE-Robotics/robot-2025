@@ -85,22 +85,29 @@ public:
                           kElevatorAcceleration,
                           kElevatorJerk};
   // Starting offset in meters
-  static constexpr float kElevatorHomePositionMeters = 0.0;
+  static constexpr double kElevatorHomePositionMeters = 0.0;
   static constexpr double kElevatorHomePositionRotations =
       kElevatorHomePositionMeters / kElevatorMetersPerRotation;
-  static constexpr float kElevatorL1PositionMeters = 0.5;
+  static constexpr double kElevatorL1PositionMeters = 0;
   static constexpr double kElevatorL1PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr float kElevatorL2PositionMeters = 0.5;
+  static constexpr double kElevatorL2PositionMeters = 0.313;
   static constexpr double kElevatorL2PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr float kElevatorL3PositionMeters = 0.5;
+  static constexpr double kElevatorL3PositionMeters = 0.719;
   static constexpr double kElevatorL3PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr float kElevatorL4PositionMeters = 0.5;
+  static constexpr double kElevatorL4PositionMeters = 1.3356;
   static constexpr double kElevatorL4PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorDefaultTolerance = 0.05; // meters
+  static constexpr double kElevatorAlgae1PositionMeters = 0.484;
+  static constexpr double kElevatorAlgae1PositionRotations =
+      kElevatorAlgae1PositionMeters / kElevatorMetersPerRotation;
+  static constexpr double kElevatorAlgae2PositionMeters = 0.89;
+  static constexpr double kElevatorAlgae2PositionRotations =
+      kElevatorAlgae1PositionMeters / kElevatorMetersPerRotation;
+
+  static constexpr double kElevatorDefaultTolerance = 0.01; // meters
 
   // Feeder
   static constexpr int kFeederSolenoidIdForward = 0;
