@@ -1,8 +1,11 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <memory>
 
 #include "Looper.h"
+#include "auto/Task.h"
 
 class Robot : public frc::TimedRobot {
 public:
@@ -17,4 +20,9 @@ public:
 private:
   Looper m_looper;
   Mode m_mode;
+
+  frc::SendableChooser<int> m_startChooser;
+  frc::SendableChooser<std::string> m_autoChooser;
+
+  std::shared_ptr<Task> m_auto;
 };

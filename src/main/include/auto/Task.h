@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Robot.h"
-
 class Task {
 public:
   // Intitializes the task with a starting time

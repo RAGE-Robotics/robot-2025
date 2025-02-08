@@ -2,10 +2,13 @@
 
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <memory>
 
 #include "Controllers.h"
 #include "Locations.h"
 #include "Util.h"
+#include "auto/AutoDoNothing.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Feeder.h"
@@ -14,8 +17,22 @@
 
 // This gets called first. So, initialize everything here.
 Robot::Robot() {
+  m_startChooser.SetDefaultOption("1", 1);
+  m_startChooser.AddOption("2", 2);
+  m_startChooser.AddOption("3", 3);
+  frc::SmartDashboard::PutData("Start Location", &m_startChooser);
+
+  m_autoChooser.SetDefaultOption("Do Nothing", "DoNothing");
+  m_autoChooser.AddOption("Cross the Line", "CrossLine");
+  m_autoChooser.AddOption("One Coral", "OneCoral");
+  frc::SmartDashboard::PutData("Auto", &m_autoChooser);
+
   // Call GetInstance() so the constructors get called
+  Cameras::GetInstance();
   SwerveDrive::GetInstance();
+  Elevator::GetInstance();
+  Feeder::GetInstance();
+  Manipulator::GetInstance();
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
@@ -29,7 +46,13 @@ Robot::Robot() {
       mode = kDisabled;
     }
 
-    if (mode == kTeleop) {
+    double t = frc::Timer::GetFPGATimestamp().value();
+
+    if (mode == kAuto) {
+      if (m_auto) {
+        m_auto->Update(t);
+      }
+    } else if (mode == kTeleop) {
       // Get the inputs from the controller during teleop mode. Note this uses
       // the split setup where the left joystick controls velocity, and the
       // right joystick controls the rotation. The Util::exp() function squares
@@ -43,7 +66,6 @@ Robot::Robot() {
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
     }
 
-    double t = frc::Timer::GetFPGATimestamp().value();
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
     Elevator::GetInstance().Update(mode, t);
@@ -61,6 +83,24 @@ void Robot::DisabledExit() {
   auto alliance = frc::DriverStation::GetAlliance();
   if (alliance.has_value()) {
     Locations::GetInstance().Generate(alliance.value());
+
+    SwerveDrive::GetInstance().ResetPose(
+        Locations::GetInstance().GetStartPosition(
+            alliance.value(), m_startChooser.GetSelected()));
+  }
+
+  std::string autoName = m_autoChooser.GetSelected();
+  double t = frc::Timer::GetFPGATimestamp().value();
+
+  if (autoName == "DoNothing") {
+    m_auto = std::make_shared<AutoDoNothing>();
+    m_auto->Start(t);
+  } else if (autoName == "CrossLine") {
+    m_auto = std::make_shared<AutoDoNothing>();
+    m_auto->Start(t);
+  } else if (autoName == "OneCoral") {
+    m_auto = std::make_shared<AutoDoNothing>();
+    m_auto->Start(t);
   }
 }
 
