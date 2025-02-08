@@ -5,6 +5,8 @@
 
 class Constants {
 public:
+  static constexpr double kInchesPerMeter = 39.37;
+
   // Driverstation constants
   static constexpr int kDriverControllerId = 0;
   static constexpr int kOperatorControllerId = 1;
@@ -59,7 +61,7 @@ public:
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 37;
   static constexpr int kElevatorSecondMotorId = 28;
-  static constexpr double kElevatorMetersPerRotation = 0.1715 / 254;
+  static constexpr double kElevatorMetersPerRotation = 0.1715 / kInchesPerMeter;
 
   // Value is in meters per second
   static constexpr double kElevatorMaxVelocity =
@@ -118,4 +120,15 @@ public:
   static constexpr double kManipulatorCoralSpeedReverse = -0.1;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
   static constexpr double kManipulatorAlgaeOuttakeSpeed = -1.0;
+
+  // Locations
+  static constexpr double kReefWidth = 65.2 / kInchesPerMeter;
+  static constexpr double kReefOffset =
+      (144 / kInchesPerMeter) + kReefWidth / 2;
+  static constexpr double kFieldLength = 649 / kInchesPerMeter;
+  static constexpr double kReefSpacing = 0.5; // meters
+  static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
+  static constexpr double kStartLineOffset = 300 / kInchesPerMeter;
+  static constexpr double kStartOffsetY = 1;   // meters
+  static constexpr double kStartOffsetX = 0.1; // meters
 };

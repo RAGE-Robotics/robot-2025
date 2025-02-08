@@ -1,8 +1,10 @@
 #include "Robot.h"
 
+#include <frc/DriverStation.h>
 #include <frc/Timer.h>
 
 #include "Controllers.h"
+#include "Locations.h"
 #include "Util.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
@@ -54,6 +56,13 @@ Robot::Robot() {
 // Cleanup any resources (especially files) before the robot code gets
 // restarted.
 Robot::~Robot() {}
+
+void Robot::DisabledExit() {
+  auto alliance = frc::DriverStation::GetAlliance();
+  if (alliance.has_value()) {
+    Locations::GetInstance().Generate(alliance.value());
+  }
+}
 
 #ifndef RUNNING_FRC_TESTS
 int main(int argc, char **argv) { frc::StartRobot<Robot>(); }

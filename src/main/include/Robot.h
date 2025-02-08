@@ -12,6 +12,8 @@ public:
   Robot();
   ~Robot();
 
+  void DisabledExit() override;
+
 private:
   Looper m_looper;
   Mode m_mode;
