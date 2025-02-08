@@ -7,7 +7,7 @@
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Feeder.h"
-#include "systems/Intake.h"
+#include "systems/Manipulator.h"
 #include "systems/SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
@@ -46,7 +46,7 @@ Robot::Robot() {
     SwerveDrive::GetInstance().Update(mode, t);
     Elevator::GetInstance().Update(mode, t);
     Feeder::GetInstance().Update(mode, t);
-    Intake::GetInstance().Update(mode, t);
+    Manipulator::GetInstance().Update(mode, t);
   }};
 }
 

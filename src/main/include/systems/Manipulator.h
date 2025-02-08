@@ -8,10 +8,10 @@
 
 using namespace ctre::phoenix;
 
-class Intake : public System {
+class Manipulator : public System {
 public:
-  static Intake &GetInstance() {
-    static Intake instance;
+  static Manipulator &GetInstance() {
+    static Manipulator instance;
     return instance;
   }
 
@@ -26,7 +26,7 @@ public:
 private:
   enum Position { kIn, kOut };
 
-  Intake();
+  Manipulator();
 
   Position m_coralPosition = kIn;
   Position m_algaePosition = kIn;

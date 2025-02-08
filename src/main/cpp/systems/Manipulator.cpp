@@ -1,30 +1,30 @@
-#include "systems/Intake.h"
+#include "systems/Manipulator.h"
 
 #include "Constants.h"
 #include "Robot.h"
 
 using namespace ctre::phoenix;
 
-void Intake::SetCoralState(CoralState state) { m_coralState = state; }
+void Manipulator::SetCoralState(CoralState state) { m_coralState = state; }
 
-void Intake::SetAlgaeState(AlgaeState state) { m_algaeState = state; }
+void Manipulator::SetAlgaeState(AlgaeState state) { m_algaeState = state; }
 
-void Intake::Update(Robot::Mode mode, double t) {
+void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
     if (m_coralState == kIntaking) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
-      // Intake motor fast
+      // Manipulator motor fast
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kIntakeCoralSpeedFast);
+                       Constants::kManipulatorCoralSpeedFast);
 
       if (m_secondSensor.Get()) {
         m_coralState = kIntakingSlow;
       }
     } else if (m_coralState == kIntakingSlow) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
-      // Move intake wheels slowly
+      // Move Manipulator wheels slowly
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kIntakeCoralSpeedSlow);
+                       Constants::kManipulatorCoralSpeedSlow);
 
       if (!m_firstSensor.Get()) {
         m_coralState = kHold;
@@ -39,13 +39,13 @@ void Intake::Update(Robot::Mode mode, double t) {
       } else {
         // Run motors in reverse slowly
         m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                         Constants::kIntakeCoralSpeedReverse);
+                         Constants::kManipulatorCoralSpeedReverse);
       }
     } else if (m_coralState == kPlacing) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kForward);
-      // Move intake wheels fast
+      // Move Manipulator wheels fast
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kIntakeCoralSpeedFast);
+                       Constants::kManipulatorCoralSpeedFast);
 
       if (!m_secondSensor.Get()) {
         m_coralState = kIdle;
@@ -61,23 +61,23 @@ void Intake::Update(Robot::Mode mode, double t) {
     } else if (m_algaeState == kGrabbing) {
       m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
       m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kIntakeAlgaeIntakeSpeed);
+                       Constants::kManipulatorAlgaeManipulatorSpeed);
     } else if (m_algaeState == kThrowing) {
       m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
       m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kIntakeAlgaeOuttakeSpeed);
+                       Constants::kManipulatorAlgaeOuttakeSpeed);
     }
   }
 }
 
-Intake::Intake()
+Manipulator::Manipulator()
     : m_coralSolenoid{0, frc::PneumaticsModuleType::REVPH,
-                      Constants::kIntakeCoralSolenoidIdForward,
-                      Constants::kIntakeCoralSolenoidIdReverse},
+                      Constants::kManipulatorCoralSolenoidIdForward,
+                      Constants::kManipulatorCoralSolenoidIdReverse},
       m_algaeSolenoid{0, frc::PneumaticsModuleType::REVPH,
-                      Constants::kIntakeAlgaeSolenoidIdForward,
-                      Constants::kIntakeAlgaeSolenoidIdReverse},
-      m_firstSensor{Constants::kIntakeFirstSensorId},
-      m_secondSensor{Constants::kIntakeSecondSensorId},
-      m_coralMotor{Constants::kIntakeCoralMotorId},
-      m_algaeMotor{Constants::kIntakeAlgaeMotorId} {}
+                      Constants::kManipulatorAlgaeSolenoidIdForward,
+                      Constants::kManipulatorAlgaeSolenoidIdReverse},
+      m_firstSensor{Constants::kManipulatorFirstSensorId},
+      m_secondSensor{Constants::kManipulatorSecondSensorId},
+      m_coralMotor{Constants::kManipulatorCoralMotorId},
+      m_algaeMotor{Constants::kManipulatorAlgaeMotorId} {}
