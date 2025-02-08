@@ -1,12 +1,11 @@
 #include "auto/AutoCrossLine.h"
 
+#include <frc/DriverStation.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Translation2d.h>
 
 #include "auto/DriveLine.h"
 #include "auto/MoveFeeder.h"
-#include "frc/DriverStation.h"
-
 #include "systems/Feeder.h"
 
 AutoCrossLine::AutoCrossLine(frc::DriverStation::Alliance alliance,
