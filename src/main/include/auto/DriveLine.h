@@ -7,6 +7,7 @@
 #include "control/PIDController.h"
 
 class DriveLine : public Task {
+public:
   DriveLine(frc::Pose2d start, frc::Pose2d stop, bool resetPose = false,
             bool stopDistance = true, double maxV = Constants::kDefaultMaxV,
             double maxW = Constants::kDefaultMaxW,

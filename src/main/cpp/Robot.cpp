@@ -2,12 +2,14 @@
 
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
+#include <frc/geometry/Pose2d.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <memory>
 
 #include "Controllers.h"
 #include "Locations.h"
 #include "Util.h"
+#include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
@@ -84,23 +86,23 @@ void Robot::DisabledExit() {
   if (alliance.has_value()) {
     Locations::GetInstance().Generate(alliance.value());
 
-    SwerveDrive::GetInstance().ResetPose(
-        Locations::GetInstance().GetStartPosition(
-            alliance.value(), m_startChooser.GetSelected()));
-  }
+    frc::Pose2d start = Locations::GetInstance().GetStartPosition(
+        alliance.value(), m_startChooser.GetSelected());
+    SwerveDrive::GetInstance().ResetPose(start);
 
-  std::string autoName = m_autoChooser.GetSelected();
-  double t = frc::Timer::GetFPGATimestamp().value();
+    std::string autoName = m_autoChooser.GetSelected();
+    double t = frc::Timer::GetFPGATimestamp().value();
 
-  if (autoName == "DoNothing") {
-    m_auto = std::make_shared<AutoDoNothing>();
-    m_auto->Start(t);
-  } else if (autoName == "CrossLine") {
-    m_auto = std::make_shared<AutoDoNothing>();
-    m_auto->Start(t);
-  } else if (autoName == "OneCoral") {
-    m_auto = std::make_shared<AutoDoNothing>();
-    m_auto->Start(t);
+    if (autoName == "DoNothing") {
+      m_auto = std::make_shared<AutoDoNothing>();
+      m_auto->Start(t);
+    } else if (autoName == "CrossLine") {
+      m_auto = std::make_shared<AutoCrossLine>(alliance.value(), start);
+      m_auto->Start(t);
+    } else if (autoName == "OneCoral") {
+      m_auto = std::make_shared<AutoDoNothing>();
+      m_auto->Start(t);
+    }
   }
 }
 
