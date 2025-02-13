@@ -66,6 +66,66 @@ Robot::Robot() {
       double w = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetRightX());
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
+
+      if (Controllers::GetInstance()
+              .GetDriverController()
+              .GetAButtonPressed()) {
+        // Coral scoring location
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetBButtonPressed()) {
+        // Algae scoring location
+      }
+
+      if (Controllers::GetInstance()
+              .GetOperatorController()
+              .GetAButtonPressed()) {
+        // L1
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetBButtonPressed()) {
+        // L2
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetXButtonPressed()) {
+        // L3
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetYButtonPressed()) {
+        // L4
+      } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
+                 180) {
+        // L1 Algae
+      } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
+                 0) {
+        // L2 Algae
+      } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
+                 270) {
+        // Algae Auto
+        auto algaePosition = Cameras::GetInstance().GetAlgaeState();
+        if (algaePosition == Cameras::kBottom ||
+            algaePosition == Cameras::kBoth) {
+          Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae1);
+        } else if (algaePosition == Cameras::kTop) {
+          Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae2);
+        }
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetLeftBumperButtonPressed()) {
+        // Coral Arm Down
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetRightBumperButtonPressed()) {
+        // Coral Arm Up
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetLeftTriggerAxis() > 0.5) {
+        // Algae / Coral In
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetRightTriggerAxis() > 0.5) {
+        // Algae / Coral Out
+      }
     }
 
     Cameras::GetInstance().Update(mode, t);
