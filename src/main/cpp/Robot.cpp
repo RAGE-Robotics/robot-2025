@@ -1,5 +1,6 @@
 #include "Robot.h"
 
+#include <cmath>
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
 #include <frc/geometry/Pose2d.h>
@@ -12,6 +13,8 @@
 #include "Util.h"
 #include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
+#include "frc/geometry/Rotation2d.h"
+#include "frc/geometry/Translation2d.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Feeder.h"
@@ -88,7 +91,13 @@ Robot::Robot() {
           Controllers::GetInstance().GetDriverController().GetLeftX() >= 0.5 &&
           Controllers::GetInstance().GetDriverController().GetRawAxis(3) <=
               -0.5) {
-        SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
+        if (alliance.has_value() &&
+            alliance.value() == frc::DriverStation::Alliance::kRed) {
+          SwerveDrive::GetInstance().ResetPose(frc::Pose2d{
+              frc::Translation2d{}, frc::Rotation2d{units::radian_t{M_PI}}});
+        } else {
+          SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
+        }
       }
 
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
