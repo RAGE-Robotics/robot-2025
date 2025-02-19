@@ -71,10 +71,10 @@ void Manipulator::Update(Robot::Mode mode, double t) {
 }
 
 Manipulator::Manipulator()
-    : m_coralSolenoid{0, frc::PneumaticsModuleType::REVPH,
+    : m_coralSolenoid{frc::PneumaticsModuleType::REVPH,
                       Constants::kManipulatorCoralSolenoidIdForward,
                       Constants::kManipulatorCoralSolenoidIdReverse},
-      m_algaeSolenoid{0, frc::PneumaticsModuleType::REVPH,
+      m_algaeSolenoid{frc::PneumaticsModuleType::REVPH,
                       Constants::kManipulatorAlgaeSolenoidIdForward,
                       Constants::kManipulatorAlgaeSolenoidIdReverse},
       m_firstSensor{Constants::kManipulatorFirstSensorId},
