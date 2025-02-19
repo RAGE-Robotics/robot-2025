@@ -32,9 +32,9 @@ Robot::Robot() {
   // Call GetInstance() so the constructors get called
   Cameras::GetInstance();
   SwerveDrive::GetInstance();
-  Elevator::GetInstance();
-  Feeder::GetInstance();
-  Manipulator::GetInstance();
+  // Elevator::GetInstance();
+  // Feeder::GetInstance();
+  // Manipulator::GetInstance();
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
@@ -130,9 +130,9 @@ Robot::Robot() {
 
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
-    Elevator::GetInstance().Update(mode, t);
-    Feeder::GetInstance().Update(mode, t);
-    Manipulator::GetInstance().Update(mode, t);
+    // Elevator::GetInstance().Update(mode, t);
+    // Feeder::GetInstance().Update(mode, t);
+    // Manipulator::GetInstance().Update(mode, t);
   }};
 }
 
