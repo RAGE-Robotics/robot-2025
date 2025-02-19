@@ -65,7 +65,7 @@ SwerveDrive::SwerveDrive()
   config.kI = kI;
   config.kD = kD;
 
-  // At the same time, go ahead and configur the remote sensor to be the
+  // At the same time, go ahead and configure the remote sensor to be the
   // CANCoder.
   configs::TalonFXConfiguration talonConfig;
   talonConfig.Feedback.FeedbackSensorSource =
@@ -73,8 +73,8 @@ SwerveDrive::SwerveDrive()
 
   // Create a current limit config to apply to the drive motors
   auto currentLimitConfig = configs::CurrentLimitsConfigs{}
-                                .WithStatorCurrentLimitEnable(true)
-                                .WithStatorCurrentLimit(units::ampere_t{
+                                .WithSupplyCurrentLimitEnable(true)
+                                .WithSupplyCurrentLimit(units::ampere_t{
                                     Constants::kDriveCurrentLimit});
 
   // Apply an open loop ramp rate to the drive motors only
