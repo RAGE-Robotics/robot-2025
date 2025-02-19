@@ -6,6 +6,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <memory>
 
+#include "Constants.h"
 #include "Controllers.h"
 #include "Locations.h"
 #include "Util.h"
@@ -59,13 +60,19 @@ Robot::Robot() {
       // the split setup where the left joystick controls velocity, and the
       // right joystick controls the rotation. The Util::exp() function squares
       // the input while keeping the sign.
-      double vx = Util::Exp(
-          -Controllers::GetInstance().GetDriverController().GetLeftY());
-      double vy = Util::Exp(
-          -Controllers::GetInstance().GetDriverController().GetLeftX());
+      double vx =
+          Util::Exp(
+              -Controllers::GetInstance().GetDriverController().GetLeftY()) *
+          Constants::kDriveControlMultipler;
+      double vy =
+          Util::Exp(
+              -Controllers::GetInstance().GetDriverController().GetLeftX()) *
+          Constants::kDriveControlMultipler;
       // Idk why GetRightX() doesn't work
-      double w = Util::Exp(
-          -Controllers::GetInstance().GetDriverController().GetRawAxis(3));
+      double w =
+          Util::Exp(
+              -Controllers::GetInstance().GetDriverController().GetRawAxis(3)) *
+          Constants::kDriveAngularControlMultiplier;
 
       // The auto will reset the pose to be facing towards the driver on the red
       // alliance so it needs to be corrected
