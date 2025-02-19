@@ -78,9 +78,9 @@ Robot::Robot() {
 
       if (Controllers::GetInstance().GetDriverController().GetRawButton(10) &&
           Controllers::GetInstance().GetDriverController().GetRawButton(11) &&
-          Controllers::GetInstance().GetDriverController().GetLeftX() >= 0.95 &&
+          Controllers::GetInstance().GetDriverController().GetLeftX() >= 0.5 &&
           Controllers::GetInstance().GetDriverController().GetRawAxis(3) <=
-              -0.95) {
+              -0.5) {
         SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
       }
 
