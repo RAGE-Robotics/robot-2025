@@ -32,9 +32,9 @@ Robot::Robot() {
   // Call GetInstance() so the constructors get called
   Cameras::GetInstance();
   SwerveDrive::GetInstance();
-  // Elevator::GetInstance();
-  // Feeder::GetInstance();
-  // Manipulator::GetInstance();
+  Elevator::GetInstance();
+  Feeder::GetInstance();
+  Manipulator::GetInstance();
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
@@ -63,8 +63,27 @@ Robot::Robot() {
           -Controllers::GetInstance().GetDriverController().GetLeftY());
       double vy = Util::Exp(
           -Controllers::GetInstance().GetDriverController().GetLeftX());
+      // Idk why GetRightX() doesn't work
       double w = Util::Exp(
-          -Controllers::GetInstance().GetDriverController().GetRightX());
+          -Controllers::GetInstance().GetDriverController().GetRawAxis(3));
+
+      // The auto will reset the pose to be facing towards the driver on the red
+      // alliance so it needs to be corrected
+      auto alliance = frc::DriverStation::GetAlliance();
+      if (alliance.has_value() &&
+          alliance.value() == frc::DriverStation::Alliance::kRed) {
+        vx *= -1;
+        vy *= -1;
+      }
+
+      if (Controllers::GetInstance().GetDriverController().GetRawButton(10) &&
+          Controllers::GetInstance().GetDriverController().GetRawButton(11) &&
+          Controllers::GetInstance().GetDriverController().GetLeftX() >= 0.95 &&
+          Controllers::GetInstance().GetDriverController().GetRawAxis(3) <=
+              -0.95) {
+        SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
+      }
+
       SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
 
       if (Controllers::GetInstance()
@@ -130,9 +149,9 @@ Robot::Robot() {
 
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
-    // Elevator::GetInstance().Update(mode, t);
-    // Feeder::GetInstance().Update(mode, t);
-    // Manipulator::GetInstance().Update(mode, t);
+    Elevator::GetInstance().Update(mode, t);
+    Feeder::GetInstance().Update(mode, t);
+    Manipulator::GetInstance().Update(mode, t);
   }};
 }
 

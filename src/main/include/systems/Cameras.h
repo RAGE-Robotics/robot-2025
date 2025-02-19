@@ -24,10 +24,12 @@ private:
   photon::PhotonCamera m_detectCamera{"DETECT"};
 
   photon::PhotonPoseEstimator m_frontPoseEstimator{
-      frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape),
+      frc::AprilTagFieldLayout::LoadField(
+          frc::AprilTagField::k2025ReefscapeWelded),
       photon::MULTI_TAG_PNP_ON_COPROCESSOR, Constants::kFrontCameraTransform};
   photon::PhotonPoseEstimator m_backPoseEstimator{
-      frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape),
+      frc::AprilTagFieldLayout::LoadField(
+          frc::AprilTagField::k2025ReefscapeWelded),
       photon::MULTI_TAG_PNP_ON_COPROCESSOR, Constants::kBackCameraTransform};
 
   AlgaeState m_algaeState;
