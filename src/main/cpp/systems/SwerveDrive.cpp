@@ -135,10 +135,14 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
 
     // Optimize the angle setpoints to make the wheels reach the correct angle
     // as fast as possible (not go the long way around).
-    fl.Optimize(m_encoders[0].GetPosition().GetValue() * 2 * M_PI);
-    fr.Optimize(m_encoders[1].GetPosition().GetValue() * 2 * M_PI);
-    bl.Optimize(m_encoders[2].GetPosition().GetValue() * 2 * M_PI);
-    br.Optimize(m_encoders[3].GetPosition().GetValue() * 2 * M_PI);
+    fl.Optimize(
+        units::radian_t{m_encoders[0].GetPosition().GetValue() * 2 * M_PI});
+    fr.Optimize(
+        units::radian_t{m_encoders[1].GetPosition().GetValue() * 2 * M_PI});
+    bl.Optimize(
+        units::radian_t{m_encoders[2].GetPosition().GetValue() * 2 * M_PI});
+    br.Optimize(
+        units::radian_t{m_encoders[3].GetPosition().GetValue() * 2 * M_PI});
 
     // Decrease the speed of modules that aren't pointing in the correct
     // direction.
