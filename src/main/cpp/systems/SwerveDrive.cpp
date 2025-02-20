@@ -65,12 +65,6 @@ SwerveDrive::SwerveDrive()
   config.kI = kI;
   config.kD = kD;
 
-  // At the same time, go ahead and configure the remote sensor to be the
-  // CANCoder.
-  configs::TalonFXConfiguration talonConfig;
-  talonConfig.Feedback.FeedbackSensorSource =
-      signals::FeedbackSensorSourceValue::RemoteCANcoder;
-
   // Create a current limit config to apply to the drive motors
   auto currentLimitConfig = configs::CurrentLimitsConfigs{}
                                 .WithSupplyCurrentLimitEnable(true)
@@ -83,10 +77,14 @@ SwerveDrive::SwerveDrive()
           units::second_t{Constants::kDriveRampRate});
 
   for (int i = 0; i < 4; i++) {
-    m_steeringMotors[i].GetConfigurator().Apply(config);
-
-    talonConfig.Feedback.FeedbackRemoteSensorID = m_encoders[i].GetDeviceID();
-    m_steeringMotors[i].GetConfigurator().Apply(talonConfig);
+    // At the same time, go ahead and configure the remote sensor to be the
+    // CANCoder.
+    m_encoders[i].GetConfigurator().Apply(
+        configs::MagnetSensorConfigs{}.WithSensorDirection(
+            signals::SensorDirectionValue::Clockwise_Positive));
+    m_steeringMotors[i].GetConfigurator().Apply(
+        configs::TalonFXConfiguration{}.WithSlot0(config).WithFeedback(
+            configs::FeedbackConfigs{}.WithRemoteCANcoder(m_encoders[i])));
 
     m_driveMotors[i].GetConfigurator().Apply(currentLimitConfig);
     m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);

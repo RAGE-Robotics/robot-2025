@@ -32,7 +32,7 @@ public:
 
   // kS, kV, kP, kI, kD
   static constexpr std::tuple<double, double, double, double, double>
-      kSteeringMotorGains{0.1, 0.1, 0.05, 0.0, 0.0};
+      kSteeringMotorGains{0.0, 0.0, 4.0, 0.0, 0.0};
 
   static constexpr double kWheelRadius = 0.7 / 2; // meters
 
