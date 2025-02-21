@@ -14,7 +14,7 @@ public:
   // Constants for the drivetrain
   static constexpr int kPigeonCanId = 25;
 
-  static constexpr auto kWheelBaseWidth = 0.5_m;
+  static constexpr auto kWheelBaseWidth = 24.375_in;
 
   static constexpr int kFlSteeringMotorId = 14;
   static constexpr int kFrSteeringMotorId = 12;
@@ -32,7 +32,7 @@ public:
 
   // kS, kV, kP, kI, kD
   static constexpr std::tuple<double, double, double, double, double>
-      kSteeringMotorGains{0.0, 0.0, 4.0, 0.0, 0.0};
+      kSteeringMotorGains{0.0, 0.0, 30.0, 0.0, 0.0};
 
   static constexpr double kWheelRadius = 0.7 / 2; // meters
 

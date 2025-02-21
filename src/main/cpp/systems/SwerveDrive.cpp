@@ -81,10 +81,13 @@ SwerveDrive::SwerveDrive()
     // CANCoder.
     m_encoders[i].GetConfigurator().Apply(
         configs::MagnetSensorConfigs{}.WithSensorDirection(
-            signals::SensorDirectionValue::Clockwise_Positive));
+            signals::SensorDirectionValue::CounterClockwise_Positive));
     m_steeringMotors[i].GetConfigurator().Apply(
-        configs::TalonFXConfiguration{}.WithSlot0(config).WithFeedback(
-            configs::FeedbackConfigs{}.WithRemoteCANcoder(m_encoders[i])));
+        configs::TalonFXConfiguration{}
+            .WithSlot0(config)
+            .WithFeedback(
+                configs::FeedbackConfigs{}.WithRemoteCANcoder(m_encoders[i]))
+            .WithMotorOutput(configs::MotorOutputConfigs{}.WithInverted(true)));
 
     m_driveMotors[i].GetConfigurator().Apply(currentLimitConfig);
     m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
@@ -135,14 +138,10 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
 
     // Optimize the angle setpoints to make the wheels reach the correct angle
     // as fast as possible (not go the long way around).
-    fl.Optimize(
-        units::radian_t{m_encoders[0].GetPosition().GetValue() * 2 * M_PI});
-    fr.Optimize(
-        units::radian_t{m_encoders[1].GetPosition().GetValue() * 2 * M_PI});
-    bl.Optimize(
-        units::radian_t{m_encoders[2].GetPosition().GetValue() * 2 * M_PI});
-    br.Optimize(
-        units::radian_t{m_encoders[3].GetPosition().GetValue() * 2 * M_PI});
+    fl.Optimize(m_encoders[0].GetPosition().GetValue());
+    fr.Optimize(m_encoders[1].GetPosition().GetValue());
+    bl.Optimize(m_encoders[2].GetPosition().GetValue());
+    br.Optimize(m_encoders[3].GetPosition().GetValue());
 
     // Decrease the speed of modules that aren't pointing in the correct
     // direction.
