@@ -19,7 +19,6 @@ public:
 
 private:
   Looper m_looper;
-  Mode m_mode;
 
   frc::SendableChooser<int> m_startChooser;
   frc::SendableChooser<std::string> m_autoChooser;

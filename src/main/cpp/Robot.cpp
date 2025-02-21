@@ -43,13 +43,13 @@ Robot::Robot() {
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
   m_looper = Looper{[this] {
-    Mode mode;
-    if (IsAutonomous()) {
-      mode = kAuto;
-    } else if (IsTeleop()) {
-      mode = kTeleop;
-    } else {
-      mode = kDisabled;
+    Mode mode = kDisabled;
+    if (IsEnabled()) {
+      if (IsAutonomous()) {
+        mode = kAuto;
+      } else if (IsTeleop()) {
+        mode = kTeleop;
+      }
     }
 
     double t = frc::Timer::GetFPGATimestamp().value();
