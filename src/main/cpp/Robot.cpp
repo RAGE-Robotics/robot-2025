@@ -63,19 +63,17 @@ Robot::Robot() {
       // the split setup where the left joystick controls velocity, and the
       // right joystick controls the rotation. The Util::exp() function squares
       // the input while keeping the sign.
-      double vx =
-          Util::Exp(
-              -Controllers::GetInstance().GetDriverController().GetLeftY()) *
-          Constants::kDriveControlMultipler;
-      double vy =
-          Util::Exp(
-              -Controllers::GetInstance().GetDriverController().GetLeftX()) *
-          Constants::kDriveControlMultipler;
-      // Idk why GetRightX() doesn't work
-      double w =
-          Util::Exp(
-              -Controllers::GetInstance().GetDriverController().GetRawAxis(3)) *
-          Constants::kDriveAngularControlMultiplier;
+      double leftY =
+          Controllers::GetInstance().GetDriverController().GetLeftY();
+      double vx = Util::Exp(-leftY) * Constants::kDriveControlMultipler;
+
+      double leftX =
+          Controllers::GetInstance().GetDriverController().GetLeftX();
+      double vy = Util::Exp(-leftX) * Constants::kDriveControlMultipler;
+      // GetRightX() doesn't work in the Linux simulation for some reason
+      double rightX =
+          Controllers::GetInstance().GetDriverController().GetRightX();
+      double w = Util::Exp(-rightX) * Constants::kDriveAngularControlMultiplier;
 
       // The auto will reset the pose to be facing towards the driver on the red
       // alliance so it needs to be corrected
@@ -88,9 +86,7 @@ Robot::Robot() {
 
       if (Controllers::GetInstance().GetDriverController().GetRawButton(10) &&
           Controllers::GetInstance().GetDriverController().GetRawButton(11) &&
-          Controllers::GetInstance().GetDriverController().GetLeftX() >= 0.5 &&
-          Controllers::GetInstance().GetDriverController().GetRawAxis(3) <=
-              -0.5) {
+          leftX >= 0.5 && rightX <= -0.5) {
         if (alliance.has_value() &&
             alliance.value() == frc::DriverStation::Alliance::kRed) {
           SwerveDrive::GetInstance().ResetPose(frc::Pose2d{
