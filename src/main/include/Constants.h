@@ -67,29 +67,30 @@ public:
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 18;
   static constexpr int kElevatorSecondMotorId = 20;
-  static constexpr double kElevatorMetersPerRotation = 0.1715 / kInchesPerMeter;
+  static constexpr double kElevatorMetersPerRotation = 0.1366 / 20 * 2;
 
-  // Value is in meters per second
-  static constexpr double kElevatorMaxVelocity =
-      0.1 / kElevatorMetersPerRotation;
+  // Values is in meters per second
+  static constexpr double kElevatorCruiseVelocity =
+      1.0 / kElevatorMetersPerRotation;
   // Value is in meters per second per second
   static constexpr double kElevatorAcceleration =
-      0.1 / kElevatorMetersPerRotation;
+      1.5 / kElevatorMetersPerRotation;
   // Value in meters per second per second per second
-  static constexpr double kElevatorJerk = 0.1 / kElevatorMetersPerRotation;
-  // P I D CruiseVelocity Velocity S(overcome static friction) A(output per unit
-  // of target acceleration)       Accel Jerk
+  static constexpr double kElevatorJerk = 1.0 / kElevatorMetersPerRotation;
+  // P I D CruiseVelocity kV S(overcome static friction) A(output per unit
+  // of target acceleration)       Accel Jerk     kG
   static constexpr std::tuple<double, double, double, double, double, double,
-                              double, double, double>
-      kElevatorMotorGains{0.1,
+                              double, double, double, double>
+      kElevatorMotorGains{10,
                           0,
                           0,
-                          10,
-                          kElevatorMaxVelocity,
+                          kElevatorCruiseVelocity,
+                          0.126,
                           0.01,
                           0.24,
                           kElevatorAcceleration,
-                          kElevatorJerk};
+                          kElevatorJerk,
+                          0.1};
   // Starting offset in meters
   static constexpr double kElevatorHomePositionMeters = 0.0;
   static constexpr double kElevatorHomePositionRotations =
@@ -99,19 +100,19 @@ public:
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
   static constexpr double kElevatorL2PositionMeters = 0.313;
   static constexpr double kElevatorL2PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
+      kElevatorL2PositionMeters / kElevatorMetersPerRotation;
   static constexpr double kElevatorL3PositionMeters = 0.719;
   static constexpr double kElevatorL3PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
+      kElevatorL3PositionMeters / kElevatorMetersPerRotation;
   static constexpr double kElevatorL4PositionMeters = 1.3356;
   static constexpr double kElevatorL4PositionRotations =
-      kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorAlgae1PositionMeters = 0.484;
+      kElevatorL4PositionMeters / kElevatorMetersPerRotation;
+  static constexpr double kElevatorAlgae1PositionMeters = 0.434;
   static constexpr double kElevatorAlgae1PositionRotations =
       kElevatorAlgae1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorAlgae2PositionMeters = 0.89;
+  static constexpr double kElevatorAlgae2PositionMeters = 0.83;
   static constexpr double kElevatorAlgae2PositionRotations =
-      kElevatorAlgae1PositionMeters / kElevatorMetersPerRotation;
+      kElevatorAlgae2PositionMeters / kElevatorMetersPerRotation;
 
   static constexpr double kElevatorDefaultTolerance = 0.01; // meters
 

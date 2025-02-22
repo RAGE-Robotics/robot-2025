@@ -30,7 +30,7 @@ SwerveDrive::SwerveDrive()
                  {Constants::kBrEncoderId}},
       m_poseEstimator{
           m_kinematics,
-          GetGyroRotation2d(),
+          GetPose2d().Rotation(),
           {frc::SwerveModulePosition{
                units::meter_t{
                    m_driveMotors[0].GetPosition().GetValue().value() * 2 *
@@ -107,7 +107,7 @@ SwerveDrive::SwerveDrive()
 void SwerveDrive::Update(Robot::Mode mode, double t) {
   // Update the estimation of where the robot thinks it is on the field
   m_poseEstimator.Update(
-      GetGyroRotation2d(),
+      GetPose2d().Rotation(),
       {frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[0].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *

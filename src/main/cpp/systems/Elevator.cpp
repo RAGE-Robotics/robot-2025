@@ -9,7 +9,7 @@ void Elevator::SetPosition(Elevator::Position position) {
 };
 
 Elevator::Elevator() {
-  auto [kP, kI, kD, kCV, kV, kA, kS, kAccel, kJ] =
+  auto [kP, kI, kD, kCV, kV, kA, kS, kAccel, kJ, kG] =
       Constants::kElevatorMotorGains;
 
   ctre::phoenix6::configs::TalonFXConfiguration talonFXConfigs;
@@ -20,6 +20,7 @@ Elevator::Elevator() {
   motorConfig.kV = kV;
   motorConfig.kA = kA;
   motorConfig.kS = kS;
+  motorConfig.kG = kG;
 
   auto &motionMagicConfigs = talonFXConfigs.MotionMagic;
   motionMagicConfigs
@@ -34,36 +35,64 @@ Elevator::Elevator() {
 
 void Elevator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
+    m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
+    m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
+
     controls::MotionMagicVoltage m_mainOutput{0_tr};
     switch (m_position) {
+    case kHome:
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorHomePositionRotations})
+                                 .WithSlot(0));
+      break;
     case kL1:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorL1PositionRotations}));
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorL1PositionRotations})
+                                 .WithSlot(0));
       break;
     case kL2:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorL2PositionRotations}));
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorL2PositionRotations})
+                                 .WithSlot(0));
       break;
     case kL3:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorL3PositionRotations}));
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorL3PositionRotations})
+                                 .WithSlot(0));
       break;
     case kL4:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorL4PositionRotations}));
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorL4PositionRotations})
+                                 .WithSlot(0));
       break;
     case kAlgae1:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorAlgae1PositionRotations}));
+      m_mainMotor.SetControl(
+          m_mainOutput
+              .WithPosition(
+                  units::turn_t{Constants::kElevatorAlgae1PositionRotations})
+              .WithSlot(0));
       break;
     case kAlgae2:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorAlgae2PositionRotations}));
+      m_mainMotor.SetControl(
+          m_mainOutput
+              .WithPosition(
+                  units::turn_t{Constants::kElevatorAlgae2PositionRotations})
+              .WithSlot(0));
       break;
     default:
-      m_mainMotor.SetControl(m_mainOutput.WithPosition(
-          units::turn_t{Constants::kElevatorHomePositionRotations}));
+      m_mainMotor.SetControl(m_mainOutput
+                                 .WithPosition(units::turn_t{
+                                     Constants::kElevatorHomePositionRotations})
+                                 .WithSlot(0));
     }
+  } else {
+    m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
+    m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
   }
 }
 

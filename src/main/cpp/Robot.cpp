@@ -84,19 +84,22 @@ Robot::Robot() {
         vy *= -1;
       }
 
-      if (Controllers::GetInstance().GetDriverController().GetRawButton(10) &&
-          Controllers::GetInstance().GetDriverController().GetRawButton(11) &&
-          leftX >= 0.5 && rightX <= -0.5) {
-        if (alliance.has_value() &&
-            alliance.value() == frc::DriverStation::Alliance::kRed) {
-          SwerveDrive::GetInstance().ResetPose(frc::Pose2d{
-              frc::Translation2d{}, frc::Rotation2d{units::radian_t{M_PI}}});
-        } else {
-          SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
+      if (Controllers::GetInstance().GetDriverController().GetRawButton(9) &&
+          Controllers::GetInstance().GetDriverController().GetRawButton(10)) {
+        if (leftX >= 0.5 && rightX <= -0.5) {
+          if (alliance.has_value() &&
+              alliance.value() == frc::DriverStation::Alliance::kRed) {
+            SwerveDrive::GetInstance().ResetPose(frc::Pose2d{
+                frc::Translation2d{}, frc::Rotation2d{units::radian_t{M_PI}}});
+          } else {
+            SwerveDrive::GetInstance().ResetPose(frc::Pose2d{});
+          }
         }
-      }
 
-      SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
+        SwerveDrive::GetInstance().DriveVelocity(0, 0, 0);
+      } else {
+        SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
+      }
 
       if (Controllers::GetInstance()
               .GetDriverController()
@@ -112,24 +115,30 @@ Robot::Robot() {
               .GetOperatorController()
               .GetAButtonPressed()) {
         // L1
+        Elevator::GetInstance().SetPosition(Elevator::Position::kL1);
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetBButtonPressed()) {
         // L2
+        Elevator::GetInstance().SetPosition(Elevator::Position::kL2);
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetXButtonPressed()) {
         // L3
+        Elevator::GetInstance().SetPosition(Elevator::Position::kL3);
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetYButtonPressed()) {
         // L4
+        Elevator::GetInstance().SetPosition(Elevator::Position::kL4);
       } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
                  180) {
         // L1 Algae
+        Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae1);
       } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
                  0) {
         // L2 Algae
+        Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae2);
       } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
                  270) {
         // Algae Auto
