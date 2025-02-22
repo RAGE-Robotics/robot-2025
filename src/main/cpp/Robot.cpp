@@ -1,6 +1,5 @@
 #include "Robot.h"
 
-#include <cmath>
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
 #include <frc/geometry/Pose2d.h>
@@ -13,8 +12,6 @@
 #include "Util.h"
 #include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
-#include "frc/geometry/Rotation2d.h"
-#include "frc/geometry/Translation2d.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Feeder.h"
@@ -39,6 +36,9 @@ Robot::Robot() {
   Elevator::GetInstance();
   Feeder::GetInstance();
   Manipulator::GetInstance();
+
+  // Start the compressor
+  m_pneumaticsHub.EnableCompressorDigital();
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.

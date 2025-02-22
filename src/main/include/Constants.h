@@ -30,6 +30,9 @@ public:
   static constexpr int kBlEncoderId = 22;
   static constexpr int kBrEncoderId = 21;
 
+  static constexpr units::turn_t kEncoderOffsets[] = {
+      -0.14599609375_tr, 0.302734375_tr, 0.040283203125_tr, -0.080810546875_tr};
+
   // kS, kV, kP, kI, kD
   static constexpr std::tuple<double, double, double, double, double>
       kSteeringMotorGains{0.0, 0.0, 30.0, 0.0, 0.0};
@@ -38,11 +41,11 @@ public:
 
   static constexpr double kDriveCurrentLimit = 60; // Amps
   static constexpr double kDriveRampRate = 0.25;   // Seconds
-  static constexpr double kDriveVelocityMultiplier = 0.25;
+  static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 22.0 / 72.0;
-  static constexpr double kDriveControlMultipler = 1.0; // meters per second
+  static constexpr double kDriveControlMultipler = 4.65; // meters per second
   static constexpr double kDriveAngularControlMultiplier =
-      1.0; // radians per second
+      5.0; // radians per second
 
   static constexpr double kDefaultMaxV = 1.0;              // meters per second
   static constexpr double kDefaultMaxW = 1.0;              // radians per second

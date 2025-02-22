@@ -1,5 +1,6 @@
 #pragma once
 
+#include <frc/PneumaticHub.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <memory>
@@ -18,6 +19,8 @@ public:
   void DisabledExit() override;
 
 private:
+  frc::PneumaticHub m_pneumaticsHub;
+
   Looper m_looper;
 
   frc::SendableChooser<int> m_startChooser;

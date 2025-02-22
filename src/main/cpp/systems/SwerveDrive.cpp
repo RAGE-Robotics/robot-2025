@@ -80,8 +80,10 @@ SwerveDrive::SwerveDrive()
     // At the same time, go ahead and configure the remote sensor to be the
     // CANCoder.
     m_encoders[i].GetConfigurator().Apply(
-        configs::MagnetSensorConfigs{}.WithSensorDirection(
-            signals::SensorDirectionValue::CounterClockwise_Positive));
+        configs::MagnetSensorConfigs{}
+            .WithSensorDirection(
+                signals::SensorDirectionValue::CounterClockwise_Positive)
+            .WithMagnetOffset(Constants::kEncoderOffsets[i]));
     m_steeringMotors[i].GetConfigurator().Apply(
         configs::TalonFXConfiguration{}
             .WithSlot0(config)
