@@ -15,12 +15,11 @@ public:
     return instance;
   }
 
-  enum CoralState { kIdle, kIntaking, kIntakingSlow, kHold, kPlacing };
-
-  enum AlgaeState { kIdleIn, kIdleOut, kGrabbing, kThrowing };
-
-  void SetCoralState(CoralState state);
-  void SetAlgaeState(AlgaeState state);
+  void ExtendArm();
+  void RetractArm();
+  void SetAlgaeSpeed(double speed);
+  void StartIntakingCoral();
+  void StopIntakingcoral();
   void Update(Robot::Mode mode, double t);
 
 private:
@@ -28,11 +27,9 @@ private:
 
   Manipulator();
 
-  Position m_coralPosition = kIn;
-  Position m_algaePosition = kIn;
-
-  CoralState m_coralState = kIdle;
-  AlgaeState m_algaeState = kIdleIn;
+  bool m_armOut = false;
+  double m_algaeSpeed = 0;
+  bool m_coralIntaking = true;
 
   frc::DoubleSolenoid m_coralSolenoid;
   frc::DigitalInput m_firstSensor, m_secondSensor;

@@ -38,7 +38,9 @@ Robot::Robot() {
   Manipulator::GetInstance();
 
   // Start the compressor
-  m_pneumaticsHub.EnableCompressorDigital();
+  m_compressor.EnableAnalog(
+      units::pounds_per_square_inch_t{Constants::kMinPressure},
+      units::pounds_per_square_inch_t{Constants::kMaxPressure});
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
@@ -152,19 +154,32 @@ Robot::Robot() {
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetLeftBumperButtonPressed()) {
-        // Coral Arm Down
+        // Algae Arm Down
+        Manipulator::GetInstance().ExtendArm();
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetRightBumperButtonPressed()) {
-        // Coral Arm Up
+        // Algae Arm Up
+        Manipulator::GetInstance().RetractArm();
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetLeftTriggerAxis() > 0.5) {
-        // Algae / Coral In
+        // Algae In
+        Manipulator::GetInstance().SetAlgaeSpeed(
+            Constants::kManipulatorAlgaeManipulatorSpeed);
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetRightTriggerAxis() > 0.5) {
-        // Algae / Coral Out
+        // Algae Out
+        Manipulator::GetInstance().SetAlgaeSpeed(
+            Constants::kManipulatorAlgaeOuttakeSpeed);
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetRightX() > 0.5) {
+        Manipulator::GetInstance().StartIntakingCoral();
+      } else {
+        Manipulator::GetInstance().SetAlgaeSpeed(0);
+        Manipulator::GetInstance().StopIntakingcoral();
       }
     }
 

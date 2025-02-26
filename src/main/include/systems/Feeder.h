@@ -2,7 +2,7 @@
 
 #include "System.h"
 
-#include <frc/DoubleSolenoid.h>
+#include <frc/Solenoid.h>
 
 class Feeder : public System {
 public:
@@ -20,5 +20,5 @@ private:
   Feeder();
 
   Position m_position = kDown;
-  frc::DoubleSolenoid m_solenoid;
+  frc::Solenoid m_solenoid;
 };

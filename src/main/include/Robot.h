@@ -1,6 +1,6 @@
 #pragma once
 
-#include <frc/PneumaticHub.h>
+#include <frc/Compressor.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <memory>
@@ -19,7 +19,7 @@ public:
   void DisabledExit() override;
 
 private:
-  frc::PneumaticHub m_pneumaticsHub;
+  frc::Compressor m_compressor{frc::PneumaticsModuleType::REVPH};
 
   Looper m_looper;
 

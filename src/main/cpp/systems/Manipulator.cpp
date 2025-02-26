@@ -2,70 +2,42 @@
 
 #include "Constants.h"
 #include "Robot.h"
+#include "systems/Elevator.h"
 
 using namespace ctre::phoenix;
 
-void Manipulator::SetCoralState(CoralState state) { m_coralState = state; }
+void Manipulator::ExtendArm() { m_armOut = true; }
 
-void Manipulator::SetAlgaeState(AlgaeState state) { m_algaeState = state; }
+void Manipulator::RetractArm() { m_armOut = false; }
+
+void Manipulator::SetAlgaeSpeed(double speed) { m_algaeSpeed = speed; }
+
+void Manipulator::StartIntakingCoral() { m_coralIntaking = true; }
+
+void Manipulator::StopIntakingcoral() { m_coralIntaking = false; }
 
 void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
-    if (m_coralState == kIntaking) {
-      m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
-      // Manipulator motor fast
-      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorCoralSpeedFast);
-
-      if (m_secondSensor.Get()) {
-        m_coralState = kIntakingSlow;
-      }
-    } else if (m_coralState == kIntakingSlow) {
-      m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
-      // Move Manipulator wheels slowly
-      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorCoralSpeedSlow);
-
-      if (!m_firstSensor.Get()) {
-        m_coralState = kHold;
-      }
-    } else if (m_coralState == kHold) {
-      m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
-
-      if (m_firstSensor.Get()) {
-        // Turn off motors
-        m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
-
-      } else {
-        // Run motors in reverse slowly
-        m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                         Constants::kManipulatorCoralSpeedReverse);
-      }
-    } else if (m_coralState == kPlacing) {
-      m_coralSolenoid.Set(frc::DoubleSolenoid::kForward);
-      // Move Manipulator wheels fast
-      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorCoralSpeedFast);
-
-      if (!m_secondSensor.Get()) {
-        m_coralState = kIdle;
-      }
+    if (m_armOut) {
+      m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
+    } else {
+      m_algaeSolenoid.Set(frc::DoubleSolenoid::kReverse);
     }
 
-    if (m_algaeState == kIdleIn) {
-      m_algaeSolenoid.Set(frc::DoubleSolenoid::kReverse);
-      m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
-    } else if (m_algaeState == kIdleOut) {
-      m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
-      m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
-    } else if (m_algaeState == kGrabbing) {
-      m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
-      m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorAlgaeManipulatorSpeed);
-    } else if (m_algaeState == kThrowing) {
-      m_algaeSolenoid.Set(frc::DoubleSolenoid::kForward);
-      m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorAlgaeOuttakeSpeed);
+    m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
+                     m_algaeSpeed);
+
+    if (Elevator::GetInstance().GetPosition() > 0) {
+      m_coralSolenoid.Set(frc::DoubleSolenoid::kForward);
+    } else {
+      m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
+    }
+
+    if (m_coralIntaking) {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
+                       Constants::kManipulatorCoralSpeedFast);
+    } else {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
     }
   }
 }

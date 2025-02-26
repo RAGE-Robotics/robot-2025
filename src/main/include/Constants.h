@@ -117,18 +117,17 @@ public:
   static constexpr double kElevatorDefaultTolerance = 0.01; // meters
 
   // Feeder
-  static constexpr int kFeederSolenoidIdForward = 0;
-  static constexpr int kFeederSolenoidIdReverse = 1;
+  static constexpr int kFeederSolenoidId = 10;
 
   // Manipulator
-  static constexpr int kManipulatorCoralSolenoidIdForward = 2;
-  static constexpr int kManipulatorCoralSolenoidIdReverse = 3;
-  static constexpr int kManipulatorAlgaeSolenoidIdForward = 4;
-  static constexpr int kManipulatorAlgaeSolenoidIdReverse = 5;
+  static constexpr int kManipulatorCoralSolenoidIdForward = 12;
+  static constexpr int kManipulatorCoralSolenoidIdReverse = 13;
+  static constexpr int kManipulatorAlgaeSolenoidIdForward = 11;
+  static constexpr int kManipulatorAlgaeSolenoidIdReverse = 14;
   static constexpr int kManipulatorFirstSensorId = 0;
   static constexpr int kManipulatorSecondSensorId = 1;
-  static constexpr int kManipulatorCoralMotorId = 9;
-  static constexpr int kManipulatorAlgaeMotorId = 10;
+  static constexpr int kManipulatorCoralMotorId = 10;
+  static constexpr int kManipulatorAlgaeMotorId = 6;
   static constexpr double kManipulatorCoralSpeedFast = 1.0;
   static constexpr double kManipulatorCoralSpeedSlow = 0.1;
   static constexpr double kManipulatorCoralSpeedReverse = -0.1;
@@ -145,4 +144,8 @@ public:
   static constexpr double kStartLineOffset = 300 / kInchesPerMeter;
   static constexpr double kStartOffsetY = 1;   // meters
   static constexpr double kStartOffsetX = 0.1; // meters
+
+  // Pneumatics
+  static constexpr double kMinPressure = 100; // PSI
+  static constexpr double kMaxPressure = 120; // PSI
 };
