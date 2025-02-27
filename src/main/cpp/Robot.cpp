@@ -12,6 +12,8 @@
 #include "Util.h"
 #include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
+#include "cameraserver/CameraServer.h"
+#include "opencv2/imgproc.hpp"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Manipulator.h"
@@ -40,6 +42,9 @@ Robot::Robot() {
       units::pounds_per_square_inch_t{Constants::kMinPressure},
       units::pounds_per_square_inch_t{Constants::kMaxPressure});
 
+  m_statusFeed = frc::CameraServer::PutVideo(
+      "Status", Constants::kStatusFrameWidth, Constants::kStatusFrameHeight);
+
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
   m_looper = Looper{[this] {
@@ -53,6 +58,46 @@ Robot::Robot() {
     }
 
     double t = frc::Timer::GetFPGATimestamp().value();
+
+    double yFactor = 1;
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance.has_value() &&
+        alliance.value() == frc::DriverStation::Alliance::kRed) {
+      yFactor = -1;
+    }
+
+    double reef = Constants::kReefOffset;
+    if (alliance.has_value() &&
+        alliance.value() == frc::DriverStation::Alliance::kRed) {
+      reef = Constants::kFieldLength - Constants::kReefOffset;
+    }
+
+    m_statusFrame = cv::Scalar{0, 0, 0};
+    for (auto location : Locations::GetInstance().GetAlgaePositions()) {
+      int x = yFactor *
+                  (location.Translation().Y().value() -
+                   Constants::kFieldWidth / 2) *
+                  Constants::kStatusFrameScale +
+              Constants::kStatusFrameWidth / 2.0;
+      int y = -yFactor * -(location.Translation().X().value() - reef) *
+                  Constants::kStatusFrameScale +
+              Constants::kStatusFrameHeight / 2.0;
+
+      cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
+    }
+    for (auto location : Locations::GetInstance().GetCoralPositions()) {
+      int x = yFactor *
+                  (location.Translation().Y().value() -
+                   Constants::kFieldWidth / 2) *
+                  Constants::kStatusFrameScale +
+              Constants::kStatusFrameWidth / 2.0;
+      int y = yFactor * -(location.Translation().X().value() - reef) *
+                  Constants::kStatusFrameScale +
+              Constants::kStatusFrameHeight / 2.0;
+
+      cv::circle(m_statusFrame, cv::Point{x, y}, 6, cv::Scalar{0, 255, 0});
+    }
+    m_statusFeed.PutFrame(m_statusFrame);
 
     if (mode == kAuto) {
       if (m_auto) {

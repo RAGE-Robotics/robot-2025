@@ -12,10 +12,8 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
   m_algaePositions.clear();
 
   for (int i = 0; i < 6; i++) {
-    double angle =
-        2 * M_PI * (i / 6.0) + alliance == frc::DriverStation::Alliance::kBlue
-            ? M_PI
-            : 0;
+    double angle = 2 * M_PI * (i / 6.0) +
+                   (alliance == frc::DriverStation::Alliance::kBlue ? M_PI : 0);
 
     double reef = alliance == frc::DriverStation::Alliance::kRed
                       ? Constants::kFieldLength - Constants::kReefOffset
@@ -25,27 +23,28 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
     m_algaePositions.push_back(
         frc::Pose2d{frc::Translation2d{
                         units::meter_t{reef + std::cos(angle) * centerDistance},
-                        units::meter_t{std::sin(angle) * centerDistance}},
+                        units::meter_t{Constants::kFieldWidth / 2 +
+                                       std::sin(angle) * centerDistance}},
                     frc::Rotation2d{units::radian_t{angle + M_PI}}});
 
-    m_coralPositions.push_back(
-        frc::Pose2d{frc::Translation2d{
-                        units::meter_t{reef + std::cos(angle) * centerDistance +
-                                       (Constants::kCoralSpacing / 2) *
-                                           std::cos(angle - M_PI / 2)},
-                        units::meter_t{std::sin(angle) * centerDistance +
-                                       +(Constants::kCoralSpacing / 2) *
-                                           std::sin(angle - M_PI / 2)}},
-                    frc::Rotation2d{units::radian_t{angle + M_PI}}});
-    m_coralPositions.push_back(
-        frc::Pose2d{frc::Translation2d{
-                        units::meter_t{reef + std::cos(angle) * centerDistance +
-                                       (Constants::kCoralSpacing / 2) *
-                                           std::cos(angle + M_PI / 2)},
-                        units::meter_t{std::sin(angle) * centerDistance +
-                                       +(Constants::kCoralSpacing / 2) *
-                                           std::sin(angle + M_PI / 2)}},
-                    frc::Rotation2d{units::radian_t{angle + M_PI}}});
+    m_coralPositions.push_back(frc::Pose2d{
+        frc::Translation2d{
+            units::meter_t{reef + std::cos(angle) * centerDistance +
+                           (Constants::kCoralSpacing / 2) *
+                               std::cos(angle - M_PI / 2)},
+            units::meter_t{
+                Constants::kFieldWidth / 2 + std::sin(angle) * centerDistance +
+                +(Constants::kCoralSpacing / 2) * std::sin(angle - M_PI / 2)}},
+        frc::Rotation2d{units::radian_t{angle + M_PI}}});
+    m_coralPositions.push_back(frc::Pose2d{
+        frc::Translation2d{
+            units::meter_t{reef + std::cos(angle) * centerDistance +
+                           (Constants::kCoralSpacing / 2) *
+                               std::cos(angle + M_PI / 2)},
+            units::meter_t{
+                Constants::kFieldWidth / 2 + std::sin(angle) * centerDistance +
+                +(Constants::kCoralSpacing / 2) * std::sin(angle + M_PI / 2)}},
+        frc::Rotation2d{units::radian_t{angle + M_PI}}});
   }
 }
 

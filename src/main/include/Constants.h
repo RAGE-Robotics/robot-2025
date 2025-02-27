@@ -137,7 +137,8 @@ public:
   static constexpr double kReefWidth = 65.2 / kInchesPerMeter;
   static constexpr double kReefOffset =
       (144 / kInchesPerMeter) + kReefWidth / 2;
-  static constexpr double kFieldLength = 649 / kInchesPerMeter;
+  static constexpr double kFieldLength = 690.875 / kInchesPerMeter;
+  static constexpr double kFieldWidth = 317 / kInchesPerMeter;
   static constexpr double kReefSpacing = 0.5; // meters
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = 300 / kInchesPerMeter;
@@ -147,4 +148,9 @@ public:
   // Pneumatics
   static constexpr double kMinPressure = 100; // PSI
   static constexpr double kMaxPressure = 120; // PSI
+
+  // Status feed
+  static constexpr int kStatusFrameWidth = 640;
+  static constexpr int kStatusFrameHeight = 480;
+  static constexpr double kStatusFrameScale = 80;
 };
