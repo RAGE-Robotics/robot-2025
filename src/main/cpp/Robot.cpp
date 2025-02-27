@@ -14,7 +14,6 @@
 #include "auto/AutoDoNothing.h"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
-#include "systems/Feeder.h"
 #include "systems/Manipulator.h"
 #include "systems/SwerveDrive.h"
 
@@ -34,7 +33,6 @@ Robot::Robot() {
   Cameras::GetInstance();
   SwerveDrive::GetInstance();
   Elevator::GetInstance();
-  Feeder::GetInstance();
   Manipulator::GetInstance();
 
   // Start the compressor
@@ -172,21 +170,31 @@ Robot::Robot() {
                      .GetRightTriggerAxis() > 0.5) {
         // Algae Out
         Manipulator::GetInstance().SetAlgaeSpeed(
-            Constants::kManipulatorAlgaeOuttakeSpeed);
+            Constants::kManipulatorAlgaeOutakeSpeed);
       } else if (Controllers::GetInstance()
                      .GetOperatorController()
                      .GetRightX() > 0.5) {
         Manipulator::GetInstance().StartIntakingCoral();
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetRightY() > 0.5) {
+        Manipulator::GetInstance().StartOutakingCoral();
       } else {
-        Manipulator::GetInstance().SetAlgaeSpeed(0);
-        Manipulator::GetInstance().StopIntakingcoral();
+        if (Manipulator::GetInstance().ArmDown()) {
+          Manipulator::GetInstance().SetAlgaeSpeed(
+              Constants::kManipulatorAlgaeHoldSpeed);
+        } else {
+          Manipulator::GetInstance().SetAlgaeSpeed(0);
+        }
+
+        Manipulator::GetInstance().StopIntakingCoral();
+        Manipulator::GetInstance().StopOutakingCoral();
       }
     }
 
     Cameras::GetInstance().Update(mode, t);
     SwerveDrive::GetInstance().Update(mode, t);
     Elevator::GetInstance().Update(mode, t);
-    Feeder::GetInstance().Update(mode, t);
     Manipulator::GetInstance().Update(mode, t);
   }};
 }

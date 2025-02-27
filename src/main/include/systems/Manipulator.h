@@ -19,7 +19,10 @@ public:
   void RetractArm();
   void SetAlgaeSpeed(double speed);
   void StartIntakingCoral();
-  void StopIntakingcoral();
+  void StopIntakingCoral();
+  void StartOutakingCoral();
+  void StopOutakingCoral();
+  bool ArmDown();
   void Update(Robot::Mode mode, double t);
 
 private:
@@ -29,7 +32,8 @@ private:
 
   bool m_armOut = false;
   double m_algaeSpeed = 0;
-  bool m_coralIntaking = true;
+  bool m_coralIntaking = false;
+  bool m_coralOutaking = false;
 
   frc::DoubleSolenoid m_coralSolenoid;
   frc::DigitalInput m_firstSensor, m_secondSensor;

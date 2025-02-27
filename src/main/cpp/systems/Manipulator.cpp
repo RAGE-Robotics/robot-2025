@@ -14,7 +14,13 @@ void Manipulator::SetAlgaeSpeed(double speed) { m_algaeSpeed = speed; }
 
 void Manipulator::StartIntakingCoral() { m_coralIntaking = true; }
 
-void Manipulator::StopIntakingcoral() { m_coralIntaking = false; }
+void Manipulator::StopIntakingCoral() { m_coralIntaking = false; }
+
+void Manipulator::StartOutakingCoral() { m_coralOutaking = true; }
+
+void Manipulator::StopOutakingCoral() { m_coralOutaking = false; }
+
+bool Manipulator::ArmDown() { return m_armOut; }
 
 void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
@@ -27,15 +33,22 @@ void Manipulator::Update(Robot::Mode mode, double t) {
     m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                      m_algaeSpeed);
 
-    if (Elevator::GetInstance().GetPosition() > 0) {
+    if (Elevator::GetInstance().GetPosition() >
+        Constants::kElevatorCollisionTripDistance) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kForward);
     } else {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
     }
 
-    if (m_coralIntaking) {
+    if (m_coralIntaking && m_secondSensor.Get()) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorCoralSpeedFast);
+                       Constants::kManipulatorCoralIntakeSpeed);
+    } else if (m_coralOutaking) {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
+                       Constants::kManipulatorCoralOutakeSpeed);
+    } else if (m_firstSensor.Get() && !m_secondSensor.Get()) {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
+                       Constants::kManipulatorCoralSpeedReverse);
     } else {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
     }
