@@ -99,6 +99,14 @@ Robot::Robot() {
     }
     m_statusFeed.PutFrame(m_statusFrame);
 
+    std::cout
+        << SwerveDrive::GetInstance().GetPose2d().Translation().X().value()
+        << ", "
+        << SwerveDrive::GetInstance().GetPose2d().Translation().Y().value()
+        << ","
+        << SwerveDrive::GetInstance().GetPose2d().Rotation().Degrees().value()
+        << "\n";
+
     if (mode == kAuto) {
       if (m_auto) {
         m_auto->Update(t);

@@ -19,9 +19,9 @@ public:
   void Update(Robot::Mode mode, double t) override;
 
 private:
-  photon::PhotonCamera m_frontCamera{"FRONT"};
-  photon::PhotonCamera m_backCamera{"BACK"};
-  photon::PhotonCamera m_detectCamera{"DETECT"};
+  photon::PhotonCamera m_frontCamera{"Tag_Camera_02"};
+  photon::PhotonCamera m_backCamera{"Tag_Camera_01"};
+  photon::PhotonCamera m_detectCamera{"Microsoft_LifeCam_HD-3000"};
 
   photon::PhotonPoseEstimator m_frontPoseEstimator{
       frc::AprilTagFieldLayout::LoadField(
