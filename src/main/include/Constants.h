@@ -40,10 +40,10 @@ public:
   static constexpr double kWheelRadius = 0.7 / 2; // meters
 
   static constexpr double kDriveCurrentLimit = 60; // Amps
-  static constexpr double kDriveRampRate = 0.25;   // Seconds
+  static constexpr double kDriveRampRate = 0.35;    // Seconds
   static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 22.0 / 72.0;
-  static constexpr double kDriveControlMultipler = 4.65; // meters per second
+  static constexpr double kDriveControlMultipler = 3; // meters per second
   static constexpr double kDriveAngularControlMultiplier =
       5.0; // radians per second
 

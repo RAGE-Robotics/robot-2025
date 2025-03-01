@@ -16,6 +16,8 @@ public:
   // Enum to specify the robot's mode to the sub-systems
   enum Mode { kDisabled, kAuto, kTeleop };
 
+  enum AlignMode { kNone, kLeft, kRight, kAlgae };
+
   Robot();
   ~Robot();
 
