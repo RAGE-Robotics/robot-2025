@@ -75,9 +75,7 @@ SwerveDrive::SwerveDrive()
                                     Constants::kDriveCurrentLimit});
 
   // Apply an open loop ramp rate to the drive motors only
-  auto rampRateConfig =
-      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
-          units::second_t{Constants::kDriveRampRate});
+  EnableRamp();
 
   for (int i = 0; i < 4; i++) {
     // At the same time, go ahead and configure the remote sensor to be the
@@ -95,7 +93,6 @@ SwerveDrive::SwerveDrive()
             .WithMotorOutput(configs::MotorOutputConfigs{}.WithInverted(true)));
 
     m_driveMotors[i].GetConfigurator().Apply(currentLimitConfig);
-    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
 
     // Steering motors should always be in coast mode because we are using
     // closed-loop control
@@ -230,4 +227,22 @@ void SwerveDrive::ResetPose(frc::Pose2d pose) {
 
 void SwerveDrive::VisionUpdate(frc::Pose2d pose, units::second_t timestamp) {
   m_poseEstimator.AddVisionMeasurement(pose, timestamp);
+}
+
+void SwerveDrive::EnableRamp() {
+  auto rampRateConfig =
+      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
+          units::second_t{Constants::kDriveRampRate});
+  for (int i = 0; i < 4; i++) {
+    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
+  }
+}
+
+void SwerveDrive::DisableRamp() {
+  auto rampRateConfig =
+      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
+          units::second_t{0});
+  for (int i = 0; i < 4; i++) {
+    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
+  }
 }

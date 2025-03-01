@@ -112,6 +112,46 @@ Robot::Robot() {
         m_auto->Update(t);
       }
     } else if (mode == kTeleop) {
+      // Check this before sending drive velocities
+      if (Controllers::GetInstance()
+              .GetDriverController()
+              .GetAButtonPressed()) {
+        // Left coral scoring location
+        ResetAlignControllers();
+        m_autoAlignSetpoint =
+            NearestLeftCoral(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAligning = true;
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetBButtonPressed()) {
+        // Right coral scoring location
+        ResetAlignControllers();
+        m_autoAlignSetpoint =
+            NearestRightCoral(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAligning = true;
+        SwerveDrive::GetInstance().DisableRamp();
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetXButtonPressed()) {
+        // Algae scoring location
+        ResetAlignControllers();
+        m_autoAlignSetpoint =
+            NearestAlgae(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAligning = true;
+        SwerveDrive::GetInstance().DisableRamp();
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetAButtonReleased() ||
+                 Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetBButtonReleased() ||
+                 Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetXButtonReleased()) {
+        m_autoAligning = false;
+        SwerveDrive::GetInstance().EnableRamp();
+      }
+
       // Get the inputs from the controller during teleop mode. Note this uses
       // the split setup where the left joystick controls velocity, and the
       // right joystick controls the rotation. The Util::exp() function squares
@@ -151,17 +191,27 @@ Robot::Robot() {
 
         SwerveDrive::GetInstance().DriveVelocity(0, 0, 0);
       } else {
-        SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
-      }
+        if (m_autoAligning) {
+          auto robotPose = SwerveDrive::GetInstance().GetPose2d();
+          vx = m_alignControllers[0].Update(
+              robotPose.Translation().X().value(),
+              m_autoAlignSetpoint.Translation().X().value());
+          vy = m_alignControllers[0].Update(
+              robotPose.Translation().Y().value(),
+              m_autoAlignSetpoint.Translation().Y().value());
 
-      if (Controllers::GetInstance()
-              .GetDriverController()
-              .GetAButtonPressed()) {
-        // Coral scoring location
-      } else if (Controllers::GetInstance()
-                     .GetDriverController()
-                     .GetBButtonPressed()) {
-        // Algae scoring location
+          double angleSetpoint =
+              m_autoAlignSetpoint.Rotation().Radians().value();
+          double currentAngle = robotPose.Rotation().Radians().value();
+          double angleError = angleSetpoint - currentAngle;
+          if (angleError > M_PI) {
+            angleSetpoint -= 2 * M_PI;
+          }
+
+          w = m_alignControllers[0].Update(currentAngle, angleSetpoint);
+        }
+
+        SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
       }
 
       if (Controllers::GetInstance()
@@ -280,6 +330,54 @@ void Robot::DisabledExit() {
       m_auto->Start(t);
     }
   }
+}
+
+frc::Pose2d Robot::NearestLeftCoral(frc::Pose2d robotPose) {
+  frc::Pose2d nearest = Locations::GetInstance().GetCoralPositions()[0];
+  auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+
+  for (int i = 2; i < 12; i += 2) {
+    auto distance = robotPose.Translation().Distance(
+        Locations::GetInstance().GetCoralPositions()[i].Translation());
+    if (distance < minDistance) {
+      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      minDistance = distance;
+    }
+  }
+
+  return nearest;
+}
+
+frc::Pose2d Robot::NearestRightCoral(frc::Pose2d robotPose) {
+  frc::Pose2d nearest = Locations::GetInstance().GetCoralPositions()[1];
+  auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+
+  for (int i = 3; i < 12; i += 2) {
+    auto distance = robotPose.Translation().Distance(
+        Locations::GetInstance().GetCoralPositions()[i].Translation());
+    if (distance < minDistance) {
+      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      minDistance = distance;
+    }
+  }
+
+  return nearest;
+}
+
+frc::Pose2d Robot::NearestAlgae(frc::Pose2d robotPose) {
+  frc::Pose2d nearest = Locations::GetInstance().GetAlgaePositions()[0];
+  auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+
+  for (int i = 1; i < 6; i++) {
+    auto distance = robotPose.Translation().Distance(
+        Locations::GetInstance().GetCoralPositions()[i].Translation());
+    if (distance < minDistance) {
+      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      minDistance = distance;
+    }
+  }
+
+  return nearest;
 }
 
 #ifndef RUNNING_FRC_TESTS

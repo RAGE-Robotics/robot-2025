@@ -10,13 +10,12 @@
 #include "Constants.h"
 #include "Looper.h"
 #include "auto/Task.h"
+#include "control/PIDController.h"
 
 class Robot : public frc::TimedRobot {
 public:
   // Enum to specify the robot's mode to the sub-systems
   enum Mode { kDisabled, kAuto, kTeleop };
-
-  enum AlignMode { kNone, kLeft, kRight, kAlgae };
 
   Robot();
   ~Robot();
@@ -37,4 +36,24 @@ private:
   cv::Mat m_statusFrame{Constants::kStatusFrameHeight,
                         Constants::kStatusFrameWidth, CV_8UC3,
                         cv::Scalar{0, 0, 0}};
+
+  bool m_autoAligning = false;
+  frc::Pose2d m_autoAlignSetpoint;
+  PIDController m_alignControllers[3]{
+      {Constants::kAutoAlignKp, Constants::kAutoAlignKi,
+       Constants::kAutoAlignKd},
+      {Constants::kAutoAlignKp, Constants::kAutoAlignKi,
+       Constants::kAutoAlignKd},
+      {Constants::kAutoAlignAngleKp, Constants::kAutoAlignAngleKi,
+       Constants::kAutoAlignAngleKd}};
+
+  inline void ResetAlignControllers() {
+    for (int i = 0; i < 3; i++) {
+      m_alignControllers[i].Reset();
+    }
+  }
+
+  frc::Pose2d NearestLeftCoral(frc::Pose2d robotPose);
+  frc::Pose2d NearestRightCoral(frc::Pose2d robotPose);
+  frc::Pose2d NearestAlgae(frc::Pose2d robotPose);
 };

@@ -155,4 +155,12 @@ public:
   static constexpr int kStatusFrameWidth = 640;
   static constexpr int kStatusFrameHeight = 480;
   static constexpr double kStatusFrameScale = 80;
+
+  // Auto align
+  static constexpr double kAutoAlignKp = 0.1;
+  static constexpr double kAutoAlignKi = 0;
+  static constexpr double kAutoAlignKd = 0;
+  static constexpr double kAutoAlignAngleKp = 0.1;
+  static constexpr double kAutoAlignAngleKi = 0;
+  static constexpr double kAutoAlignAngleKd = 0;
 };
