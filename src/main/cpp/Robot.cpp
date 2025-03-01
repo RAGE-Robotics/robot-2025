@@ -129,6 +129,8 @@ Robot::Robot() {
       std::cout << "\t\t" << m_autoAlignSetpoint.Translation().X().value()
                 << ", " << m_autoAlignSetpoint.Translation().Y().value() << ", "
                 << m_autoAlignSetpoint.Rotation().Degrees().value();
+
+      std::cout << "\t\t\t" << m_autoAlignSetpointIndex << "\n";
     }
 
     std::cout << "\n";
@@ -413,9 +415,9 @@ frc::Pose2d Robot::NearestAlgae(frc::Pose2d robotPose, int *i) {
 
   for (int j = 1; j < 6; j++) {
     auto distance = robotPose.Translation().Distance(
-        Locations::GetInstance().GetCoralPositions()[j].Translation());
+        Locations::GetInstance().GetAlgaePositions()[j].Translation());
     if (distance < minDistance) {
-      nearest = Locations::GetInstance().GetCoralPositions()[j];
+      nearest = Locations::GetInstance().GetAlgaePositions()[j];
       minDistance = distance;
 
       if (i) {
