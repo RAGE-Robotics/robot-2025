@@ -1,4 +1,5 @@
 #include "systems/Elevator.h"
+#include "systems/Manipulator.h"
 
 #include <Constants.h>
 
@@ -39,7 +40,7 @@ void Elevator::Update(Robot::Mode mode, double t) {
     m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
 
     controls::MotionMagicVoltage m_mainOutput{0_tr};
-    switch (m_position) {
+    switch (Manipulator::GetInstance().ElevatorSafe() ? m_position : kHome) {
     case kHome:
       m_mainMotor.SetControl(m_mainOutput
                                  .WithPosition(units::turn_t{

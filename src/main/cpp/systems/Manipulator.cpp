@@ -22,6 +22,11 @@ void Manipulator::StopOutakingCoral() { m_coralOutaking = false; }
 
 bool Manipulator::ArmDown() { return m_armOut; }
 
+bool Manipulator::ElevatorSafe() {
+  return (!m_firstSensor.Get() && m_secondSensor.Get()) ||
+         !m_secondSensor.Get();
+}
+
 void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
     if (m_armOut) {
@@ -40,15 +45,14 @@ void Manipulator::Update(Robot::Mode mode, double t) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kReverse);
     }
 
-    if (m_coralIntaking && m_secondSensor.Get()) {
+    if (m_coralIntaking && !m_secondSensor.Get()) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralIntakeSpeed);
     } else if (m_coralOutaking) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralOutakeSpeed);
-    } else if (m_firstSensor.Get() && !m_secondSensor.Get()) {
-      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
-                       Constants::kManipulatorCoralSpeedReverse);
+    } else if (!m_firstSensor.Get() && m_secondSensor.Get()) {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
     } else {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
     }
