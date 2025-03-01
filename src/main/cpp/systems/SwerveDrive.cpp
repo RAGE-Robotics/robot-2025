@@ -112,23 +112,22 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
            units::meter_t{m_driveMotors[0].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *
                           Constants::kDriveGearRatio},
-           frc::Rotation2d{m_encoders[0].GetPosition().GetValue() * 2 * M_PI}},
+           m_encoders[0].GetPosition().GetValue()},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[1].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *
                           Constants::kDriveGearRatio},
-           frc::Rotation2d{m_encoders[1].GetPosition().GetValue() * 2 * M_PI}},
+           m_encoders[1].GetPosition().GetValue()},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[2].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *
                           Constants::kDriveGearRatio},
-           frc::Rotation2d{m_encoders[2].GetPosition().GetValue() * 2 * M_PI}},
+           m_encoders[2].GetPosition().GetValue()},
        frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[3].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *
                           Constants::kDriveGearRatio},
-           frc::Rotation2d{m_encoders[3].GetPosition().GetValue() * 2 *
-                           M_PI}}});
+           m_encoders[3].GetPosition().GetValue()}});
 
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
     // Use the WPILib kinematics class to determine the individual wheel angles

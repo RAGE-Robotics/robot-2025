@@ -83,7 +83,7 @@ public:
   // of target acceleration)       Accel Jerk     kG
   static constexpr std::tuple<double, double, double, double, double, double,
                               double, double, double, double>
-      kElevatorMotorGains{10,
+      kElevatorMotorGains{7,
                           0,
                           0,
                           kElevatorCruiseVelocity,
@@ -100,13 +100,13 @@ public:
   static constexpr double kElevatorL1PositionMeters = 0;
   static constexpr double kElevatorL1PositionRotations =
       kElevatorL1PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorL2PositionMeters = 0.313;
+  static constexpr double kElevatorL2PositionMeters = 0.323;
   static constexpr double kElevatorL2PositionRotations =
       kElevatorL2PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorL3PositionMeters = 0.719;
+  static constexpr double kElevatorL3PositionMeters = 0.729;
   static constexpr double kElevatorL3PositionRotations =
       kElevatorL3PositionMeters / kElevatorMetersPerRotation;
-  static constexpr double kElevatorL4PositionMeters = 1.3356;
+  static constexpr double kElevatorL4PositionMeters = 1.32;
   static constexpr double kElevatorL4PositionRotations =
       kElevatorL4PositionMeters / kElevatorMetersPerRotation;
   static constexpr double kElevatorAlgae1PositionMeters = 0.434;
@@ -130,7 +130,7 @@ public:
   static constexpr int kManipulatorAlgaeMotorId = 6;
   static constexpr double kManipulatorCoralIntakeSpeed = 0.25;
   static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
-  static constexpr double kManipulatorCoralSpeedReverse = -0.15;
+  static constexpr double kManipulatorCoralSpeedReverse = -0.1;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
   static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
@@ -157,10 +157,12 @@ public:
   static constexpr double kStatusFrameScale = 80;
 
   // Auto align
-  static constexpr double kAutoAlignKp = 0.1;
+  static constexpr double kAutoAlignKp = 7.0;
   static constexpr double kAutoAlignKi = 0;
-  static constexpr double kAutoAlignKd = 0;
-  static constexpr double kAutoAlignAngleKp = 0.1;
+  static constexpr double kAutoAlignKd = 5.0;
+  static constexpr double kAutoAlignAngleKp = 7.0;
   static constexpr double kAutoAlignAngleKi = 0;
-  static constexpr double kAutoAlignAngleKd = 0;
+  static constexpr double kAutoAlignAngleKd = 5.0;
+  static constexpr double kAutoAlignMaxV = 1; // meters per second
+  static constexpr double kAutoAlignMaxW = 1; // radians per second
 };

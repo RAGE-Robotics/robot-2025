@@ -18,7 +18,7 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
     double reef = alliance == frc::DriverStation::Alliance::kRed
                       ? Constants::kFieldLength - Constants::kReefOffset
                       : Constants::kReefOffset;
-    double centerDistance = Constants::kReefWidth + Constants::kReefSpacing;
+    double centerDistance = Constants::kReefWidth / 2 + Constants::kReefSpacing;
 
     m_algaePositions.push_back(
         frc::Pose2d{frc::Translation2d{

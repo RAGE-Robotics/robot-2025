@@ -1,5 +1,6 @@
 #include "Robot.h"
 
+#include <cmath>
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
 #include <frc/geometry/Pose2d.h>
@@ -126,11 +127,11 @@ Robot::Robot() {
         << SwerveDrive::GetInstance().GetPose2d().Rotation().Degrees().value();
 
     if (m_autoAligning) {
-      std::cout << "\t\t" << m_autoAlignSetpoint.Translation().X().value()
+      std::cout << "     " << m_autoAlignSetpoint.Translation().X().value()
                 << ", " << m_autoAlignSetpoint.Translation().Y().value() << ", "
                 << m_autoAlignSetpoint.Rotation().Degrees().value();
 
-      std::cout << "\t\t\t" << m_autoAlignSetpointIndex << "\n";
+      std::cout << "     " << m_autoAlignSetpointIndex << "\n";
     }
 
     std::cout << "\n";
@@ -224,12 +225,31 @@ Robot::Robot() {
           vx = m_alignControllers[0].Update(
               robotPose.Translation().X().value(),
               m_autoAlignSetpoint.Translation().X().value());
+          if (vx < -Constants::kAutoAlignMaxV) {
+            vx = -Constants::kAutoAlignMaxV;
+          }
+          if (vx > Constants::kAutoAlignMaxV) {
+            vx = Constants::kAutoAlignMaxV;
+          }
+
           vy = m_alignControllers[0].Update(
               robotPose.Translation().Y().value(),
               m_autoAlignSetpoint.Translation().Y().value());
+          if (vy < -Constants::kAutoAlignMaxV) {
+            vy = -Constants::kAutoAlignMaxV;
+          }
+          if (vy > Constants::kAutoAlignMaxV) {
+            vy = Constants::kAutoAlignMaxV;
+          }
 
           double angleSetpoint =
               m_autoAlignSetpoint.Rotation().Radians().value();
+          if (angleSetpoint < -Constants::kAutoAlignMaxV) {
+            angleSetpoint = -Constants::kAutoAlignMaxW;
+          }
+          if (vx > Constants::kAutoAlignMaxV) {
+            angleSetpoint = Constants::kAutoAlignMaxW;
+          }
           double currentAngle = robotPose.Rotation().Radians().value();
           double angleError = angleSetpoint - currentAngle;
           if (angleError > M_PI) {
