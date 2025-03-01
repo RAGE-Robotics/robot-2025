@@ -103,9 +103,16 @@ Robot::Robot() {
         << SwerveDrive::GetInstance().GetPose2d().Translation().X().value()
         << ", "
         << SwerveDrive::GetInstance().GetPose2d().Translation().Y().value()
-        << ","
-        << SwerveDrive::GetInstance().GetPose2d().Rotation().Degrees().value()
-        << "\n";
+        << ", "
+        << SwerveDrive::GetInstance().GetPose2d().Rotation().Degrees().value();
+
+    if (m_autoAligning) {
+      std::cout << "\t\t" << m_autoAlignSetpoint.Translation().X().value()
+                << ", " << m_autoAlignSetpoint.Translation().Y().value() << ", "
+                << m_autoAlignSetpoint.Rotation().Degrees().value();
+    }
+
+    std::cout << "\n";
 
     if (mode == kAuto) {
       if (m_auto) {
