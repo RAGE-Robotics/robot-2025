@@ -157,12 +157,12 @@ public:
   static constexpr double kStatusFrameScale = 80;
 
   // Auto align
-  static constexpr double kAutoAlignKp = 7.0;
+  static constexpr double kAutoAlignKp = 4.0;
   static constexpr double kAutoAlignKi = 0;
-  static constexpr double kAutoAlignKd = 5.0;
-  static constexpr double kAutoAlignAngleKp = 7.0;
+  static constexpr double kAutoAlignKd = 0;
+  static constexpr double kAutoAlignAngleKp = 4.0;
   static constexpr double kAutoAlignAngleKi = 0;
-  static constexpr double kAutoAlignAngleKd = 5.0;
+  static constexpr double kAutoAlignAngleKd = 0;
   static constexpr double kAutoAlignMaxV = 1; // meters per second
   static constexpr double kAutoAlignMaxW = 1; // radians per second
 };
