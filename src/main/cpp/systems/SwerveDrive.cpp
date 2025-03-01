@@ -2,6 +2,9 @@
 
 #include "Constants.h"
 #include "Robot.h"
+#include "frc/geometry/Translation2d.h"
+#include "frc/kinematics/SwerveDriveKinematics.h"
+#include "units/velocity.h"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is
@@ -107,7 +110,7 @@ SwerveDrive::SwerveDrive()
 void SwerveDrive::Update(Robot::Mode mode, double t) {
   // Update the estimation of where the robot thinks it is on the field
   m_poseEstimator.Update(
-      GetPose2d().Rotation(),
+      GetGyroRotation2d(),
       {frc::SwerveModulePosition{
            units::meter_t{m_driveMotors[0].GetPosition().GetValue().value() *
                           2 * M_PI * Constants::kWheelRadius *
@@ -135,8 +138,11 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
     // and velocities.
     auto speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(
         units::meters_per_second_t{m_vx}, units::meters_per_second_t{m_vy},
-        units::radians_per_second_t{m_w}, GetGyroRotation2d());
-    auto [fl, fr, bl, br] = m_kinematics.ToSwerveModuleStates(speeds);
+        units::radians_per_second_t{m_w}, GetPose2d().Rotation());
+    auto states = m_kinematics.ToSwerveModuleStates(speeds);
+    frc::SwerveDriveKinematics<4>::DesaturateWheelSpeeds(
+        &states, units::meters_per_second_t{Constants::kMaxV});
+    auto [fl, fr, bl, br] = states;
 
     // Optimize the angle setpoints to make the wheels reach the correct angle
     // as fast as possible (not go the long way around).
