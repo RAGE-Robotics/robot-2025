@@ -37,7 +37,7 @@ public:
   static constexpr std::tuple<double, double, double, double, double>
       kSteeringMotorGains{0.0, 0.0, 30.0, 0.0, 0.0};
 
-  static constexpr double kWheelRadius = 0.7 / 2; // meters
+  static constexpr double kWheelRadius = (4.0 / kInchesPerMeter) / 2; // meters
 
   static constexpr double kDriveCurrentLimit = 60; // Amps
   static constexpr double kDriveRampRate = 0.35;   // Seconds

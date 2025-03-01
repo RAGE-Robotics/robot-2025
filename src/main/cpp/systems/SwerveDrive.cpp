@@ -140,6 +140,8 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
         units::meters_per_second_t{m_vx}, units::meters_per_second_t{m_vy},
         units::radians_per_second_t{m_w}, GetPose2d().Rotation());
     auto states = m_kinematics.ToSwerveModuleStates(speeds);
+
+    // Prevent velocities from clipping
     frc::SwerveDriveKinematics<4>::DesaturateWheelSpeeds(
         &states, units::meters_per_second_t{Constants::kMaxV});
     auto [fl, fr, bl, br] = states;
