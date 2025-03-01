@@ -39,6 +39,7 @@ private:
 
   bool m_autoAligning = false;
   frc::Pose2d m_autoAlignSetpoint;
+  int m_autoAlignSetpointIndex = 0;
   PIDController m_alignControllers[3]{
       {Constants::kAutoAlignKp, Constants::kAutoAlignKi,
        Constants::kAutoAlignKd},
@@ -53,7 +54,7 @@ private:
     }
   }
 
-  frc::Pose2d NearestLeftCoral(frc::Pose2d robotPose);
-  frc::Pose2d NearestRightCoral(frc::Pose2d robotPose);
-  frc::Pose2d NearestAlgae(frc::Pose2d robotPose);
+  frc::Pose2d NearestLeftCoral(frc::Pose2d robotPose, int *i = nullptr);
+  frc::Pose2d NearestRightCoral(frc::Pose2d robotPose, int *i = nullptr);
+  frc::Pose2d NearestAlgae(frc::Pose2d robotPose, int *i = nullptr);
 };

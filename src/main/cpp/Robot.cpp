@@ -73,7 +73,9 @@ Robot::Robot() {
     }
 
     m_statusFrame = cv::Scalar{0, 0, 0};
-    for (auto location : Locations::GetInstance().GetAlgaePositions()) {
+    for (int i = 0; i < Locations::GetInstance().GetAlgaePositions().size();
+         i++) {
+      auto location = Locations::GetInstance().GetAlgaePositions()[i];
       int x = yFactor *
                   (location.Translation().Y().value() -
                    Constants::kFieldWidth / 2) *
@@ -83,9 +85,18 @@ Robot::Robot() {
                   Constants::kStatusFrameScale +
               Constants::kStatusFrameHeight / 2.0;
 
-      cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
+      if (m_autoAligning &&
+          (Controllers::GetInstance().GetDriverController().GetYButton()) &&
+          i == m_autoAlignSetpointIndex) {
+        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0},
+                   cv::FILLED);
+      } else {
+        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
+      }
     }
-    for (auto location : Locations::GetInstance().GetCoralPositions()) {
+    for (int i = 0; i < Locations::GetInstance().GetCoralPositions().size();
+         i++) {
+      auto location = Locations::GetInstance().GetCoralPositions()[i];
       int x = yFactor *
                   (location.Translation().Y().value() -
                    Constants::kFieldWidth / 2) *
@@ -95,7 +106,15 @@ Robot::Robot() {
                   Constants::kStatusFrameScale +
               Constants::kStatusFrameHeight / 2.0;
 
-      cv::circle(m_statusFrame, cv::Point{x, y}, 6, cv::Scalar{0, 255, 0});
+      if (m_autoAligning &&
+          (Controllers::GetInstance().GetDriverController().GetAButton() ||
+           Controllers::GetInstance().GetDriverController().GetBButton()) &&
+          i == m_autoAlignSetpointIndex) {
+        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0},
+                   cv::FILLED);
+      } else {
+        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
+      }
     }
     m_statusFeed.PutFrame(m_statusFrame);
 
@@ -125,25 +144,25 @@ Robot::Robot() {
               .GetAButtonPressed()) {
         // Left coral scoring location
         ResetAlignControllers();
-        m_autoAlignSetpoint =
-            NearestLeftCoral(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAlignSetpoint = NearestLeftCoral(
+            SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
         m_autoAligning = true;
       } else if (Controllers::GetInstance()
                      .GetDriverController()
                      .GetBButtonPressed()) {
         // Right coral scoring location
         ResetAlignControllers();
-        m_autoAlignSetpoint =
-            NearestRightCoral(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAlignSetpoint = NearestRightCoral(
+            SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
         m_autoAligning = true;
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
-                     .GetXButtonPressed()) {
+                     .GetYButtonPressed()) {
         // Algae scoring location
         ResetAlignControllers();
-        m_autoAlignSetpoint =
-            NearestAlgae(SwerveDrive::GetInstance().GetPose2d());
+        m_autoAlignSetpoint = NearestAlgae(
+            SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
         m_autoAligning = true;
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
@@ -154,7 +173,7 @@ Robot::Robot() {
                      .GetBButtonReleased() ||
                  Controllers::GetInstance()
                      .GetDriverController()
-                     .GetXButtonReleased()) {
+                     .GetYButtonReleased()) {
         m_autoAligning = false;
         SwerveDrive::GetInstance().EnableRamp();
       }
@@ -339,48 +358,69 @@ void Robot::DisabledExit() {
   }
 }
 
-frc::Pose2d Robot::NearestLeftCoral(frc::Pose2d robotPose) {
+frc::Pose2d Robot::NearestLeftCoral(frc::Pose2d robotPose, int *i) {
   frc::Pose2d nearest = Locations::GetInstance().GetCoralPositions()[0];
   auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+  if (i) {
+    *i = 0;
+  }
 
-  for (int i = 2; i < 12; i += 2) {
+  for (int j = 2; j < 12; j += 2) {
     auto distance = robotPose.Translation().Distance(
-        Locations::GetInstance().GetCoralPositions()[i].Translation());
+        Locations::GetInstance().GetCoralPositions()[j].Translation());
     if (distance < minDistance) {
-      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      nearest = Locations::GetInstance().GetCoralPositions()[j];
       minDistance = distance;
+
+      if (i) {
+        *i = j;
+      }
     }
   }
 
   return nearest;
 }
 
-frc::Pose2d Robot::NearestRightCoral(frc::Pose2d robotPose) {
+frc::Pose2d Robot::NearestRightCoral(frc::Pose2d robotPose, int *i) {
   frc::Pose2d nearest = Locations::GetInstance().GetCoralPositions()[1];
   auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+  if (i) {
+    *i = 1;
+  }
 
-  for (int i = 3; i < 12; i += 2) {
+  for (int j = 3; j < 12; j += 2) {
     auto distance = robotPose.Translation().Distance(
-        Locations::GetInstance().GetCoralPositions()[i].Translation());
+        Locations::GetInstance().GetCoralPositions()[j].Translation());
     if (distance < minDistance) {
-      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      nearest = Locations::GetInstance().GetCoralPositions()[j];
       minDistance = distance;
+
+      if (i) {
+        *i = j;
+      }
     }
   }
 
   return nearest;
 }
 
-frc::Pose2d Robot::NearestAlgae(frc::Pose2d robotPose) {
+frc::Pose2d Robot::NearestAlgae(frc::Pose2d robotPose, int *i) {
   frc::Pose2d nearest = Locations::GetInstance().GetAlgaePositions()[0];
   auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+  if (i) {
+    *i = 0;
+  }
 
-  for (int i = 1; i < 6; i++) {
+  for (int j = 1; j < 6; j++) {
     auto distance = robotPose.Translation().Distance(
-        Locations::GetInstance().GetCoralPositions()[i].Translation());
+        Locations::GetInstance().GetCoralPositions()[j].Translation());
     if (distance < minDistance) {
-      nearest = Locations::GetInstance().GetCoralPositions()[i];
+      nearest = Locations::GetInstance().GetCoralPositions()[j];
       minDistance = distance;
+
+      if (i) {
+        *i = j;
+      }
     }
   }
 
