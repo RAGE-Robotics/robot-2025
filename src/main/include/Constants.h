@@ -61,10 +61,11 @@ public:
 
   // Vision
   static constexpr frc::Transform3d kFrontCameraTransform{
-      frc::Translation3d{6.25_in, -12.25_in, 23_in},
-      frc::Rotation3d{0_rad, 25_deg, 0_rad}};
+      frc::Translation3d{6.298_in, -10.622_in, 23_in},
+      frc::Rotation3d{0_rad, 20_deg, 20_deg}};
   static constexpr frc::Transform3d kBackCameraTransform{
-      frc::Translation3d{0_m, 0_m, 0_m}, frc::Rotation3d{0_rad, 0_rad, 0_rad}};
+      frc::Translation3d{1.917_in, -11.25_in, 33.5_in},
+      frc::Rotation3d{0_rad, 0_rad, 180_deg}};
 
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 18;
