@@ -126,6 +126,7 @@ public:
   static constexpr int kManipulatorAlgaeSolenoidIdReverse = 11;
   static constexpr int kManipulatorFirstSensorId = 0;
   static constexpr int kManipulatorSecondSensorId = 1;
+  static constexpr int kManipulatorElevatorBlockSensorId = 3;
   static constexpr int kManipulatorCoralMotorId = 10;
   static constexpr int kManipulatorAlgaeMotorId = 6;
   static constexpr double kManipulatorCoralIntakeSpeed = 0.25;

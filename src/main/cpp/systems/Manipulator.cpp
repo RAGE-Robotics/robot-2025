@@ -22,7 +22,7 @@ void Manipulator::StopOutakingCoral() { m_coralOutaking = false; }
 
 bool Manipulator::ArmDown() { return m_armOut; }
 
-bool Manipulator::ElevatorSafe() { return m_secondSensor.Get(); }
+bool Manipulator::ElevatorSafe() { return m_elevatorBlockSensor.Get(); }
 
 void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
@@ -68,4 +68,5 @@ Manipulator::Manipulator()
       m_firstSensor{Constants::kManipulatorFirstSensorId},
       m_secondSensor{Constants::kManipulatorSecondSensorId},
       m_coralMotor{Constants::kManipulatorCoralMotorId},
-      m_algaeMotor{Constants::kManipulatorAlgaeMotorId} {}
+      m_algaeMotor{Constants::kManipulatorAlgaeMotorId},
+      m_elevatorBlockSensor{Constants::kManipulatorElevatorBlockSensorId} {}

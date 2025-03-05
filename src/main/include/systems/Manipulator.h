@@ -39,7 +39,7 @@ private:
   frc::DoubleSolenoid m_coralSolenoid;
   frc::DigitalInput m_firstSensor, m_secondSensor;
   motorcontrol::can::TalonSRX m_coralMotor;
-
+  frc::DigitalInput m_elevatorBlockSensor;
   frc::DoubleSolenoid m_algaeSolenoid;
   motorcontrol::can::TalonSRX m_algaeMotor;
 };
