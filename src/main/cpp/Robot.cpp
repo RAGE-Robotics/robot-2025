@@ -371,7 +371,7 @@ void Robot::DisabledExit() {
       m_auto = std::make_shared<AutoDoNothing>();
       m_auto->Start(t);
     } else if (autoName == "CrossLine") {
-      m_auto = std::make_shared<AutoCrossLine>();
+      m_auto = std::make_shared<AutoCrossLine>(alliance.value());
       m_auto->Start(t);
     } else if (autoName == "OneCoral") {
       m_auto = std::make_shared<AutoOneCoral>(alliance.value(),

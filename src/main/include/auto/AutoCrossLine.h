@@ -7,5 +7,5 @@
 
 class AutoCrossLine : public TaskList {
 public:
-  AutoCrossLine();
+  AutoCrossLine(frc::DriverStation::Alliance alliance);
 };
