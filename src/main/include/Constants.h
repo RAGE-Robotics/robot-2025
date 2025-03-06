@@ -48,16 +48,8 @@ public:
       5.0;                              // radians per second
   static constexpr double kMaxV = 4.65; // meters per second
 
-  static constexpr double kDefaultMaxV = 1.0;              // meters per second
-  static constexpr double kDefaultMaxW = 1.0;              // radians per second
-  static constexpr double kDefaultPositionTolerance = 0.1; // meters
-  static constexpr double kDefaultAngleTolerance = 0.1;    // radians
-  static constexpr double kPathFollowingKp = 0.1;
-  static constexpr double kPathFollowingKi = 0;
-  static constexpr double kPathFollowingKd = 0;
-  static constexpr double kPathFollowingAngleKp = 0.1;
-  static constexpr double kPathFollowingAngleKi = 0;
-  static constexpr double kPathFollowingAngleKd = 0;
+  static constexpr double kDefaultMaxV = 1.0; // meters per second
+  static constexpr double kDefaultMaxW = 1.0; // radians per second
 
   // Vision
   static constexpr frc::Transform3d kFrontCameraTransform{
@@ -145,9 +137,10 @@ public:
   static constexpr double kFieldWidth = 317 / kInchesPerMeter;
   static constexpr double kReefSpacing = 0.5; // meters
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
-  static constexpr double kStartLineOffset = 300 / kInchesPerMeter;
-  static constexpr double kStartOffsetY = 1;   // meters
-  static constexpr double kStartOffsetX = 0.1; // meters
+  static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
+  static constexpr double kStartOffsetY =
+      kFieldWidth / 2 - (18 / kInchesPerMeter); // meters
+  static constexpr double kStartOffsetX = 0;    // meters
 
   // Pneumatics
   static constexpr double kMinPressure = 100; // PSI
@@ -158,13 +151,14 @@ public:
   static constexpr int kStatusFrameHeight = 480;
   static constexpr double kStatusFrameScale = 80;
 
-  // Auto align
-  static constexpr double kAutoAlignKp = 4.0;
-  static constexpr double kAutoAlignKi = 0;
-  static constexpr double kAutoAlignKd = 0;
-  static constexpr double kAutoAlignAngleKp = 4.0;
-  static constexpr double kAutoAlignAngleKi = 0;
-  static constexpr double kAutoAlignAngleKd = 0;
-  static constexpr double kAutoAlignMaxV = 1; // meters per second
-  static constexpr double kAutoAlignMaxW = 1; // radians per second
+  // Path following
+  static constexpr double kPathFollowingKp = 5.0;
+  static constexpr double kPathFollowingKi = 0;
+  static constexpr double kPathFollowingKd = 2.0;
+  static constexpr double kPathFollowingAngleKp = 4.0;
+  static constexpr double kPathFollowingAngleKi = 0;
+  static constexpr double kPathFollowingAngleKd = 0;
+  static constexpr double kPathFollowingMaxV = 1;        // meters per second
+  static constexpr double kPathFollowingMaxW = 1;        // radians per second
+  static constexpr double kPathFollowingTolerance = 0.1; // meters
 };

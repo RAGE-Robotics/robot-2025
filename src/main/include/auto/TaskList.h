@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "Task.h"
@@ -7,7 +8,7 @@
 // Runs all of the tasks specified sequentially
 class TaskList : public Task {
 public:
-  TaskList(std::vector<Task> tasks = {});
+  TaskList(std::vector<std::shared_ptr<Task>> tasks = {});
 
   void Start(double t) override;
   void Update(double t) override;
@@ -15,8 +16,10 @@ public:
 
   bool IsDone() const override;
 
+protected:
+  std::vector<std::shared_ptr<Task>> m_tasks;
+
 private:
-  std::vector<Task> m_tasks;
   int m_taskIndex = 0;
   bool m_done = false;
 };

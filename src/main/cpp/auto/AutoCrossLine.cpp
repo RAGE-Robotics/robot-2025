@@ -4,17 +4,11 @@
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Translation2d.h>
 
-#include "auto/DriveLine.h"
+#include "auto/Delay.h"
+#include "auto/DriveVelocity.h"
 
-AutoCrossLine::AutoCrossLine(frc::DriverStation::Alliance alliance,
-                             frc::Pose2d start)
-    : TaskList{{DriveLine{
-          start,
-          frc::Pose2d{
-              frc::Translation2d{
-                  units::meter_t{
-                      start.Translation().X().value() +
-                      (alliance == frc::DriverStation::Alliance::kBlue ? -1
-                                                                       : 1)},
-                  start.Translation().Y()},
-              start.Rotation()}}}} {}
+AutoCrossLine::AutoCrossLine() {
+  m_tasks.push_back(std::make_shared<DriveVelocity>(-1, 0, 0));
+  m_tasks.push_back(std::make_shared<Delay>(1));
+  m_tasks.push_back(std::make_shared<DriveVelocity>());
+}

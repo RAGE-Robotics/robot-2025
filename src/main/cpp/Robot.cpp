@@ -1,6 +1,5 @@
 #include "Robot.h"
 
-#include <cmath>
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
 #include <frc/geometry/Pose2d.h>
@@ -13,6 +12,7 @@
 #include "Util.h"
 #include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
+#include "auto/AutoOneCoral.h"
 #include "cameraserver/CameraServer.h"
 #include "opencv2/imgproc.hpp"
 #include "systems/Cameras.h"
@@ -225,30 +225,30 @@ Robot::Robot() {
           vx = m_alignControllers[0].Update(
               robotPose.Translation().X().value(),
               m_autoAlignSetpoint.Translation().X().value());
-          if (vx < -Constants::kAutoAlignMaxV) {
-            vx = -Constants::kAutoAlignMaxV;
+          if (vx < -Constants::kPathFollowingMaxV) {
+            vx = -Constants::kPathFollowingMaxV;
           }
-          if (vx > Constants::kAutoAlignMaxV) {
-            vx = Constants::kAutoAlignMaxV;
+          if (vx > Constants::kPathFollowingMaxV) {
+            vx = Constants::kPathFollowingMaxV;
           }
 
-          vy = m_alignControllers[0].Update(
+          vy = m_alignControllers[1].Update(
               robotPose.Translation().Y().value(),
               m_autoAlignSetpoint.Translation().Y().value());
-          if (vy < -Constants::kAutoAlignMaxV) {
-            vy = -Constants::kAutoAlignMaxV;
+          if (vy < -Constants::kPathFollowingMaxV) {
+            vy = -Constants::kPathFollowingMaxV;
           }
-          if (vy > Constants::kAutoAlignMaxV) {
-            vy = Constants::kAutoAlignMaxV;
+          if (vy > Constants::kPathFollowingMaxV) {
+            vy = Constants::kPathFollowingMaxV;
           }
 
           double angleSetpoint =
               m_autoAlignSetpoint.Rotation().Radians().value();
-          if (angleSetpoint < -Constants::kAutoAlignMaxV) {
-            angleSetpoint = -Constants::kAutoAlignMaxW;
+          if (angleSetpoint < -Constants::kPathFollowingMaxV) {
+            angleSetpoint = -Constants::kPathFollowingMaxW;
           }
-          if (vx > Constants::kAutoAlignMaxV) {
-            angleSetpoint = Constants::kAutoAlignMaxW;
+          if (vx > Constants::kPathFollowingMaxV) {
+            angleSetpoint = Constants::kPathFollowingMaxW;
           }
           double currentAngle = robotPose.Rotation().Radians().value();
           double angleError = angleSetpoint - currentAngle;
@@ -256,7 +256,7 @@ Robot::Robot() {
             angleSetpoint -= 2 * M_PI;
           }
 
-          w = m_alignControllers[0].Update(currentAngle, angleSetpoint);
+          w = m_alignControllers[2].Update(currentAngle, angleSetpoint);
         }
 
         SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
@@ -371,10 +371,11 @@ void Robot::DisabledExit() {
       m_auto = std::make_shared<AutoDoNothing>();
       m_auto->Start(t);
     } else if (autoName == "CrossLine") {
-      m_auto = std::make_shared<AutoCrossLine>(alliance.value(), start);
+      m_auto = std::make_shared<AutoCrossLine>();
       m_auto->Start(t);
     } else if (autoName == "OneCoral") {
-      m_auto = std::make_shared<AutoDoNothing>();
+      m_auto = std::make_shared<AutoOneCoral>(alliance.value(),
+                                              m_startChooser.GetSelected());
       m_auto->Start(t);
     }
   }

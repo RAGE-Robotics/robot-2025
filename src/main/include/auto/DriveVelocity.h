@@ -14,4 +14,5 @@ public:
 
 private:
   double m_vx, m_vy, m_w;
+  bool m_done = false;
 };

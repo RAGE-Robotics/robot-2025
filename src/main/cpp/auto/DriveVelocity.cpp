@@ -7,10 +7,11 @@ DriveVelocity::DriveVelocity(double vx, double vy, double w)
 
 void DriveVelocity::Start(double t) {
   SwerveDrive::GetInstance().DriveVelocity(m_vx, m_vy, m_w);
+  m_done = true;
 }
 
 void DriveVelocity::Update(double t) {}
 
 void DriveVelocity::Stop() {}
 
-bool DriveVelocity::IsDone() const { return true; }
+bool DriveVelocity::IsDone() const { return m_done; }

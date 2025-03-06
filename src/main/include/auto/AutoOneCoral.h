@@ -5,7 +5,7 @@
 #include <frc/DriverStation.h>
 #include <frc/geometry/Pose2d.h>
 
-class AutoCrossLine : public TaskList {
+class AutoOneCoral : public TaskList {
 public:
-  AutoCrossLine();
+  AutoOneCoral(frc::DriverStation::Alliance alliance, int position);
 };

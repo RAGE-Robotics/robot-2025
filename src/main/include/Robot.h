@@ -41,12 +41,12 @@ private:
   frc::Pose2d m_autoAlignSetpoint;
   int m_autoAlignSetpointIndex = 0;
   PIDController m_alignControllers[3]{
-      {Constants::kAutoAlignKp, Constants::kAutoAlignKi,
-       Constants::kAutoAlignKd},
-      {Constants::kAutoAlignKp, Constants::kAutoAlignKi,
-       Constants::kAutoAlignKd},
-      {Constants::kAutoAlignAngleKp, Constants::kAutoAlignAngleKi,
-       Constants::kAutoAlignAngleKd}};
+      {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
+       Constants::kPathFollowingKd},
+      {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
+       Constants::kPathFollowingKd},
+      {Constants::kPathFollowingAngleKp, Constants::kPathFollowingAngleKi,
+       Constants::kPathFollowingAngleKd}};
 
   inline void ResetAlignControllers() {
     for (int i = 0; i < 3; i++) {
