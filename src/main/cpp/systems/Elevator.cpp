@@ -6,7 +6,9 @@
 using namespace ctre::phoenix6;
 
 void Elevator::SetPosition(Elevator::Position position) {
-  m_position = position;
+  if (Manipulator::GetInstance().ElevatorSafe()) {
+    m_position = position;
+  }
 };
 
 Elevator::Elevator() {
@@ -40,7 +42,7 @@ void Elevator::Update(Robot::Mode mode, double t) {
     m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
 
     controls::MotionMagicVoltage m_mainOutput{0_tr};
-    switch (Manipulator::GetInstance().ElevatorSafe() ? m_position : kHome) {
+    switch (m_position) {
     case kHome:
       m_mainMotor.SetControl(m_mainOutput
                                  .WithPosition(units::turn_t{
