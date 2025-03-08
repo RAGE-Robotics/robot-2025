@@ -144,7 +144,7 @@ Robot::Robot() {
       // Check this before sending drive velocities
       if (Controllers::GetInstance()
               .GetDriverController()
-              .GetAButtonPressed()) {
+              .GetXButtonPressed()) {
         // Left coral scoring location
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestLeftCoral(
@@ -170,8 +170,8 @@ Robot::Robot() {
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
-                     .GetXButtonPressed()) {
-        // Algae scoring location
+                     .GetAButtonPressed()) {
+        // Feeder station location
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestFeeder(
             SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
