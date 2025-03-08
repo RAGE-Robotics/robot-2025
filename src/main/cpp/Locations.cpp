@@ -118,7 +118,7 @@ frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,
                  ? Constants::kFieldLength - Constants::kStartLineOffset +
                        Constants::kStartOffsetX
                  : Constants::kStartLineOffset - Constants::kStartOffsetX;
-  double y = 0;
+  double y = Constants::kFieldWidth / 2;
   switch (i) {
   case 1:
     y += alliance == frc::DriverStation::Alliance::kRed
