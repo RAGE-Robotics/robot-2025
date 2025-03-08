@@ -135,7 +135,7 @@ public:
       (144 / kInchesPerMeter) + kReefWidth / 2;
   static constexpr double kFieldLength = 690.875 / kInchesPerMeter;
   static constexpr double kFieldWidth = 317 / kInchesPerMeter;
-  static constexpr double kReefSpacing = 0.5; // meters
+  static constexpr double kReefSpacing = 0.52; // meters
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
   static constexpr double kStartOffsetY =
@@ -154,10 +154,10 @@ public:
   // Path following
   static constexpr double kPathFollowingKp = 5.0;
   static constexpr double kPathFollowingKi = 0;
-  static constexpr double kPathFollowingKd = 2.0;
-  static constexpr double kPathFollowingAngleKp = 4.0;
+  static constexpr double kPathFollowingKd = 0.25;
+  static constexpr double kPathFollowingAngleKp = 5.0;
   static constexpr double kPathFollowingAngleKi = 0;
-  static constexpr double kPathFollowingAngleKd = 0;
+  static constexpr double kPathFollowingAngleKd = 0.1;
   static constexpr double kPathFollowingMaxV = 1;        // meters per second
   static constexpr double kPathFollowingMaxW = 1;        // radians per second
   static constexpr double kPathFollowingTolerance = 0.1; // meters

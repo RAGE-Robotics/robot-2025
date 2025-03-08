@@ -170,13 +170,25 @@ Robot::Robot() {
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
+                     .GetXButtonPressed()) {
+        // Algae scoring location
+        ResetAlignControllers();
+        m_autoAlignSetpoint = NearestFeeder(
+            SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
+        m_autoAligning = true;
+        SwerveDrive::GetInstance().DisableRamp();
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
                      .GetAButtonReleased() ||
                  Controllers::GetInstance()
                      .GetDriverController()
                      .GetBButtonReleased() ||
                  Controllers::GetInstance()
                      .GetDriverController()
-                     .GetYButtonReleased()) {
+                     .GetYButtonReleased() ||
+                 Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetXButtonReleased()) {
         m_autoAligning = false;
         SwerveDrive::GetInstance().EnableRamp();
       }
@@ -437,6 +449,29 @@ frc::Pose2d Robot::NearestAlgae(frc::Pose2d robotPose, int *i) {
   for (int j = 1; j < 6; j++) {
     auto distance = robotPose.Translation().Distance(
         Locations::GetInstance().GetAlgaePositions()[j].Translation());
+    if (distance < minDistance) {
+      nearest = Locations::GetInstance().GetAlgaePositions()[j];
+      minDistance = distance;
+
+      if (i) {
+        *i = j;
+      }
+    }
+  }
+
+  return nearest;
+}
+
+frc::Pose2d Robot::NearestFeeder(frc::Pose2d robotPose, int *i) {
+  frc::Pose2d nearest = Locations::GetInstance().GetFeederPositions()[0];
+  auto minDistance = robotPose.Translation().Distance(nearest.Translation());
+  if (i) {
+    *i = 0;
+  }
+
+  for (int j = 1; j < 6; j++) {
+    auto distance = robotPose.Translation().Distance(
+        Locations::GetInstance().GetFeederPositions()[j].Translation());
     if (distance < minDistance) {
       nearest = Locations::GetInstance().GetAlgaePositions()[j];
       minDistance = distance;

@@ -56,6 +56,14 @@ const std::vector<frc::Pose2d> Locations::GetAlgaePositions() const {
   return m_algaePositions;
 }
 
+const std::vector<frc::Pose2d> Locations::GetFeederPositions() const {
+  return std::vector<frc::Pose2d>{
+      frc::Pose2d{frc::Translation2d{45_in, 35_in}, frc::Rotation2d{-135_deg}},
+      frc::Pose2d{frc::Translation2d{45_in, 280_in}, frc::Rotation2d{135_deg}},
+      frc::Pose2d{frc::Translation2d{647_in, 35_in}, frc::Rotation2d{-45_deg}},
+      frc::Pose2d{frc::Translation2d{647_in, 280_in}, frc::Rotation2d{45_deg}}};
+}
+
 frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,
                                         int i) const {
   double x = alliance == frc::DriverStation::Alliance::kRed

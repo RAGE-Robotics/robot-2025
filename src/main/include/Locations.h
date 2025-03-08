@@ -16,6 +16,7 @@ public:
   void Generate(frc::DriverStation::Alliance alliance);
   const std::vector<frc::Pose2d> GetCoralPositions() const;
   const std::vector<frc::Pose2d> GetAlgaePositions() const;
+  const std::vector<frc::Pose2d> GetFeederPositions() const;
 
   frc::Pose2d GetStartPosition(frc::DriverStation::Alliance alliance,
                                int i) const;

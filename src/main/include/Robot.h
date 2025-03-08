@@ -11,6 +11,7 @@
 #include "Looper.h"
 #include "auto/Task.h"
 #include "control/PIDController.h"
+#include "frc/geometry/Pose2d.h"
 
 class Robot : public frc::TimedRobot {
 public:
@@ -57,4 +58,5 @@ private:
   frc::Pose2d NearestLeftCoral(frc::Pose2d robotPose, int *i = nullptr);
   frc::Pose2d NearestRightCoral(frc::Pose2d robotPose, int *i = nullptr);
   frc::Pose2d NearestAlgae(frc::Pose2d robotPose, int *i = nullptr);
+  frc::Pose2d NearestFeeder(frc::Pose2d robotPose, int *i = nullptr);
 };
