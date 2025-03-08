@@ -6,9 +6,10 @@
 #include <memory>
 
 #include "Locations.h"
+#include "auto/Delay.h"
 #include "auto/FollowPath.h"
+#include "auto/ManipulatorOut.h"
 #include "auto/MoveElevator.h"
-#include "frc/geometry/Rotation2d.h"
 #include "systems/Elevator.h"
 
 AutoOneCoral::AutoOneCoral(frc::DriverStation::Alliance alliance,
@@ -21,4 +22,7 @@ AutoOneCoral::AutoOneCoral(frc::DriverStation::Alliance alliance,
                                                                          : 11]},
       false, false));
   m_tasks.push_back(std::make_shared<MoveElevator>(Elevator::kL2));
+  m_tasks.push_back(std::make_shared<ManipulatorOut>());
+  m_tasks.push_back(std::make_shared<Delay>(1));
+  m_tasks.push_back(std::make_shared<ManipulatorOut>(true));
 }
