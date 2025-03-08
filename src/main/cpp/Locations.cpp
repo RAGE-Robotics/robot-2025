@@ -58,10 +58,30 @@ const std::vector<frc::Pose2d> Locations::GetAlgaePositions() const {
 
 const std::vector<frc::Pose2d> Locations::GetFeederPositions() const {
   return std::vector<frc::Pose2d>{
-      frc::Pose2d{frc::Translation2d{45_in, 35_in}, frc::Rotation2d{-135_deg}},
-      frc::Pose2d{frc::Translation2d{45_in, 280_in}, frc::Rotation2d{135_deg}},
-      frc::Pose2d{frc::Translation2d{647_in, 35_in}, frc::Rotation2d{-45_deg}},
-      frc::Pose2d{frc::Translation2d{647_in, 280_in}, frc::Rotation2d{45_deg}}};
+      frc::Pose2d{
+          frc::Translation2d{33.5_in, 25.8_in} +
+              frc::Translation2d{
+                  Constants::kFeederDistance * std::cos(36.0 / 180 * 2 * M_PI),
+                  Constants::kFeederDistance * std::sin(36.0 / 180 * 2 * M_PI)},
+          frc::Rotation2d{36_deg}},
+      frc::Pose2d{frc::Translation2d{33.5_in, 291.2_in} +
+                      frc::Translation2d{Constants::kFeederDistance *
+                                             std::cos(-36.0 / 180 * 2 * M_PI),
+                                         Constants::kFeederDistance *
+                                             std::sin(-36.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{-36_deg}},
+      frc::Pose2d{frc::Translation2d{657.37_in, 25.8_in} +
+                      frc::Translation2d{Constants::kFeederDistance *
+                                             std::cos(144.0 / 180 * 2 * M_PI),
+                                         Constants::kFeederDistance *
+                                             std::sin(144.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{144_deg}},
+      frc::Pose2d{frc::Translation2d{657.37_in, 291.2_in} +
+                      frc::Translation2d{Constants::kFeederDistance *
+                                             std::cos(-144.0 / 180 * 2 * M_PI),
+                                         Constants::kFeederDistance *
+                                             std::sin(-144.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{-144_deg}}};
 }
 
 frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,

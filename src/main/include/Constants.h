@@ -161,4 +161,6 @@ public:
   static constexpr double kPathFollowingMaxV = 1;        // meters per second
   static constexpr double kPathFollowingMaxW = 1;        // radians per second
   static constexpr double kPathFollowingTolerance = 0.1; // meters
+
+  static constexpr auto kFeederDistance = 18_in;
 };
