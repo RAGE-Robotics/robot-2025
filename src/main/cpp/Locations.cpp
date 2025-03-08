@@ -46,6 +46,34 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
                 +(Constants::kCoralSpacing / 2) * std::sin(angle + M_PI / 2)}},
         frc::Rotation2d{units::radian_t{angle + M_PI}}});
   }
+
+  for (int i = 0; i < m_algaePositions.size(); i++) {
+    if (m_algaePositions[i].Rotation().Degrees().value() > 360) {
+      m_algaePositions[i] = frc::Pose2d{
+          m_algaePositions[i].Translation(),
+          frc::Rotation2d{units::degree_t{
+              m_algaePositions[i].Rotation().Degrees().value() - 360}}};
+    } else if (m_algaePositions[i].Rotation().Degrees().value() < 360) {
+      m_algaePositions[i] = frc::Pose2d{
+          m_algaePositions[i].Translation(),
+          frc::Rotation2d{units::degree_t{
+              m_algaePositions[i].Rotation().Degrees().value() + 360}}};
+    }
+  }
+
+  for (int i = 0; i < m_coralPositions.size(); i++) {
+    if (m_coralPositions[i].Rotation().Degrees().value() > 360) {
+      m_coralPositions[i] = frc::Pose2d{
+          m_coralPositions[i].Translation(),
+          frc::Rotation2d{units::degree_t{
+              m_coralPositions[i].Rotation().Degrees().value() - 360}}};
+    } else if (m_coralPositions[i].Rotation().Degrees().value() < 360) {
+      m_coralPositions[i] = frc::Pose2d{
+          m_coralPositions[i].Translation(),
+          frc::Rotation2d{units::degree_t{
+              m_coralPositions[i].Rotation().Degrees().value() + 360}}};
+    }
+  }
 }
 
 const std::vector<frc::Pose2d> Locations::GetCoralPositions() const {
