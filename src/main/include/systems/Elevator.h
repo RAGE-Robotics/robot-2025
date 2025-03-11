@@ -28,5 +28,7 @@ private:
 
   Position m_position;
 
+  frc::DigitalInput m_homeSwitch;
+
   Elevator();
 };

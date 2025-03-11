@@ -108,9 +108,9 @@ public:
   static constexpr double kElevatorAlgae2PositionMeters = 0.83;
   static constexpr double kElevatorAlgae2PositionRotations =
       kElevatorAlgae2PositionMeters / kElevatorMetersPerRotation;
-
   static constexpr double kElevatorDefaultTolerance = 0.01;      // meters
   static constexpr double kElevatorCollisionTripDistance = 0.05; // meters
+  static constexpr int kElevatorHomeSensorId = 2;
 
   // Manipulator
   static constexpr int kManipulatorCoralSolenoidIdForward = 14;

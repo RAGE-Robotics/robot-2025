@@ -11,7 +11,7 @@ void Elevator::SetPosition(Elevator::Position position) {
   }
 };
 
-Elevator::Elevator() {
+Elevator::Elevator() : m_homeSwitch{Constants::kElevatorHomeSensorId} {
   auto [kP, kI, kD, kCV, kV, kA, kS, kAccel, kJ, kG] =
       Constants::kElevatorMotorGains;
 
@@ -37,6 +37,10 @@ Elevator::Elevator() {
 }
 
 void Elevator::Update(Robot::Mode mode, double t) {
+  if (m_homeSwitch.Get()) {
+    m_mainMotor.SetPosition(units::turn_t{0});
+  }
+
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
     m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
     m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
