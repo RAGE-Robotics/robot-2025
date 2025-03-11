@@ -34,6 +34,13 @@ Elevator::Elevator() : m_homeSwitch{Constants::kElevatorHomeSensorId} {
       .WithMotionMagicJerk(units::angular_jerk::turns_per_second_cubed_t{kJ});
   m_mainMotor.GetConfigurator().Apply(talonFXConfigs);
   m_secondMotor.SetControl(controls::Follower{m_mainMotor.GetDeviceID(), true});
+
+  auto currentLimitConfig = configs::CurrentLimitsConfigs{}
+                                .WithSupplyCurrentLimitEnable(true)
+                                .WithSupplyCurrentLimit(units::ampere_t{
+                                    Constants::kElevatorCurrentLimit});
+  m_mainMotor.GetConfigurator().Apply(currentLimitConfig);
+  m_secondMotor.GetConfigurator().Apply(currentLimitConfig);
 }
 
 void Elevator::Update(Robot::Mode mode, double t) {

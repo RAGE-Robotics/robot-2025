@@ -111,6 +111,7 @@ public:
   static constexpr double kElevatorDefaultTolerance = 0.01;      // meters
   static constexpr double kElevatorCollisionTripDistance = 0.05; // meters
   static constexpr int kElevatorHomeSensorId = 2;
+  static constexpr int kElevatorCurrentLimit = 20; // Amps
 
   // Manipulator
   static constexpr int kManipulatorCoralSolenoidIdForward = 14;
