@@ -1,5 +1,6 @@
 #include "auto/FollowPath.h"
 
+#include "Constants.h"
 #include "systems/SwerveDrive.h"
 
 FollowPath::FollowPath(std::vector<frc::Pose2d> points, bool resetPose,
@@ -16,11 +17,16 @@ void FollowPath::Start(double t) {
   }
 
   m_started = true;
+
+  SwerveDrive::GetInstance().DisableRamp();
 }
 
 void FollowPath::Update(double t) {
   if (AtPoint() && m_pointIndex < m_points.size() - 1) {
     m_pointIndex++;
+    for (int i = 0; i < 3; i++) {
+      m_controllers[i].Reset();
+    }
   }
 
   auto robotPose = SwerveDrive::GetInstance().GetPose2d();
@@ -62,7 +68,16 @@ void FollowPath::Update(double t) {
   SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
 }
 
-bool FollowPath::IsDone() const { return m_started && !m_persist && AtPoint(); }
+void FollowPath::Stop() {
+  SwerveDrive::GetInstance().DriveVelocity(0, 0, 0);
+  SwerveDrive::GetInstance().EnableRamp();
+}
+
+bool FollowPath::IsDone() const {
+  return m_started && !m_persist && AtPoint() &&
+         SwerveDrive::GetInstance().VelocityMagnitude() <
+             Constants::kPathFollowingVelocityTolerance;
+}
 
 bool FollowPath::AtPoint() const {
   return SwerveDrive::GetInstance()

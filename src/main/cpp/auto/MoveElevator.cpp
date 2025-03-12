@@ -10,9 +10,7 @@ void MoveElevator::Update(double t) {}
 
 void MoveElevator::Stop() {}
 
-bool MoveElevator::IsDone() const {
-  return Elevator::GetInstance().GetError() < m_tolerance;
-}
+bool MoveElevator::IsDone() const { return true; }
 
 MoveElevator::MoveElevator(Elevator::Position position, double tolerance) {
   m_position = position;

@@ -53,11 +53,6 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
           m_algaePositions[i].Translation(),
           frc::Rotation2d{units::degree_t{
               m_algaePositions[i].Rotation().Degrees().value() - 360}}};
-    } else if (m_algaePositions[i].Rotation().Degrees().value() < 360) {
-      m_algaePositions[i] = frc::Pose2d{
-          m_algaePositions[i].Translation(),
-          frc::Rotation2d{units::degree_t{
-              m_algaePositions[i].Rotation().Degrees().value() + 360}}};
     }
   }
 
@@ -67,11 +62,6 @@ void Locations::Generate(frc::DriverStation::Alliance alliance) {
           m_coralPositions[i].Translation(),
           frc::Rotation2d{units::degree_t{
               m_coralPositions[i].Rotation().Degrees().value() - 360}}};
-    } else if (m_coralPositions[i].Rotation().Degrees().value() < 360) {
-      m_coralPositions[i] = frc::Pose2d{
-          m_coralPositions[i].Translation(),
-          frc::Rotation2d{units::degree_t{
-              m_coralPositions[i].Rotation().Degrees().value() + 360}}};
     }
   }
 }

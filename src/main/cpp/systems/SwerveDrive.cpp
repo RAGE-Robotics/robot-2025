@@ -245,3 +245,7 @@ void SwerveDrive::DisableRamp() {
     m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
   }
 }
+
+double SwerveDrive::VelocityMagnitude() {
+  return std::sqrt(m_vx * m_vx + m_vy * m_vy);
+}

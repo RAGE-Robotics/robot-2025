@@ -19,7 +19,8 @@ AutoOneCoral::AutoOneCoral(frc::DriverStation::Alliance alliance,
           Locations::GetInstance().GetStartPosition(alliance, position),
           Locations::GetInstance().GetCoralPositions()[6]},
       false, false));
-  m_tasks.push_back(std::make_shared<MoveElevator>(Elevator::kL2));
+  m_tasks.push_back(std::make_shared<MoveElevator>(Elevator::kL4));
+  m_tasks.push_back(std::make_shared<Delay>(3));
   m_tasks.push_back(std::make_shared<ManipulatorOut>());
   m_tasks.push_back(std::make_shared<Delay>(1));
   m_tasks.push_back(std::make_shared<ManipulatorOut>(true));

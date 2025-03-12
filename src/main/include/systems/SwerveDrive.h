@@ -29,6 +29,7 @@ public:
   void VisionUpdate(frc::Pose2d pose, units::second_t timestamp);
   void EnableRamp();
   void DisableRamp();
+  double VelocityMagnitude();
 
 private:
   // The gyroscope keeps track of which direction the robot is facing.

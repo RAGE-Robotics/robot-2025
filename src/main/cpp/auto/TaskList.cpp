@@ -16,6 +16,7 @@ void TaskList::Update(double t) {
   if (!m_tasks[m_taskIndex]->IsDone()) {
     m_tasks[m_taskIndex]->Update(t);
   } else {
+    m_tasks[m_taskIndex]->Stop();
     m_taskIndex++;
 
     if (!IsDone()) {
