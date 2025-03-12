@@ -473,7 +473,7 @@ frc::Pose2d Robot::NearestFeeder(frc::Pose2d robotPose, int *i) {
     auto distance = robotPose.Translation().Distance(
         Locations::GetInstance().GetFeederPositions()[j].Translation());
     if (distance < minDistance) {
-      nearest = Locations::GetInstance().GetAlgaePositions()[j];
+      nearest = Locations::GetInstance().GetFeederPositions()[j];
       minDistance = distance;
 
       if (i) {
