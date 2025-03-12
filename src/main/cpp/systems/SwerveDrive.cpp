@@ -33,7 +33,7 @@ SwerveDrive::SwerveDrive()
                  {Constants::kBrEncoderId}},
       m_poseEstimator{
           m_kinematics,
-          GetPose2d().Rotation(),
+          GetGyroRotation2d(),
           {frc::SwerveModulePosition{
                units::meter_t{
                    m_driveMotors[0].GetPosition().GetValue().value() * 2 *
