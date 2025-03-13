@@ -136,7 +136,7 @@ public:
       (144 / kInchesPerMeter) + kReefWidth / 2;
   static constexpr double kFieldLength = 690.875 / kInchesPerMeter;
   static constexpr double kFieldWidth = 317 / kInchesPerMeter;
-  static constexpr double kReefSpacing = 0.52; // meters
+  static constexpr double kReefSpacing = 0.51; // meters
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
   static constexpr double kStartOffsetY =
