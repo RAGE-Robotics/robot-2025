@@ -15,18 +15,10 @@
 AutoOneCoral::AutoOneCoral(frc::DriverStation::Alliance alliance,
                            int position) {
   int setpoint = 6;
-  if (alliance == frc::DriverStation::Alliance::kRed) {
-    if (position == 1) {
-      setpoint = 9;
-    } else if (position == 3) {
-      setpoint = 4;
-    }
-  } else {
-    if (position == 1) {
-      setpoint = 4;
-    } else if (position == 3) {
-      setpoint = 9;
-    }
+  if (position == 1) {
+    setpoint = 9;
+  } else if (position == 3) {
+    setpoint = 4;
   }
 
   m_tasks.push_back(std::make_shared<FollowPath>(
@@ -35,10 +27,10 @@ AutoOneCoral::AutoOneCoral(frc::DriverStation::Alliance alliance,
           Locations::GetInstance().GetCoralPositions()[setpoint]},
       false, false));
   m_tasks.push_back(std::make_shared<MoveElevator>(Elevator::kL4));
-  m_tasks.push_back(std::make_shared<Delay>(3));
+  m_tasks.push_back(std::make_shared<Delay>(2));
   m_tasks.push_back(std::make_shared<ManipulatorOut>());
   m_tasks.push_back(std::make_shared<Delay>(1));
   m_tasks.push_back(std::make_shared<ManipulatorOut>(true));
   m_tasks.push_back(std::make_shared<MoveElevator>(Elevator::kHome));
-  m_tasks.push_back(std::make_shared<Delay>(3));
+  m_tasks.push_back(std::make_shared<Delay>(2));
 }
