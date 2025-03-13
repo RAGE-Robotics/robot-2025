@@ -14,8 +14,6 @@
 #include "auto/AutoDoNothing.h"
 #include "auto/AutoOneCoral.h"
 #include "auto/AutoTwoCoral.h"
-#include "cameraserver/CameraServer.h"
-#include "opencv2/imgproc.hpp"
 #include "systems/Cameras.h"
 #include "systems/Elevator.h"
 #include "systems/Manipulator.h"
@@ -45,9 +43,6 @@ Robot::Robot() {
       units::pounds_per_square_inch_t{Constants::kMinPressure},
       units::pounds_per_square_inch_t{Constants::kMaxPressure});
 
-  m_statusFeed = frc::CameraServer::PutVideo(
-      "Status", Constants::kStatusFrameWidth, Constants::kStatusFrameHeight);
-
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
   m_looper = Looper{[this] {
@@ -61,82 +56,6 @@ Robot::Robot() {
     }
 
     double t = frc::Timer::GetFPGATimestamp().value();
-
-    double yFactor = 1;
-    auto alliance = frc::DriverStation::GetAlliance();
-    if (alliance.has_value() &&
-        alliance.value() == frc::DriverStation::Alliance::kRed) {
-      yFactor = -1;
-    }
-
-    double reef = Constants::kReefOffset;
-    if (alliance.has_value() &&
-        alliance.value() == frc::DriverStation::Alliance::kRed) {
-      reef = Constants::kFieldLength - Constants::kReefOffset;
-    }
-
-    m_statusFrame = cv::Scalar{0, 0, 0};
-    for (int i = 0; i < Locations::GetInstance().GetAlgaePositions().size();
-         i++) {
-      auto location = Locations::GetInstance().GetAlgaePositions()[i];
-      int x = yFactor *
-                  (location.Translation().Y().value() -
-                   Constants::kFieldWidth / 2) *
-                  Constants::kStatusFrameScale +
-              Constants::kStatusFrameWidth / 2.0;
-      int y = -yFactor * -(location.Translation().X().value() - reef) *
-                  Constants::kStatusFrameScale +
-              Constants::kStatusFrameHeight / 2.0;
-
-      if (m_autoAligning &&
-          (Controllers::GetInstance().GetDriverController().GetYButton()) &&
-          i == m_autoAlignSetpointIndex) {
-        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0},
-                   cv::FILLED);
-      } else {
-        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
-      }
-    }
-    for (int i = 0; i < Locations::GetInstance().GetCoralPositions().size();
-         i++) {
-      auto location = Locations::GetInstance().GetCoralPositions()[i];
-      int x = yFactor *
-                  (location.Translation().Y().value() -
-                   Constants::kFieldWidth / 2) *
-                  Constants::kStatusFrameScale +
-              Constants::kStatusFrameWidth / 2.0;
-      int y = yFactor * -(location.Translation().X().value() - reef) *
-                  Constants::kStatusFrameScale +
-              Constants::kStatusFrameHeight / 2.0;
-
-      if (m_autoAligning &&
-          (Controllers::GetInstance().GetDriverController().GetAButton() ||
-           Controllers::GetInstance().GetDriverController().GetBButton()) &&
-          i == m_autoAlignSetpointIndex) {
-        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0},
-                   cv::FILLED);
-      } else {
-        cv::circle(m_statusFrame, cv::Point{x, y}, 4, cv::Scalar{0, 255, 0});
-      }
-    }
-    m_statusFeed.PutFrame(m_statusFrame);
-
-    std::cout
-        << SwerveDrive::GetInstance().GetPose2d().Translation().X().value()
-        << ", "
-        << SwerveDrive::GetInstance().GetPose2d().Translation().Y().value()
-        << ", "
-        << SwerveDrive::GetInstance().GetPose2d().Rotation().Degrees().value();
-
-    if (m_autoAligning) {
-      std::cout << "     " << m_autoAlignSetpoint.Translation().X().value()
-                << ", " << m_autoAlignSetpoint.Translation().Y().value() << ", "
-                << m_autoAlignSetpoint.Rotation().Degrees().value();
-
-      std::cout << "     " << m_autoAlignSetpointIndex << "\n";
-    }
-
-    std::cout << "\n";
 
     if (mode == kAuto) {
       if (m_auto) {
@@ -397,6 +316,12 @@ void Robot::DisabledExit() {
       m_auto->Start(t);
     }
   }
+}
+
+void Robot::TeleopInit() {
+  // Make sure that ramping is enabled for the driver motors even if auto is
+  // incomplete
+  SwerveDrive::GetInstance().EnableRamp();
 }
 
 frc::Pose2d Robot::NearestLeftCoral(frc::Pose2d robotPose, int *i) {

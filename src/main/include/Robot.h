@@ -22,6 +22,7 @@ public:
   ~Robot();
 
   void DisabledExit() override;
+  void TeleopInit() override;
 
 private:
   frc::Compressor m_compressor{frc::PneumaticsModuleType::REVPH};
