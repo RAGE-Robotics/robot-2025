@@ -56,8 +56,8 @@ public:
       frc::Translation3d{6.298_in, -10.622_in, 23_in},
       frc::Rotation3d{0_rad, 20_deg, 20_deg}};
   static constexpr frc::Transform3d kBackCameraTransform{
-      frc::Translation3d{1.917_in, -11.25_in, 33.5_in},
-      frc::Rotation3d{0_rad, 0_rad, 180_deg}};
+      frc::Translation3d{4.75_in, -11.25_in, 33.5_in},
+      frc::Rotation3d{0_rad, 0_rad, 0_deg}};
 
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 18;
@@ -156,11 +156,11 @@ public:
   static constexpr double kPathFollowingKp = 6.0;
   static constexpr double kPathFollowingKi = 0.002;
   static constexpr double kPathFollowingKd = 1.0;
-  static constexpr double kPathFollowingAngleKp = 4.0;
+  static constexpr double kPathFollowingAngleKp = 3.0;
   static constexpr double kPathFollowingAngleKi = 0;
   static constexpr double kPathFollowingAngleKd = 0.1;
   static constexpr double kPathFollowingMaxV = 1;        // meters per second
-  static constexpr double kPathFollowingMaxW = 1;        // radians per second
+  static constexpr double kPathFollowingMaxW = 0.5;      // radians per second
   static constexpr double kPathFollowingTolerance = 0.1; // meters
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
