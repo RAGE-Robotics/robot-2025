@@ -79,27 +79,27 @@ const std::vector<frc::Pose2d> Locations::GetFeederPositions() const {
       frc::Pose2d{
           frc::Translation2d{33.5_in, 25.8_in} +
               frc::Translation2d{
-                  Constants::kFeederDistance * std::cos(36.0 / 180 * 2 * M_PI),
-                  Constants::kFeederDistance * std::sin(36.0 / 180 * 2 * M_PI)},
-          frc::Rotation2d{36_deg}},
+                  Constants::kFeederDistance * std::cos(54.0 / 180 * 2 * M_PI),
+                  Constants::kFeederDistance * std::sin(54.0 / 180 * 2 * M_PI)},
+          frc::Rotation2d{54_deg}},
       frc::Pose2d{frc::Translation2d{33.5_in, 291.2_in} +
                       frc::Translation2d{Constants::kFeederDistance *
-                                             std::cos(-36.0 / 180 * 2 * M_PI),
+                                             std::cos(306.0 / 180 * 2 * M_PI),
                                          Constants::kFeederDistance *
-                                             std::sin(-36.0 / 180 * 2 * M_PI)},
-                  frc::Rotation2d{-36_deg}},
+                                             std::sin(306.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{306_deg}},
       frc::Pose2d{frc::Translation2d{657.37_in, 25.8_in} +
                       frc::Translation2d{Constants::kFeederDistance *
-                                             std::cos(144.0 / 180 * 2 * M_PI),
+                                             std::cos(126.0 / 180 * 2 * M_PI),
                                          Constants::kFeederDistance *
-                                             std::sin(144.0 / 180 * 2 * M_PI)},
-                  frc::Rotation2d{144_deg}},
+                                             std::sin(126.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{126_deg}},
       frc::Pose2d{frc::Translation2d{657.37_in, 291.2_in} +
                       frc::Translation2d{Constants::kFeederDistance *
-                                             std::cos(-144.0 / 180 * 2 * M_PI),
+                                             std::cos(234.0 / 180 * 2 * M_PI),
                                          Constants::kFeederDistance *
-                                             std::sin(-144.0 / 180 * 2 * M_PI)},
-                  frc::Rotation2d{-144_deg}}};
+                                             std::sin(234.0 / 180 * 2 * M_PI)},
+                  frc::Rotation2d{234_deg}}};
 }
 
 frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,

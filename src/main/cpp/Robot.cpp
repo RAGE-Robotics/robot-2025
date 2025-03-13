@@ -13,6 +13,7 @@
 #include "auto/AutoCrossLine.h"
 #include "auto/AutoDoNothing.h"
 #include "auto/AutoOneCoral.h"
+#include "auto/AutoTwoCoral.h"
 #include "cameraserver/CameraServer.h"
 #include "opencv2/imgproc.hpp"
 #include "systems/Cameras.h"
@@ -30,6 +31,7 @@ Robot::Robot() {
   m_autoChooser.SetDefaultOption("Do Nothing", "DoNothing");
   m_autoChooser.AddOption("Cross the Line", "CrossLine");
   m_autoChooser.AddOption("One Coral", "OneCoral");
+  m_autoChooser.AddOption("Two Coral", "TwoCoral");
   frc::SmartDashboard::PutData("Auto", &m_autoChooser);
 
   // Call GetInstance() so the constructors get called
@@ -387,6 +389,10 @@ void Robot::DisabledExit() {
       m_auto->Start(t);
     } else if (autoName == "OneCoral") {
       m_auto = std::make_shared<AutoOneCoral>(alliance.value(),
+                                              m_startChooser.GetSelected());
+      m_auto->Start(t);
+    } else if (autoName == "TwoCoral") {
+      m_auto = std::make_shared<AutoTwoCoral>(alliance.value(),
                                               m_startChooser.GetSelected());
       m_auto->Start(t);
     }

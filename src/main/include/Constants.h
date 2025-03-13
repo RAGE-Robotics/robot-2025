@@ -165,5 +165,5 @@ public:
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
-  static constexpr auto kFeederDistance = 18_in;
+  static constexpr auto kFeederDistance = 24_in;
 };
