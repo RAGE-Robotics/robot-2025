@@ -125,7 +125,7 @@ public:
   static constexpr int kManipulatorAlgaeMotorId = 6;
   static constexpr double kManipulatorCoralIntakeSpeed = 0.25;
   static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
-  static constexpr double kManipulatorCoralSpeedReverse = -0.1;
+  static constexpr double kManipulatorCoralSpeedReverse = -0.3;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
   static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
