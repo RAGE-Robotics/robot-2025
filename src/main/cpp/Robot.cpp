@@ -225,22 +225,10 @@ Robot::Robot() {
         Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae2);
       } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
                  270) {
-        // Algae Auto
-        auto algaePosition = Cameras::GetInstance().GetAlgaeState();
-        if (algaePosition == Cameras::kBottom ||
-            algaePosition == Cameras::kBoth) {
-          Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae1);
-        } else if (algaePosition == Cameras::kTop) {
-          Elevator::GetInstance().SetPosition(Elevator::Position::kAlgae2);
-        }
-      } else if (Controllers::GetInstance()
-                     .GetOperatorController()
-                     .GetLeftBumperButtonPressed()) {
         // Algae Arm Down
         Manipulator::GetInstance().ExtendArm();
-      } else if (Controllers::GetInstance()
-                     .GetOperatorController()
-                     .GetRightBumperButtonPressed()) {
+      } else if (Controllers::GetInstance().GetOperatorController().GetPOV() ==
+                 90) {
         // Algae Arm Up
         Manipulator::GetInstance().RetractArm();
       } else if (Controllers::GetInstance()
