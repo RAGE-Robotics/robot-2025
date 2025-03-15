@@ -8,6 +8,7 @@
 #include "Locations.h"
 #include "auto/Delay.h"
 #include "auto/FollowPath.h"
+#include "auto/ManipulatorIn.h"
 #include "auto/ManipulatorOut.h"
 #include "auto/MoveElevator.h"
 #include "systems/Elevator.h"
@@ -56,6 +57,7 @@ AutoTwoCoral::AutoTwoCoral(frc::DriverStation::Alliance alliance,
             Locations::GetInstance().GetCoralPositions()[setpoint],
             Locations::GetInstance().GetFeederPositions()[feeder_index]},
         false, false));
+    m_tasks.push_back(std::make_shared<ManipulatorIn>());
 
     if (position == 1) {
       setpoint = 11;

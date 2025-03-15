@@ -24,6 +24,10 @@ bool Manipulator::ArmDown() { return m_armOut; }
 
 bool Manipulator::ElevatorSafe() { return m_elevatorBlockSensor.Get(); }
 
+bool Manipulator::DoneIntaking() {
+  return m_firstSensor.Get() && m_secondSensor.Get();
+}
+
 void Manipulator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
     if (m_armOut) {

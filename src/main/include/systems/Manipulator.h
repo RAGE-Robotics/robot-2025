@@ -24,6 +24,7 @@ public:
   void StopOutakingCoral();
   bool ArmDown();
   bool ElevatorSafe();
+  bool DoneIntaking();
   void Update(Robot::Mode mode, double t);
 
 private:
