@@ -1,6 +1,5 @@
 #include "Robot.h"
 
-#include <cameraserver/CameraServer.h>
 #include <frc/DriverStation.h>
 #include <frc/Timer.h>
 #include <frc/geometry/Pose2d.h>
@@ -43,9 +42,6 @@ Robot::Robot() {
   m_compressor.EnableAnalog(
       units::pounds_per_square_inch_t{Constants::kMinPressure},
       units::pounds_per_square_inch_t{Constants::kMaxPressure});
-
-  // Start the driver camera
-  frc::CameraServer::StartAutomaticCapture(0);
 
   // This initializes the main looper. What you put here will run @200 Hz while
   // the robot is on.
