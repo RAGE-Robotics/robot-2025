@@ -31,7 +31,7 @@ public:
   static constexpr int kBrEncoderId = 21;
 
   static constexpr units::turn_t kEncoderOffsets[] = {
-      -0.14599609375_tr, -0.167236328125_tr, 0.040283203125_tr,
+      -0.14599609375_tr, 0.33447265625_tr, 0.040283203125_tr,
       -0.080810546875_tr};
 
   // kS, kV, kP, kI, kD
