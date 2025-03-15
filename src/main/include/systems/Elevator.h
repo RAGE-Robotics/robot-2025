@@ -21,6 +21,7 @@ public:
   void Update(Robot::Mode mode, double t);
   double GetPosition();
   double GetError();
+  void Zero();
 
 private:
   hardware::TalonFX m_mainMotor{Constants::kElevatorMainMotorId};

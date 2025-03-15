@@ -262,6 +262,16 @@ Robot::Robot() {
         Manipulator::GetInstance().StopIntakingCoral();
         Manipulator::GetInstance().StopOutakingCoral();
       }
+
+      if (Controllers::GetInstance()
+              .GetOperatorController()
+              .GetLeftBumperButton() &&
+          Controllers::GetInstance()
+              .GetOperatorController()
+              .GetRightBumperButton() &&
+          Controllers::GetInstance().GetOperatorController().GetRawButton(9)) {
+        Elevator::GetInstance().Zero();
+      }
     }
 
     Cameras::GetInstance().Update(mode, t);

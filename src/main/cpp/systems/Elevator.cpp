@@ -135,3 +135,5 @@ double Elevator::GetError() {
 
   return std::abs(GetPosition() - setpoint);
 }
+
+void Elevator::Zero() { m_mainMotor.SetPosition(0_tr); }
