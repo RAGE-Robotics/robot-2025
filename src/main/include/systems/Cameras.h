@@ -21,7 +21,6 @@ public:
 private:
   photon::PhotonCamera m_frontCamera{"Tag_Camera_02"};
   photon::PhotonCamera m_backCamera{"Tag_Camera_01"};
-  photon::PhotonCamera m_detectCamera{"Microsoft_LifeCam_HD-3000"};
 
   photon::PhotonPoseEstimator m_frontPoseEstimator{
       frc::AprilTagFieldLayout::LoadField(
