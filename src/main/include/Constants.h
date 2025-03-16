@@ -148,11 +148,6 @@ public:
   static constexpr double kMinPressure = 100; // PSI
   static constexpr double kMaxPressure = 120; // PSI
 
-  // Status feed
-  static constexpr int kStatusFrameWidth = 640;
-  static constexpr int kStatusFrameHeight = 480;
-  static constexpr double kStatusFrameScale = 80;
-
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
   static constexpr double kPathFollowingKi = 0.002;
