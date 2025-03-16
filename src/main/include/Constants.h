@@ -67,23 +67,23 @@ public:
 
   // Values is in meters per second
   static constexpr double kElevatorCruiseVelocity =
-      1.0 / kElevatorMetersPerRotation;
+      1.3 / kElevatorMetersPerRotation;
   // Value is in meters per second per second
   static constexpr double kElevatorAcceleration =
-      2.0 / kElevatorMetersPerRotation;
+      4.0 / kElevatorMetersPerRotation;
   // Value in meters per second per second per second
-  static constexpr double kElevatorJerk = 4.0 / kElevatorMetersPerRotation;
+  static constexpr double kElevatorJerk = 8.0 / kElevatorMetersPerRotation;
   // P I D CruiseVelocity kV S(overcome static friction) A(output per unit
   // of target acceleration)       Accel Jerk     kG
   static constexpr std::tuple<double, double, double, double, double, double,
                               double, double, double, double>
-      kElevatorMotorGains{7,
+      kElevatorMotorGains{5,
                           0,
                           0,
                           kElevatorCruiseVelocity,
                           0.126,
                           0.01,
-                          0.24,
+                          0.1,
                           kElevatorAcceleration,
                           kElevatorJerk,
                           0.1};
