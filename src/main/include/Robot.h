@@ -3,15 +3,14 @@
 #include <cameraserver/CameraServer.h>
 #include <frc/Compressor.h>
 #include <frc/TimedRobot.h>
+#include <frc/geometry/Pose2d.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <memory>
-#include <opencv2/opencv.hpp>
 
 #include "Constants.h"
 #include "Looper.h"
 #include "auto/Task.h"
 #include "control/PIDController.h"
-#include "frc/geometry/Pose2d.h"
 
 class Robot : public frc::TimedRobot {
 public:
@@ -33,11 +32,6 @@ private:
   frc::SendableChooser<std::string> m_autoChooser;
 
   std::shared_ptr<Task> m_auto;
-
-  cs::CvSource m_statusFeed;
-  cv::Mat m_statusFrame{Constants::kStatusFrameHeight,
-                        Constants::kStatusFrameWidth, CV_8UC3,
-                        cv::Scalar{0, 0, 0}};
 
   bool m_autoAligning = false;
   frc::Pose2d m_autoAlignSetpoint;
