@@ -152,7 +152,7 @@ public:
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
   static constexpr double kPathFollowingKi = 0.002;
-  static constexpr double kPathFollowingKd = 1.0;
+  static constexpr double kPathFollowingKd = 0.5;
   static constexpr double kPathFollowingAngleKp = 3.0;
   static constexpr double kPathFollowingAngleKi = 0;
   static constexpr double kPathFollowingAngleKd = 0.1;
