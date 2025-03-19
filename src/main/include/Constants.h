@@ -61,18 +61,18 @@ public:
       frc::Rotation3d{0_rad, 0_rad, 0_deg}};
 
   // TalonFX ids for elevator motors.
-  static constexpr int kElevatorMainMotorId = 18;
-  static constexpr int kElevatorSecondMotorId = 20;
-  static constexpr double kElevatorMetersPerRotation = 0.1366 / 20 * 2;
+  static constexpr int kElevatorMainMotorId = 20;
+  static constexpr int kElevatorSecondMotorId = 18;
+  static constexpr double kElevatorMetersPerRotation = 0.1366 / 12 * 2;
 
   // Values is in meters per second
   static constexpr double kElevatorCruiseVelocity =
-      1.3 / kElevatorMetersPerRotation;
+      2.1 / kElevatorMetersPerRotation;
   // Value is in meters per second per second
   static constexpr double kElevatorAcceleration =
-      5.0 / kElevatorMetersPerRotation;
+      8.0 / kElevatorMetersPerRotation;
   // Value in meters per second per second per second
-  static constexpr double kElevatorJerk = 10.0 / kElevatorMetersPerRotation;
+  static constexpr double kElevatorJerk = 25.0 / kElevatorMetersPerRotation;
   // P I D CruiseVelocity kV S(overcome static friction) A(output per unit
   // of target acceleration)       Accel Jerk     kG
   static constexpr std::tuple<double, double, double, double, double, double,
@@ -81,12 +81,12 @@ public:
                           0,
                           0,
                           kElevatorCruiseVelocity,
-                          0.126,
+                          0.05,
                           0.01,
-                          0.1,
+                          0.01,
                           kElevatorAcceleration,
                           kElevatorJerk,
-                          0.1};
+                          0.2};
   // Starting offset in meters
   static constexpr double kElevatorHomePositionMeters = 0.0;
   static constexpr double kElevatorHomePositionRotations =
@@ -112,7 +112,7 @@ public:
   static constexpr double kElevatorDefaultTolerance = 0.003;     // meters
   static constexpr double kElevatorCollisionTripDistance = 0.05; // meters
   static constexpr int kElevatorHomeSensorId = 2;
-  static constexpr int kElevatorCurrentLimit = 20; // Amps
+  static constexpr int kElevatorCurrentLimit = 40; // Amps
 
   // Manipulator
   static constexpr int kManipulatorCoralSolenoidIdForward = 14;
