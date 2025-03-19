@@ -45,6 +45,8 @@ private:
       {Constants::kPathFollowingAngleKp, Constants::kPathFollowingAngleKi,
        Constants::kPathFollowingAngleKd}};
 
+  bool m_braking = false;
+
   inline void ResetAlignControllers() {
     for (int i = 0; i < 3; i++) {
       m_alignControllers[i].Reset();

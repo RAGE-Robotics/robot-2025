@@ -163,4 +163,5 @@ public:
       0.1; // meters per second
 
   static constexpr auto kFeederDistance = 24_in;
+  static constexpr double kBrakeDistance = 0.25; // meters
 };
