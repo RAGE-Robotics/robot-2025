@@ -59,6 +59,7 @@ public:
   static constexpr frc::Transform3d kBackCameraTransform{
       frc::Translation3d{4.75_in, -11.25_in, 32.75_in},
       frc::Rotation3d{0_rad, 0_rad, 0_deg}};
+  static constexpr auto kBlockedTags = {3, 16};
 
   // TalonFX ids for elevator motors.
   static constexpr int kElevatorMainMotorId = 20;
