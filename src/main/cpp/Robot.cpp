@@ -276,7 +276,11 @@ Robot::Robot() {
 // restarted.
 Robot::~Robot() {}
 
+void Robot::DisabledInit() { Elevator::GetInstance().Brake(); }
+
 void Robot::DisabledExit() {
+  Elevator::GetInstance().Coast();
+
   auto alliance = frc::DriverStation::GetAlliance();
   if (alliance.has_value()) {
     Locations::GetInstance().Generate(alliance.value());

@@ -45,9 +45,6 @@ Elevator::Elevator() : m_homeSwitch{Constants::kElevatorHomeSensorId} {
 
 void Elevator::Update(Robot::Mode mode, double t) {
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
-    m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
-    m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
-
     controls::MotionMagicVoltage m_mainOutput{0_tr};
     switch (m_position) {
     case kHome:
@@ -100,9 +97,6 @@ void Elevator::Update(Robot::Mode mode, double t) {
                                      Constants::kElevatorHomePositionRotations})
                                  .WithSlot(0));
     }
-  } else {
-    m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
-    m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
   }
 }
 
@@ -137,3 +131,13 @@ double Elevator::GetError() {
 }
 
 void Elevator::Zero() { m_mainMotor.SetPosition(0_tr); }
+
+void Elevator::Brake() {
+  m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
+  m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Brake);
+}
+
+void Elevator::Coast() {
+  m_mainMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
+  m_secondMotor.SetNeutralMode(signals::NeutralModeValue::Coast);
+}

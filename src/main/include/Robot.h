@@ -20,6 +20,7 @@ public:
   Robot();
   ~Robot();
 
+  void DisabledInit() override;
   void DisabledExit() override;
   void TeleopInit() override;
 

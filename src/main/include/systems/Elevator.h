@@ -22,6 +22,8 @@ public:
   double GetPosition();
   double GetError();
   void Zero();
+  void Brake();
+  void Coast();
 
 private:
   hardware::TalonFX m_mainMotor{Constants::kElevatorMainMotorId};
