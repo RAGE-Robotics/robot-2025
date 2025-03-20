@@ -17,8 +17,8 @@ void Cameras::Update(Robot::Mode mode, double t) {
     return left.GetTimestamp() < right.GetTimestamp();
   });
 
-  for (auto result : results) {
-    auto pose = m_frontPoseEstimator.Update(result);
+  if (results.size() > 0) {
+    auto pose = m_frontPoseEstimator.Update(results[0]);
 
     if (pose.has_value()) {
       SwerveDrive::GetInstance().VisionUpdate(
@@ -33,8 +33,8 @@ void Cameras::Update(Robot::Mode mode, double t) {
     return left.GetTimestamp() < right.GetTimestamp();
   });
 
-  for (auto result : results) {
-    auto pose = m_backPoseEstimator.Update(result);
+  if (results.size() > 0) {
+    auto pose = m_backPoseEstimator.Update(results[0]);
 
     if (pose.has_value()) {
       SwerveDrive::GetInstance().VisionUpdate(
