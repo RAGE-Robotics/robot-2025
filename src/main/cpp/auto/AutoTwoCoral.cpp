@@ -11,6 +11,7 @@
 #include "auto/ManipulatorIn.h"
 #include "auto/ManipulatorOut.h"
 #include "auto/MoveElevator.h"
+#include "frc/geometry/Rotation2d.h"
 #include "systems/Elevator.h"
 
 AutoTwoCoral::AutoTwoCoral(frc::DriverStation::Alliance alliance,
@@ -52,10 +53,16 @@ AutoTwoCoral::AutoTwoCoral(frc::DriverStation::Alliance alliance,
       }
     }
 
+    /*    m_tasks.push_back(std::make_shared<FollowPath>(
+            std::vector<frc::Pose2d>{
+                Locations::GetInstance().GetCoralPositions()[setpoint],
+                Locations::GetInstance().GetFeederPositions()[feeder_index]},
+                false, false));*/
     m_tasks.push_back(std::make_shared<FollowPath>(
         std::vector<frc::Pose2d>{
             Locations::GetInstance().GetCoralPositions()[setpoint],
-            Locations::GetInstance().GetFeederPositions()[feeder_index]},
+            frc::Pose2d{frc::Translation2d{614_in, 79_in},
+                        frc::Rotation2d{90_deg}}},
         false, false));
     m_tasks.push_back(std::make_shared<ManipulatorIn>());
 

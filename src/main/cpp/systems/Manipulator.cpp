@@ -22,7 +22,13 @@ void Manipulator::StopOutakingCoral() { m_coralOutaking = false; }
 
 bool Manipulator::ArmDown() { return m_armOut; }
 
-bool Manipulator::ElevatorSafe() { return m_elevatorBlockSensor.Get(); }
+bool Manipulator::ElevatorSafe() {
+  if (m_firstSensor.Get() && !m_secondSensor.Get()) {
+    return false;
+  }
+
+  return !m_elevatorBlockSensor.Get();
+}
 
 bool Manipulator::DoneIntaking() {
   return m_firstSensor.Get() && m_secondSensor.Get();

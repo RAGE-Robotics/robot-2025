@@ -62,6 +62,11 @@ Robot::Robot() {
         m_auto->Update(t);
       }
     } else if (mode == kTeleop) {
+      if (m_braking) {
+        SwerveDrive::GetInstance().Coast();
+        m_braking = false;
+      }
+
       // Check this before sending drive velocities
       if (Controllers::GetInstance()
               .GetDriverController()
@@ -125,6 +130,7 @@ Robot::Robot() {
       double leftX =
           Controllers::GetInstance().GetDriverController().GetLeftX();
       double vy = Util::Exp(-leftX) * Constants::kDriveControlMultipler;
+
       // GetRightX() doesn't work in the Linux simulation for some reason
       double rightX =
           Controllers::GetInstance().GetDriverController().GetRightX();
@@ -290,6 +296,9 @@ Robot::~Robot() {}
 void Robot::DisabledInit() { Elevator::GetInstance().Brake(); }
 
 void Robot::DisabledExit() {
+  SwerveDrive::GetInstance().Coast();
+  m_braking = false;
+
   Elevator::GetInstance().Coast();
 
   auto alliance = frc::DriverStation::GetAlliance();
