@@ -18,15 +18,6 @@ void Cameras::Update(Robot::Mode mode, double t) {
   });
 
   for (auto result : results) {
-    for (auto tag : Constants::kBlockedTags) {
-      for (int i = 0; i < result.targets.size(); i++) {
-        if (result.targets[i].GetFiducialId() == tag) {
-          result.targets.erase(result.targets.begin() + i);
-          break;
-        }
-      }
-    }
-
     auto pose = m_frontPoseEstimator.Update(result);
 
     if (pose.has_value()) {
@@ -43,15 +34,6 @@ void Cameras::Update(Robot::Mode mode, double t) {
   });
 
   for (auto result : results) {
-    for (auto tag : Constants::kBlockedTags) {
-      for (int i = 0; i < result.targets.size(); i++) {
-        if (result.targets[i].GetFiducialId() == tag) {
-          result.targets.erase(result.targets.begin() + i);
-          break;
-        }
-      }
-    }
-
     auto pose = m_backPoseEstimator.Update(result);
 
     if (pose.has_value()) {
