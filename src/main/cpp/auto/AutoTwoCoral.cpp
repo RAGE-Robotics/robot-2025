@@ -53,16 +53,10 @@ AutoTwoCoral::AutoTwoCoral(frc::DriverStation::Alliance alliance,
       }
     }
 
-    /*    m_tasks.push_back(std::make_shared<FollowPath>(
-            std::vector<frc::Pose2d>{
-                Locations::GetInstance().GetCoralPositions()[setpoint],
-                Locations::GetInstance().GetFeederPositions()[feeder_index]},
-                false, false));*/
     m_tasks.push_back(std::make_shared<FollowPath>(
         std::vector<frc::Pose2d>{
             Locations::GetInstance().GetCoralPositions()[setpoint],
-            frc::Pose2d{frc::Translation2d{614_in, 79_in},
-                        frc::Rotation2d{180_deg}}},
+            Locations::GetInstance().GetFeederPositions()[feeder_index]},
         false, false));
     m_tasks.push_back(std::make_shared<ManipulatorIn>());
 
