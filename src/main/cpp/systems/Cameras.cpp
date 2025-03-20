@@ -1,6 +1,5 @@
 #include "systems/Cameras.h"
 
-#include <algorithm>
 #include <frc/apriltag/AprilTagFieldLayout.h>
 #include <frc/apriltag/AprilTagFields.h>
 #include <photon/PhotonCamera.h>
