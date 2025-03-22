@@ -56,14 +56,18 @@ void Manipulator::Update(Robot::Mode mode, double t) {
                             (m_firstSensor.Get() && m_secondSensor.Get()))) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralIntakeSpeed);
+      m_assist.Set(Constants::kManipulatorAssistOutput);
     } else if (m_coralOutaking) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralOutakeSpeed);
+      m_assist.Set(0);
     } else if (!m_firstSensor.Get() && m_secondSensor.Get()) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralSpeedReverse);
+      m_assist.Set(0);
     } else {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
+      m_assist.Set(0);
     }
   }
 }

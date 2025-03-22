@@ -131,6 +131,8 @@ public:
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
   static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
+  static constexpr short kManipulatorAssistID = 11;
+  static constexpr double kManipulatorAssistOutput = 0.1; //percentage of the coral neo output power for assisting intake (0 = 0% 1=100%)
 
   // Locations
   static constexpr double kReefWidth = 65.2 / kInchesPerMeter;

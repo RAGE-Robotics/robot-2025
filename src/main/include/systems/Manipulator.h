@@ -5,6 +5,8 @@
 #include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
 #include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
+#include <rev/SparkMax.h>
+#include <Constants.h>
 
 using namespace ctre::phoenix;
 
@@ -43,4 +45,6 @@ private:
   frc::DigitalInput m_elevatorBlockSensor;
   frc::DoubleSolenoid m_algaeSolenoid;
   motorcontrol::can::TalonSRX m_algaeMotor;
+  rev::spark::SparkMax m_assist{Constants::kManipulatorAssistID, rev::spark::SparkMax::MotorType::kBrushless};
+
 };
