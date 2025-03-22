@@ -1,12 +1,12 @@
 #pragma once
 
-#include "System.h"
-
 #include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
 #include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
 #include <rev/SparkMax.h>
-#include <Constants.h>
+
+#include "Constants.h"
+#include "System.h"
 
 using namespace ctre::phoenix;
 
