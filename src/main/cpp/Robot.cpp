@@ -257,6 +257,10 @@ Robot::Robot() {
                      .GetOperatorController()
                      .GetRightY() > 0.5) {
         Manipulator::GetInstance().StartOutakingCoral();
+      } else if (Controllers::GetInstance()
+                     .GetOperatorController()
+                     .GetRightY() < -0.5) {
+        Manipulator::GetInstance().StartReversingCoral();
       } else {
         if (Manipulator::GetInstance().ArmDown()) {
           Manipulator::GetInstance().SetAlgaeSpeed(

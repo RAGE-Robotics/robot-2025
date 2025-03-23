@@ -24,6 +24,8 @@ public:
   void StopIntakingCoral();
   void StartOutakingCoral();
   void StopOutakingCoral();
+  void StartReversingCoral();
+  void StopReversingCoral();
   bool ArmDown();
   bool ElevatorSafe();
   bool DoneIntaking();
@@ -38,6 +40,7 @@ private:
   double m_algaeSpeed = 0;
   bool m_coralIntaking = false;
   bool m_coralOutaking = false;
+  bool m_coralReversing = false;
 
   frc::DoubleSolenoid m_coralSolenoid;
   frc::DigitalInput m_firstSensor, m_secondSensor;
@@ -45,6 +48,6 @@ private:
   frc::DigitalInput m_elevatorBlockSensor;
   frc::DoubleSolenoid m_algaeSolenoid;
   motorcontrol::can::TalonSRX m_algaeMotor;
-  rev::spark::SparkMax m_assist{Constants::kManipulatorAssistID, rev::spark::SparkMax::MotorType::kBrushless};
+  rev::spark::SparkMax m_assistMotor;
 
 };
