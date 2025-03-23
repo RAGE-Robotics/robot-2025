@@ -271,6 +271,7 @@ Robot::Robot() {
 
         Manipulator::GetInstance().StopIntakingCoral();
         Manipulator::GetInstance().StopOutakingCoral();
+        Manipulator::GetInstance().StopReversingCoral();
       }
     } else if (mode == kDisabled) {
       if (std::abs(
