@@ -44,7 +44,7 @@ public:
   static constexpr double kDriveRampRate = 0.35;   // Seconds
   static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 1.0 / 6.75;
-  static constexpr double kDriveControlMultipler = 3.25; // meters per second
+  static constexpr double kDriveControlMultipler = 4.65; // meters per second
   static constexpr double kDriveAngularControlMultiplier =
       5.0;                              // radians per second
   static constexpr double kMaxV = 4.65; // meters per second
