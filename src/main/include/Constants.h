@@ -132,9 +132,13 @@ public:
   static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
-  static constexpr double kManipulatorAssistOutput = 0.75; //percentage of the coral neo output power for assisting intake (0 = 0% 1=100%)
-  static constexpr double kManipulatorAssistReverseOutput = -1; //power output of the neo when scoring L1 (same as one above)
-  static constexpr double kManipulatorCoralRerversingSpeed = -0.55; //pretty sure its inverted so positive
+  static constexpr double kManipulatorAssistOutput =
+      0.4; // percentage of the coral neo output power for assisting intake (0
+           // = 0% 1=100%)
+  static constexpr double kManipulatorAssistReverseOutput =
+      -0.22; // power output of the neo when scoring L1 (same as one above)
+  static constexpr double kManipulatorCoralRerversingSpeed =
+      -0.55; // pretty sure its inverted so positive
 
   // Locations
   static constexpr double kReefWidth = 65.2 / kInchesPerMeter;
@@ -155,14 +159,14 @@ public:
 
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
-  static constexpr double kPathFollowingKi = 0.002;
-  static constexpr double kPathFollowingKd = 0.5;
+  static constexpr double kPathFollowingKi = 0.003;
+  static constexpr double kPathFollowingKd = 0.75;
   static constexpr double kPathFollowingAngleKp = 3.0;
   static constexpr double kPathFollowingAngleKi = 0;
   static constexpr double kPathFollowingAngleKd = 0.1;
-  static constexpr double kPathFollowingMaxV = 1;        // meters per second
-  static constexpr double kPathFollowingMaxW = 0.5;      // radians per second
-  static constexpr double kPathFollowingTolerance = 0.1; // meters
+  static constexpr double kPathFollowingMaxV = 1.5;       // meters per second
+  static constexpr double kPathFollowingMaxW = 0.5;       // radians per second
+  static constexpr double kPathFollowingTolerance = 0.05; // meters
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
