@@ -125,7 +125,7 @@ public:
   static constexpr int kManipulatorElevatorBlockSensorId = 3;
   static constexpr int kManipulatorCoralMotorId = 10;
   static constexpr int kManipulatorAlgaeMotorId = 6;
-  static constexpr double kManipulatorCoralIntakeSpeed = 0.25;
+  static constexpr double kManipulatorCoralIntakeSpeed = 0.33;
   static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
   static constexpr double kManipulatorCoralSpeedReverse = -0.2;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
@@ -133,7 +133,7 @@ public:
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
   static constexpr double kManipulatorAssistOutput =
-      0.4; // percentage of the coral neo output power for assisting intake (0 = 0% 1=100%)
+      0.425; // percentage of the coral neo output power for assisting intake (0 = 0% 1=100%)
   static constexpr double kManipulatorAssistReverseOutput =
       -0.22; // power output of the neo when scoring L1 (same as one above)
   static constexpr double kManipulatorCoralRerversingSpeed =
