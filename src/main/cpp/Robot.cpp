@@ -20,7 +20,15 @@
 #include "systems/SwerveDrive.h"
 
 // This gets called first. So, initialize everything here.
-Robot::Robot() {
+Robot::Robot()
+    : m_compressor{frc::PneumaticsModuleType::REVPH},
+      m_alignControllers{
+          {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
+           Constants::kPathFollowingKd},
+          {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
+           Constants::kPathFollowingKd},
+          {Constants::kPathFollowingAngleKp, Constants::kPathFollowingAngleKi,
+           Constants::kPathFollowingAngleKd}} {
   m_startChooser.SetDefaultOption("1", 1);
   m_startChooser.AddOption("2", 2);
   m_startChooser.AddOption("3", 3);
@@ -75,7 +83,7 @@ Robot::Robot() {
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestLeftCoral(
             SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
-        m_autoAligning = true;
+        m_autoAlignMode = kPosition;
       } else if (Controllers::GetInstance()
                      .GetDriverController()
                      .GetBButtonPressed()) {
@@ -83,7 +91,7 @@ Robot::Robot() {
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestRightCoral(
             SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
-        m_autoAligning = true;
+        m_autoAlignMode = kPosition;
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
@@ -92,7 +100,7 @@ Robot::Robot() {
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestAlgae(
             SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
-        m_autoAligning = true;
+        m_autoAlignMode = kPosition;
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
@@ -101,7 +109,15 @@ Robot::Robot() {
         ResetAlignControllers();
         m_autoAlignSetpoint = NearestFeeder(
             SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
-        m_autoAligning = true;
+        m_autoAlignMode = kPosition;
+        SwerveDrive::GetInstance().DisableRamp();
+      } else if (Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetRightBumperButtonPressed()) {
+        // Feeder station location with only angle
+        m_autoAlignSetpoint = NearestFeeder(
+            SwerveDrive::GetInstance().GetPose2d(), &m_autoAlignSetpointIndex);
+        m_autoAlignMode = kNoPosition;
         SwerveDrive::GetInstance().DisableRamp();
       } else if (Controllers::GetInstance()
                      .GetDriverController()
@@ -114,8 +130,11 @@ Robot::Robot() {
                      .GetYButtonReleased() ||
                  Controllers::GetInstance()
                      .GetDriverController()
-                     .GetXButtonReleased()) {
-        m_autoAligning = false;
+                     .GetXButtonReleased() ||
+                 Controllers::GetInstance()
+                     .GetDriverController()
+                     .GetRightBumperButtonReleased()) {
+        m_autoAlignMode = kNone;
         SwerveDrive::GetInstance().EnableRamp();
       }
 
@@ -159,26 +178,29 @@ Robot::Robot() {
 
         SwerveDrive::GetInstance().DriveVelocity(0, 0, 0);
       } else {
-        if (m_autoAligning) {
+        if (m_autoAlignMode != kNone) {
           auto robotPose = SwerveDrive::GetInstance().GetPose2d();
-          vx = m_alignControllers[0].Update(
-              robotPose.Translation().X().value(),
-              m_autoAlignSetpoint.Translation().X().value());
-          if (vx < -Constants::kPathFollowingMaxV) {
-            vx = -Constants::kPathFollowingMaxV;
-          }
-          if (vx > Constants::kPathFollowingMaxV) {
-            vx = Constants::kPathFollowingMaxV;
-          }
 
-          vy = m_alignControllers[1].Update(
-              robotPose.Translation().Y().value(),
-              m_autoAlignSetpoint.Translation().Y().value());
-          if (vy < -Constants::kPathFollowingMaxV) {
-            vy = -Constants::kPathFollowingMaxV;
-          }
-          if (vy > Constants::kPathFollowingMaxV) {
-            vy = Constants::kPathFollowingMaxV;
+          if (m_autoAlignMode != kNoPosition) {
+            vx = m_alignControllers[0].Update(
+                robotPose.Translation().X().value(),
+                m_autoAlignSetpoint.Translation().X().value());
+            if (vx < -Constants::kPathFollowingMaxV) {
+              vx = -Constants::kPathFollowingMaxV;
+            }
+            if (vx > Constants::kPathFollowingMaxV) {
+              vx = Constants::kPathFollowingMaxV;
+            }
+
+            vy = m_alignControllers[1].Update(
+                robotPose.Translation().Y().value(),
+                m_autoAlignSetpoint.Translation().Y().value());
+            if (vy < -Constants::kPathFollowingMaxV) {
+              vy = -Constants::kPathFollowingMaxV;
+            }
+            if (vy > Constants::kPathFollowingMaxV) {
+              vy = Constants::kPathFollowingMaxV;
+            }
           }
 
           double angleSetpoint =

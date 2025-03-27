@@ -17,6 +17,8 @@ public:
   // Enum to specify the robot's mode to the sub-systems
   enum Mode { kDisabled, kAuto, kTeleop };
 
+  enum AutoAlignMode { kNone, kPosition, kNoPosition };
+
   Robot();
   ~Robot();
 
@@ -25,7 +27,7 @@ public:
   void TeleopInit() override;
 
 private:
-  frc::Compressor m_compressor{frc::PneumaticsModuleType::REVPH};
+  frc::Compressor m_compressor;
 
   Looper m_looper;
 
@@ -34,16 +36,10 @@ private:
 
   std::shared_ptr<Task> m_auto;
 
-  bool m_autoAligning = false;
+  AutoAlignMode m_autoAlignMode = kNone;
   frc::Pose2d m_autoAlignSetpoint;
   int m_autoAlignSetpointIndex = 0;
-  PIDController m_alignControllers[3]{
-      {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
-       Constants::kPathFollowingKd},
-      {Constants::kPathFollowingKp, Constants::kPathFollowingKi,
-       Constants::kPathFollowingKd},
-      {Constants::kPathFollowingAngleKp, Constants::kPathFollowingAngleKi,
-       Constants::kPathFollowingAngleKd}};
+  PIDController m_alignControllers[3];
 
   bool m_braking = false;
 
