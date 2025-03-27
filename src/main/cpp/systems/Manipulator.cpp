@@ -20,6 +20,10 @@ void Manipulator::StartOutakingCoral() { m_coralOutaking = true; }
 
 void Manipulator::StopOutakingCoral() { m_coralOutaking = false; }
 
+void Manipulator::StartReversingCoral() { m_coralReversing = true; }
+
+void Manipulator::StopReversingCoral() { m_coralReversing = false; }
+
 bool Manipulator::ArmDown() { return m_armOut; }
 
 bool Manipulator::ElevatorSafe() {
@@ -56,18 +60,22 @@ void Manipulator::Update(Robot::Mode mode, double t) {
                             (m_firstSensor.Get() && m_secondSensor.Get()))) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralIntakeSpeed);
-      m_assist.Set(Constants::kManipulatorAssistOutput);
+      m_assistMotor.Set(Constants::kManipulatorAssistOutput);
     } else if (m_coralOutaking) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralOutakeSpeed);
-      m_assist.Set(0);
+      m_assistMotor.Set(0);
     } else if (!m_firstSensor.Get() && m_secondSensor.Get()) {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                        Constants::kManipulatorCoralSpeedReverse);
-      m_assist.Set(0);
+      m_assistMotor.Set(0);
+    } else if (m_coralReversing) {
+      m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
+                       Constants::kManipulatorCoralRerversingSpeed);
+      m_assistMotor.Set(Constants::kManipulatorAssistReverseOutput);
     } else {
       m_coralMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput, 0);
-      m_assist.Set(0);
+      m_assistMotor.Set(0);
     }
   }
 }
@@ -83,4 +91,5 @@ Manipulator::Manipulator()
       m_secondSensor{Constants::kManipulatorSecondSensorId},
       m_coralMotor{Constants::kManipulatorCoralMotorId},
       m_algaeMotor{Constants::kManipulatorAlgaeMotorId},
+      m_assistMotor{Constants::kManipulatorAssistID, rev::spark::SparkMax::MotorType::kBrushless},
       m_elevatorBlockSensor{Constants::kManipulatorElevatorBlockSensorId} {}
