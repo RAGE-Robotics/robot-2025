@@ -129,7 +129,7 @@ public:
   static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
   static constexpr double kManipulatorCoralSpeedReverse = -0.2;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
-  static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
+  static constexpr double kManipulatorAlgaeOutakeSpeed = -0.8;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
   static constexpr double kManipulatorAssistOutput =
@@ -158,10 +158,10 @@ public:
 
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
-  static constexpr double kPathFollowingKi = 0.005;
+  static constexpr double kPathFollowingKi = 0.006;
   static constexpr double kPathFollowingKd = 0;
   static constexpr double kPathFollowingAngleKp = 3.0;
-  static constexpr double kPathFollowingAngleKi = 0.003;
+  static constexpr double kPathFollowingAngleKi = 0.004;
   static constexpr double kPathFollowingAngleKd = 0.0;
   static constexpr double kPathFollowingMaxV = 1.5;       // meters per second
   static constexpr double kPathFollowingMaxW = 0.5;       // radians per second
@@ -169,6 +169,6 @@ public:
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
-  static constexpr auto kFeederDistance = 24_in;
+  static constexpr auto kFeederDistance = 21_in;
   static constexpr double kBrakeDistance = 0.25; // meters
 };
