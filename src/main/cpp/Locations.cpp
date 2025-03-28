@@ -109,22 +109,25 @@ frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,
                        Constants::kStartOffsetX
                  : Constants::kStartLineOffset - Constants::kStartOffsetX;
   double y = Constants::kFieldWidth / 2;
+  double angle = alliance == frc::DriverStation::Alliance::kRed ? 0 : M_PI;
+
   switch (i) {
   case 1:
     y += alliance == frc::DriverStation::Alliance::kRed
              ? -Constants::kStartOffsetY
              : Constants::kStartOffsetY;
+    angle += M_PI / 2;
     break;
   case 3:
     y -= alliance == frc::DriverStation::Alliance::kRed
              ? -Constants::kStartOffsetY
              : Constants::kStartOffsetY;
+    angle -= M_PI / 2;
     break;
   default:
     break;
   }
 
-  double angle = alliance == frc::DriverStation::Alliance::kRed ? 0 : M_PI;
   return frc::Pose2d{frc::Translation2d{units::meter_t{x}, units::meter_t{y}},
                      frc::Rotation2d{units::radian_t{angle}}};
 }

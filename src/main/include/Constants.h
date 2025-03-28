@@ -149,7 +149,7 @@ public:
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
   static constexpr double kStartOffsetY =
-      kFieldWidth / 2 - (18 / kInchesPerMeter); // meters
+      kFieldWidth / 2 - (24 / kInchesPerMeter); // meters
   static constexpr double kStartOffsetX = 0;    // meters
 
   // Pneumatics
@@ -158,14 +158,14 @@ public:
 
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
-  static constexpr double kPathFollowingKi = 0.003;
+  static constexpr double kPathFollowingKi = 0.005;
   static constexpr double kPathFollowingKd = 0;
   static constexpr double kPathFollowingAngleKp = 3.0;
-  static constexpr double kPathFollowingAngleKi = 0;
+  static constexpr double kPathFollowingAngleKi = 0.003;
   static constexpr double kPathFollowingAngleKd = 0.0;
   static constexpr double kPathFollowingMaxV = 1.5;       // meters per second
   static constexpr double kPathFollowingMaxW = 0.5;       // radians per second
-  static constexpr double kPathFollowingTolerance = 0.05; // meters
+  static constexpr double kPathFollowingTolerance = 0.04; // meters
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
