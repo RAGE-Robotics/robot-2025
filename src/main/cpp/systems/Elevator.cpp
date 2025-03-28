@@ -33,6 +33,7 @@ Elevator::Elevator() : m_homeSwitch{Constants::kElevatorHomeSensorId} {
           units::angular_acceleration::turns_per_second_squared_t{kAccel})
       .WithMotionMagicJerk(units::angular_jerk::turns_per_second_cubed_t{kJ});
   m_mainMotor.GetConfigurator().Apply(talonFXConfigs);
+  m_mainMotor.SetInverted(true);
   m_secondMotor.SetControl(controls::Follower{m_mainMotor.GetDeviceID(), true});
 
   auto currentLimitConfig = configs::CurrentLimitsConfigs{}

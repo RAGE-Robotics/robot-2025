@@ -62,8 +62,8 @@ public:
   static constexpr auto kBlockedTags = {3, 16};
 
   // TalonFX ids for elevator motors.
-  static constexpr int kElevatorMainMotorId = 20;
-  static constexpr int kElevatorSecondMotorId = 18;
+  static constexpr int kElevatorMainMotorId = 18;
+  static constexpr int kElevatorSecondMotorId = 20;
   static constexpr double kElevatorMetersPerRotation = 0.1366 / 12 * 2;
 
   // Values is in meters per second
