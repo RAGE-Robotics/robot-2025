@@ -44,7 +44,7 @@ public:
   static constexpr double kDriveRampRate = 0.35;   // Seconds
   static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 1.0 / 6.75;
-  static constexpr double kDriveControlMultipler = 3.25; // meters per second
+  static constexpr double kDriveControlMultipler = 4.65; // meters per second
   static constexpr double kDriveAngularControlMultiplier =
       5.0;                              // radians per second
   static constexpr double kMaxV = 4.65; // meters per second
@@ -62,8 +62,8 @@ public:
   static constexpr auto kBlockedTags = {3, 16};
 
   // TalonFX ids for elevator motors.
-  static constexpr int kElevatorMainMotorId = 20;
-  static constexpr int kElevatorSecondMotorId = 18;
+  static constexpr int kElevatorMainMotorId = 18;
+  static constexpr int kElevatorSecondMotorId = 20;
   static constexpr double kElevatorMetersPerRotation = 0.1366 / 12 * 2;
 
   // Values is in meters per second
@@ -125,7 +125,7 @@ public:
   static constexpr int kManipulatorElevatorBlockSensorId = 3;
   static constexpr int kManipulatorCoralMotorId = 10;
   static constexpr int kManipulatorAlgaeMotorId = 6;
-  static constexpr double kManipulatorCoralIntakeSpeed = 0.25;
+  static constexpr double kManipulatorCoralIntakeSpeed = 0.33;
   static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
   static constexpr double kManipulatorCoralSpeedReverse = -0.2;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
@@ -133,12 +133,11 @@ public:
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
   static constexpr double kManipulatorAssistOutput =
-      0.4; // percentage of the coral neo output power for assisting intake (0
-           // = 0% 1=100%)
+      0.425; // percentage of the coral neo output power for assisting intake (0 = 0% 1=100%)
   static constexpr double kManipulatorAssistReverseOutput =
       -0.22; // power output of the neo when scoring L1 (same as one above)
   static constexpr double kManipulatorCoralRerversingSpeed =
-      -0.55; // pretty sure its inverted so positive
+      -0.55;
 
   // Locations
   static constexpr double kReefWidth = 65.2 / kInchesPerMeter;
@@ -150,7 +149,7 @@ public:
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
   static constexpr double kStartOffsetY =
-      kFieldWidth / 2 - (18 / kInchesPerMeter); // meters
+      kFieldWidth / 2 - (24 / kInchesPerMeter); // meters
   static constexpr double kStartOffsetX = 0;    // meters
 
   // Pneumatics
@@ -159,14 +158,14 @@ public:
 
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
-  static constexpr double kPathFollowingKi = 0.003;
-  static constexpr double kPathFollowingKd = 0.75;
+  static constexpr double kPathFollowingKi = 0.005;
+  static constexpr double kPathFollowingKd = 0;
   static constexpr double kPathFollowingAngleKp = 3.0;
-  static constexpr double kPathFollowingAngleKi = 0;
-  static constexpr double kPathFollowingAngleKd = 0.1;
+  static constexpr double kPathFollowingAngleKi = 0.003;
+  static constexpr double kPathFollowingAngleKd = 0.0;
   static constexpr double kPathFollowingMaxV = 1.5;       // meters per second
   static constexpr double kPathFollowingMaxW = 0.5;       // radians per second
-  static constexpr double kPathFollowingTolerance = 0.05; // meters
+  static constexpr double kPathFollowingTolerance = 0.04; // meters
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
