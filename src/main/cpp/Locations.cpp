@@ -116,13 +116,13 @@ frc::Pose2d Locations::GetStartPosition(frc::DriverStation::Alliance alliance,
     y += alliance == frc::DriverStation::Alliance::kRed
              ? -Constants::kStartOffsetY
              : Constants::kStartOffsetY;
-    angle += M_PI / 2;
+    angle += M_PI / 4;
     break;
   case 3:
     y -= alliance == frc::DriverStation::Alliance::kRed
              ? -Constants::kStartOffsetY
              : Constants::kStartOffsetY;
-    angle -= M_PI / 2;
+    angle -= M_PI / 4;
     break;
   default:
     break;
