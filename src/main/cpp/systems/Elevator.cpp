@@ -1,7 +1,7 @@
 #include "systems/Elevator.h"
-#include "systems/Manipulator.h"
 
-#include <Constants.h>
+#include "systems/Manipulator.h"
+#include "Constants.h"
 
 using namespace ctre::phoenix6;
 
@@ -45,6 +45,12 @@ Elevator::Elevator() : m_homeSwitch{Constants::kElevatorHomeSensorId} {
 }
 
 void Elevator::Update(Robot::Mode mode, double t) {
+  bool homeSwitch = !m_homeSwitch.Get();
+  if (homeSwitch && !m_homeSwitchLastState) {
+    m_mainMotor.SetPosition(0_tr);
+  }
+  m_homeSwitchLastState = homeSwitch;
+
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
     controls::MotionMagicVoltage m_mainOutput{0_tr};
     switch (m_position) {

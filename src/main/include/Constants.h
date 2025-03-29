@@ -158,7 +158,7 @@ public:
 
   // Path following
   static constexpr double kPathFollowingKp = 6.0;
-  static constexpr double kPathFollowingKi = 0.006;
+  static constexpr double kPathFollowingKi = 0.005;
   static constexpr double kPathFollowingKd = 0;
   static constexpr double kPathFollowingAngleKp = 3.0;
   static constexpr double kPathFollowingAngleKi = 0.004;
@@ -169,6 +169,6 @@ public:
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
-  static constexpr auto kFeederDistance = 21_in;
+  static constexpr auto kFeederDistance = 20.5_in;
   static constexpr double kBrakeDistance = 0.25; // meters
 };
