@@ -1,7 +1,7 @@
 #include "systems/Elevator.h"
 
-#include "systems/Manipulator.h"
 #include "Constants.h"
+#include "systems/Manipulator.h"
 
 using namespace ctre::phoenix6;
 
@@ -53,6 +53,14 @@ void Elevator::Update(Robot::Mode mode, double t) {
 
   if (mode == Robot::Mode::kAuto || mode == Robot::Mode::kTeleop) {
     controls::MotionMagicVoltage m_mainOutput{0_tr};
+
+    double algaeOffset;
+    if (Manipulator::GetInstance().IntakingAlgae()) {
+      algaeOffset = Constants::kElevatorAlgaeIntakingOffset;
+    } else {
+      algaeOffset = 0;
+    }
+
     switch (m_position) {
     case kHome:
       m_mainMotor.SetControl(m_mainOutput
@@ -87,15 +95,15 @@ void Elevator::Update(Robot::Mode mode, double t) {
     case kAlgae1:
       m_mainMotor.SetControl(
           m_mainOutput
-              .WithPosition(
-                  units::turn_t{Constants::kElevatorAlgae1PositionRotations})
+              .WithPosition(units::turn_t{
+                  Constants::kElevatorAlgae1PositionRotations + algaeOffset})
               .WithSlot(0));
       break;
     case kAlgae2:
       m_mainMotor.SetControl(
           m_mainOutput
-              .WithPosition(
-                  units::turn_t{Constants::kElevatorAlgae2PositionRotations})
+              .WithPosition(units::turn_t{
+                  Constants::kElevatorAlgae2PositionRotations + algaeOffset})
               .WithSlot(0));
       break;
     default:

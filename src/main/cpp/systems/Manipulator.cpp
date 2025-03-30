@@ -24,9 +24,9 @@ void Manipulator::StartReversingCoral() { m_coralReversing = true; }
 
 void Manipulator::StopReversingCoral() { m_coralReversing = false; }
 
-bool Manipulator::ArmDown() { return m_armOut; }
+bool Manipulator::ArmDown() const { return m_armOut; }
 
-bool Manipulator::ElevatorSafe() {
+bool Manipulator::ElevatorSafe() const {
   if (m_firstSensor.Get() && !m_secondSensor.Get()) {
     return false;
   }
@@ -34,8 +34,17 @@ bool Manipulator::ElevatorSafe() {
   return !m_elevatorBlockSensor.Get();
 }
 
-bool Manipulator::DoneIntaking() {
+bool Manipulator::DoneIntaking() const {
   return m_firstSensor.Get() && m_secondSensor.Get();
+}
+
+bool Manipulator::IntakingAlgae() const {
+  if (ArmDown() &&
+      m_algaeSpeed == Constants::kManipulatorAlgaeManipulatorSpeed) {
+    return true;
+  }
+
+  return false;
 }
 
 void Manipulator::Update(Robot::Mode mode, double t) {
@@ -91,5 +100,6 @@ Manipulator::Manipulator()
       m_secondSensor{Constants::kManipulatorSecondSensorId},
       m_coralMotor{Constants::kManipulatorCoralMotorId},
       m_algaeMotor{Constants::kManipulatorAlgaeMotorId},
-      m_assistMotor{Constants::kManipulatorAssistID, rev::spark::SparkMax::MotorType::kBrushless},
+      m_assistMotor{Constants::kManipulatorAssistID,
+                    rev::spark::SparkMax::MotorType::kBrushless},
       m_elevatorBlockSensor{Constants::kManipulatorElevatorBlockSensorId} {}

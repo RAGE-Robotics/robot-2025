@@ -110,6 +110,8 @@ public:
   static constexpr double kElevatorAlgae2PositionMeters = 0.83;
   static constexpr double kElevatorAlgae2PositionRotations =
       kElevatorAlgae2PositionMeters / kElevatorMetersPerRotation;
+  static constexpr double kElevatorAlgaeIntakingOffset =
+      0.03 / kElevatorMetersPerRotation;
   static constexpr double kElevatorDefaultTolerance = 0.003;     // meters
   static constexpr double kElevatorCollisionTripDistance = 0.05; // meters
   static constexpr int kElevatorHomeSensorId = 2;
@@ -126,10 +128,10 @@ public:
   static constexpr int kManipulatorCoralMotorId = 10;
   static constexpr int kManipulatorAlgaeMotorId = 6;
   static constexpr double kManipulatorCoralIntakeSpeed = 0.33;
-  static constexpr double kManipulatorCoralOutakeSpeed = 1.0;
+  static constexpr double kManipulatorCoralOutakeSpeed = 0.8;
   static constexpr double kManipulatorCoralSpeedReverse = -0.2;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
-  static constexpr double kManipulatorAlgaeOutakeSpeed = -0.8;
+  static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
   static constexpr double kManipulatorAssistOutput =

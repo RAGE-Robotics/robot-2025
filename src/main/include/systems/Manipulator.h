@@ -26,9 +26,10 @@ public:
   void StopOutakingCoral();
   void StartReversingCoral();
   void StopReversingCoral();
-  bool ArmDown();
-  bool ElevatorSafe();
-  bool DoneIntaking();
+  bool ArmDown() const;
+  bool ElevatorSafe() const;
+  bool DoneIntaking() const;
+  bool IntakingAlgae() const;
   void Update(Robot::Mode mode, double t);
 
 private:
@@ -49,5 +50,4 @@ private:
   frc::DoubleSolenoid m_algaeSolenoid;
   motorcontrol::can::TalonSRX m_algaeMotor;
   rev::spark::SparkMax m_assistMotor;
-
 };
