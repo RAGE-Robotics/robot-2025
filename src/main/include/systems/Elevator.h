@@ -33,7 +33,6 @@ private:
 
   frc::DigitalInput m_homeSwitch;
 
-
   bool m_homeSwitchLastState = false;
 
   Elevator();

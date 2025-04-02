@@ -58,7 +58,7 @@ void Manipulator::Update(Robot::Mode mode, double t) {
     m_algaeMotor.Set(motorcontrol::TalonSRXControlMode::PercentOutput,
                      m_algaeSpeed);
 
-    if (Elevator::GetInstance().GetPosition() >
+    if (Elevator::GetInstance().GetPosition() >=
         Constants::kElevatorCollisionTripDistance) {
       m_coralSolenoid.Set(frc::DoubleSolenoid::kForward);
     } else {

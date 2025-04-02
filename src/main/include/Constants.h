@@ -1,7 +1,9 @@
 #pragma once
 
 #include <frc/geometry/Transform3d.h>
+#include <units/angular_velocity.h>
 #include <units/length.h>
+#include <units/velocity.h>
 
 class Constants {
 public:
@@ -31,17 +33,25 @@ public:
   static constexpr int kBrEncoderId = 21;
 
   static constexpr units::turn_t kEncoderOffsets[] = {
-      -0.14599609375_tr, 0.33447265625_tr, 0.040283203125_tr,
+      -0.14599609375_tr, 0.11474609375_tr, 0.040283203125_tr,
       -0.080810546875_tr};
 
   // kS, kV, kP, kI, kD
   static constexpr std::tuple<double, double, double, double, double>
       kSteeringMotorGains{0.0, 0.0, 30.0, 0.0, 0.0};
 
-  static constexpr double kWheelRadius = (4.0 / kInchesPerMeter) / 2; // meters
+  static constexpr double kWheelRadius =
+      (3.875 / kInchesPerMeter) / 2; // meters
 
   static constexpr double kDriveCurrentLimit = 60; // Amps
-  static constexpr double kDriveRampRate = 0.35;   // Seconds
+  static constexpr auto kDriveMaxAccelerationFast =
+      units::meters_per_second_t{13.3} / 1_s;
+  static constexpr auto kDriveMaxAccelerationSlow =
+      units::meters_per_second_t{5} / 1_s;
+  static constexpr auto kDriveMaxAngularAccelerationFast =
+      units::radians_per_second_t{4} / 1_s;
+  static constexpr auto kDriveMaxAngularAccelerationSlow =
+      units::radians_per_second_t{4} / 1_s;
   static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 1.0 / 6.75;
   static constexpr double kDriveControlMultipler = 4.65; // meters per second
@@ -59,9 +69,8 @@ public:
   static constexpr frc::Transform3d kBackCameraTransform{
       frc::Translation3d{4.75_in, -11.25_in, 32.75_in},
       frc::Rotation3d{0_rad, 0_rad, 0_deg}};
-  static constexpr auto kBlockedTags = {3, 16};
 
-  // TalonFX ids for elevator motors.
+  // TalonFX ids for elevator motors
   static constexpr int kElevatorMainMotorId = 18;
   static constexpr int kElevatorSecondMotorId = 20;
   static constexpr double kElevatorMetersPerRotation = 0.1366 / 12 * 2;
@@ -114,6 +123,7 @@ public:
       0.03 / kElevatorMetersPerRotation;
   static constexpr double kElevatorDefaultTolerance = 0.003;     // meters
   static constexpr double kElevatorCollisionTripDistance = 0.05; // meters
+  static constexpr double kElevatorTipDistance = 0.5;            // meters
   static constexpr int kElevatorHomeSensorId = 2;
   static constexpr int kElevatorCurrentLimit = 40; // Amps
 
@@ -171,6 +181,6 @@ public:
   static constexpr double kPathFollowingVelocityTolerance =
       0.1; // meters per second
 
-  static constexpr auto kFeederDistance = 17_in;
+  static constexpr auto kFeederDistance = 0.515_m;
   static constexpr double kBrakeDistance = 0.25; // meters
 };

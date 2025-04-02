@@ -1,10 +1,13 @@
 #include "systems/SwerveDrive.h"
 
+#include <frc/geometry/Translation2d.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
+#include <units/velocity.h>
+
 #include "Constants.h"
 #include "Robot.h"
-#include "frc/geometry/Translation2d.h"
-#include "frc/kinematics/SwerveDriveKinematics.h"
-#include "units/velocity.h"
+#include "frc/filter/SlewRateLimiter.h"
+#include "systems/Elevator.h"
 
 // We need to initialize the gyro and kinematics members. The kinematics
 // constructor needs the positions of the four wheels. The coordinate system is
@@ -74,9 +77,6 @@ SwerveDrive::SwerveDrive()
                                 .WithSupplyCurrentLimit(units::ampere_t{
                                     Constants::kDriveCurrentLimit});
 
-  // Apply an open loop ramp rate to the drive motors only
-  EnableRamp();
-
   for (int i = 0; i < 4; i++) {
     // At the same time, go ahead and configure the remote sensor to be the
     // CANCoder.
@@ -130,11 +130,44 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
            m_encoders[3].GetPosition().GetValue()}});
 
   if (mode == Robot::kAuto || mode == Robot::kTeleop) {
-    // Use the WPILib kinematics class to determine the individual wheel angles
-    // and velocities.
+    double vx = m_vx;
+    double vy = m_vy;
+    double w = m_w;
+
+    if (mode == Robot::kTeleop && m_rampEnabled) {
+      if (Elevator::GetInstance().GetPosition() >=
+          Constants::kElevatorTipDistance) {
+        if (m_fastFilter) {
+          m_fastFilter = false;
+
+          m_filterXFast.Reset(units::meters_per_second_t{m_vx});
+          m_filterYFast.Reset(units::meters_per_second_t{m_vy});
+          m_filterWFast.Reset(units::radians_per_second_t{m_w});
+        }
+      } else if (!m_fastFilter) {
+        m_fastFilter = true;
+
+        m_filterXSlow.Reset(units::meters_per_second_t{m_vx});
+        m_filterYSlow.Reset(units::meters_per_second_t{m_vy});
+        m_filterWSlow.Reset(units::radians_per_second_t{m_w});
+      }
+
+      if (m_fastFilter) {
+        vx = m_filterXFast.Calculate(units::meters_per_second_t{m_vx}).value();
+        vy = m_filterYFast.Calculate(units::meters_per_second_t{m_vy}).value();
+        w = m_filterWFast.Calculate(units::radians_per_second_t{m_w}).value();
+      } else {
+        vx = m_filterXSlow.Calculate(units::meters_per_second_t{m_vx}).value();
+        vy = m_filterYSlow.Calculate(units::meters_per_second_t{m_vy}).value();
+        w = m_filterWSlow.Calculate(units::radians_per_second_t{m_w}).value();
+      }
+    }
+
+    // Use the WPILib kinematics class to determine the individual wheel
+    // angles and velocities.
     auto speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-        units::meters_per_second_t{m_vx}, units::meters_per_second_t{m_vy},
-        units::radians_per_second_t{m_w}, GetPose2d().Rotation());
+        units::meters_per_second_t{vx}, units::meters_per_second_t{vy},
+        units::radians_per_second_t{w}, GetPose2d().Rotation());
     auto states = m_kinematics.ToSwerveModuleStates(speeds);
 
     // Prevent velocities from clipping
@@ -179,8 +212,8 @@ void SwerveDrive::Update(Robot::Mode mode, double t) {
                       M_PI}}.WithSlot(0));
 
     // Use open loop control on the drive motors to get close enough
-    // Using closed-loop velocity control with CTRE devices at lower speeds can
-    // cause jitter.
+    // Using closed-loop velocity control with CTRE devices at lower speeds
+    // can cause jitter.
     m_driveMotors[0].SetControl(controls::DutyCycleOut{
         fl.speed.value() * Constants::kDriveVelocityMultiplier});
     m_driveMotors[1].SetControl(controls::DutyCycleOut{
@@ -228,23 +261,9 @@ void SwerveDrive::VisionUpdate(frc::Pose2d pose, units::second_t timestamp) {
   m_poseEstimator.AddVisionMeasurement(pose, timestamp);
 }
 
-void SwerveDrive::EnableRamp() {
-  auto rampRateConfig =
-      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
-          units::second_t{Constants::kDriveRampRate});
-  for (int i = 0; i < 4; i++) {
-    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
-  }
-}
+void SwerveDrive::EnableRamp() { m_rampEnabled = true; }
 
-void SwerveDrive::DisableRamp() {
-  auto rampRateConfig =
-      configs::OpenLoopRampsConfigs{}.WithVoltageOpenLoopRampPeriod(
-          units::second_t{0});
-  for (int i = 0; i < 4; i++) {
-    m_driveMotors[i].GetConfigurator().Apply(rampRateConfig);
-  }
-}
+void SwerveDrive::DisableRamp() { m_rampEnabled = false; }
 
 double SwerveDrive::VelocityMagnitude() {
   return std::sqrt(m_vx * m_vx + m_vy * m_vy);

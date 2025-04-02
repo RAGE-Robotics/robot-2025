@@ -4,8 +4,11 @@
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include <frc/filter/SlewRateLimiter.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
+#include <units/angular_velocity.h>
+#include <units/velocity.h>
 
 #include "Robot.h"
 #include "System.h"
@@ -53,6 +56,23 @@ private:
   // Vx is forward, Vy is left, and W is the rotational velocity in radians per
   // second
   double m_vx, m_vy, m_w;
+
+  // Slew rate limiters to prevent excessive acceleration
+  frc::SlewRateLimiter<units::meters_per_second> m_filterXFast{
+      Constants::kDriveMaxAccelerationFast};
+  frc::SlewRateLimiter<units::meters_per_second> m_filterYFast{
+      Constants::kDriveMaxAccelerationFast};
+  frc::SlewRateLimiter<units::radians_per_second> m_filterWFast{
+      Constants::kDriveMaxAngularAccelerationFast};
+  frc::SlewRateLimiter<units::meters_per_second> m_filterXSlow{
+      Constants::kDriveMaxAccelerationSlow};
+  frc::SlewRateLimiter<units::meters_per_second> m_filterYSlow{
+      Constants::kDriveMaxAccelerationSlow};
+  frc::SlewRateLimiter<units::radians_per_second> m_filterWSlow{
+      Constants::kDriveMaxAngularAccelerationSlow};
+
+  bool m_rampEnabled = true;
+  bool m_fastFilter = true;
 
   // Make the constructor private so that the GetInstance() function must be
   // used.
