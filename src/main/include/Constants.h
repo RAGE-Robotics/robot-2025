@@ -49,9 +49,9 @@ public:
   static constexpr auto kDriveMaxAccelerationSlow =
       units::meters_per_second_t{5} / 1_s;
   static constexpr auto kDriveMaxAngularAccelerationFast =
-      units::radians_per_second_t{4} / 1_s;
+      units::radians_per_second_t{50} / 1_s;
   static constexpr auto kDriveMaxAngularAccelerationSlow =
-      units::radians_per_second_t{4} / 1_s;
+      units::radians_per_second_t{50} / 1_s;
   static constexpr double kDriveVelocityMultiplier = 1 / 4.65;
   static constexpr double kDriveGearRatio = 1.0 / 6.75;
   static constexpr double kDriveControlMultipler = 4.65; // meters per second
@@ -157,13 +157,12 @@ public:
       (144 / kInchesPerMeter) + kReefWidth / 2;
   static constexpr double kFieldLength = 690.875 / kInchesPerMeter;
   static constexpr double kFieldWidth = 317 / kInchesPerMeter;
-  static constexpr double kReefSpacing = 0.515; // meters
+  static constexpr double kReefSpacing = 0.48; // meters
   static constexpr double kCoralSpacing = 13 / kInchesPerMeter;
   static constexpr double kStartLineOffset = (25 * 12) / kInchesPerMeter;
   static constexpr double kStartOffsetY =
       kFieldWidth / 2 - (24 / kInchesPerMeter); // meters
   static constexpr double kStartOffsetX = 0;    // meters
-
   // Pneumatics
   static constexpr double kMinPressure = 100; // PSI
   static constexpr double kMaxPressure = 120; // PSI
