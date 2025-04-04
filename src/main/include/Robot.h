@@ -5,6 +5,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/Field2d.h>
 #include <memory>
 
 #include "Constants.h"
@@ -35,6 +36,8 @@ private:
   frc::SendableChooser<std::string> m_autoChooser;
 
   std::shared_ptr<Task> m_auto;
+
+  frc::Field2d m_field;
 
   AutoAlignMode m_autoAlignMode = kNone;
   frc::Pose2d m_autoAlignSetpoint;
