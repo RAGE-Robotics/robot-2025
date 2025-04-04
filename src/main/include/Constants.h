@@ -142,7 +142,7 @@ public:
   static constexpr double kManipulatorCoralOutakeSpeed = 0.8;
   static constexpr double kManipulatorCoralSpeedReverse = -0.2;
   static constexpr double kManipulatorAlgaeManipulatorSpeed = 1.0;
-  static constexpr double kManipulatorAlgaeOutakeSpeed = -1.0;
+  static constexpr double kManipulatorAlgaeOutakeSpeed = -0.75;
   static constexpr double kManipulatorAlgaeHoldSpeed = 0.4;
   static constexpr short kManipulatorAssistID = 26;
   static constexpr double kManipulatorAssistOutput =
