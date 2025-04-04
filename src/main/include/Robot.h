@@ -4,8 +4,8 @@
 #include <frc/Compressor.h>
 #include <frc/TimedRobot.h>
 #include <frc/geometry/Pose2d.h>
-#include <frc/smartdashboard/SendableChooser.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <memory>
 
 #include "Constants.h"

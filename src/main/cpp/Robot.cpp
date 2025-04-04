@@ -34,17 +34,13 @@ Robot::Robot()
   m_startChooser.AddOption("3", 3);
   frc::SmartDashboard::PutData("Start Location", &m_startChooser);
 
-  
-
   m_autoChooser.SetDefaultOption("Do Nothing", "DoNothing");
   m_autoChooser.AddOption("Cross the Line", "CrossLine");
   m_autoChooser.AddOption("One Coral", "OneCoral");
   m_autoChooser.AddOption("Two Coral", "TwoCoral");
   frc::SmartDashboard::PutData("Auto", &m_autoChooser);
 
-
   frc::SmartDashboard::PutData("Field", &m_field);
-
 
   // Call GetInstance() so the constructors get called
   Cameras::GetInstance();
@@ -80,7 +76,6 @@ Robot::Robot()
         SwerveDrive::GetInstance().Coast();
         m_braking = false;
       }
-
 
       m_field.SetRobotPose(SwerveDrive::GetInstance().GetPose2d());
 
