@@ -205,6 +205,15 @@ Robot::Robot()
             if (vy > Constants::kPathFollowingMaxV) {
               vy = Constants::kPathFollowingMaxV;
             }
+
+            if (robotPose
+             .Translation()
+             .Distance(m_autoAlignSetpoint.Translation())
+             .value() < Constants::kPathFollowingTolerance && SwerveDrive::GetInstance().VelocityMagnitude() <
+             Constants::kPathFollowingVelocityTolerance) {
+                Controllers::GetInstance().GetDriverController().SetRumble(frc::GenericHID::RumbleType::kBothRumble, 1.0);
+                Controllers::GetInstance().GetOperatorController().SetRumble(frc::GenericHID::RumbleType::kBothRumble, 1.0);
+             }
           }
 
           double angleSetpoint =
@@ -222,6 +231,9 @@ Robot::Robot()
           }
 
           w = m_alignControllers[2].Update(currentAngle, angleSetpoint);
+        } else {
+          Controllers::GetInstance().GetDriverController().SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0);
+          Controllers::GetInstance().GetOperatorController().SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0);
         }
 
         SwerveDrive::GetInstance().DriveVelocity(vx, vy, w);
