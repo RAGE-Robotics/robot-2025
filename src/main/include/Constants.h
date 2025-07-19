@@ -5,6 +5,11 @@
 #include <units/length.h>
 #include <units/velocity.h>
 
+// Define M_PI since it is not always defined especially in Windows
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 class Constants {
 public:
   static constexpr double kInchesPerMeter = 39.37;
