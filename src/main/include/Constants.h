@@ -5,7 +5,7 @@
 #include <units/length.h>
 #include <units/velocity.h>
 
-// Define M_PI since it is not always defined especially in Windows
+// Define M_PI since it is not always defined especially in Windows enviornments
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
